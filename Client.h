@@ -10,6 +10,8 @@ public:
     explicit TcpClient(QObject *parent = Q_NULLPTR);
 
 public slots:
+  void onConnected();
+  void onDisconnected();
   void onReadyRead();
 
 private:

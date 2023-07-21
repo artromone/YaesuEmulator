@@ -12,21 +12,21 @@ TcpServer::TcpServer(QObject *parent): QObject(parent)
   QObject::connect(server_, &QTcpServer::newConnection,
                    this, &TcpServer::newConnection);
 
-  if (!server_->listen(settings->address, settings->port))
+  if (server_->listen(settings->address, settings->port))
   {
-    qDebug() << "Server could not start.";
+    qDebug() << "Server started.";
   }
   else
   {
-    qDebug() << "Server started.";
+    qDebug() << "Server could not start.";
   }
 }
 
 void TcpServer::newConnection()
 {
   auto socket = std::make_shared<QTcpSocket>(server_->nextPendingConnection());
-  socket->write("Hello client.\n");
-  socket->flush();
+  qDebug() << "Hello client.";
+  socket->write("Hello client.");
+  //socket->flush();
   socket->waitForBytesWritten(3000);
-  socket->close();
 }
