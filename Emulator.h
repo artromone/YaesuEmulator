@@ -5,6 +5,7 @@ class Emulator
 {
 public:
     Emulator();
+
 private:
     int azCurrent_;
     int elCurrent_;

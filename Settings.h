@@ -4,9 +4,9 @@
 
 struct Settings
 {
-  QHostAddress address;
-  int port;
-  Settings();
-  ~Settings();
+    QHostAddress address;
+    int port {9999};
+    Settings();
+    ~Settings();
 };
 #endif

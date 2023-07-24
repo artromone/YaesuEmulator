@@ -1,22 +1,21 @@
 #include "Client.h"
-#include <QDebug>
+
 #include "Settings.h"
 
-Client::Client(QTcpSocket * socket, Emulator * emulator,
-               QObject *parent ):
-    QObject(parent),
-    socket_(socket),
-    emulator_(emulator)
+#include <QDebug>
+
+Client::Client(QTcpSocket* socket, Emulator* emulator, QObject* parent)
+    : QObject(parent), socket_(socket), emulator_(emulator)
 {
     QObject::connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
     QObject::connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisconnected);
     QObject::connect(socket_, &QTcpSocket::readyRead, this, &Client::onReadyRead);
 }
 
-//Client::Client(QObject *parent): QObject(parent)
+// Client::Client(QObject *parent): QObject(parent)
 //{
-//  Settings settings;
-//  socket_ = new QTcpSocket();
+//   Settings settings;
+//   socket_ = new QTcpSocket();
 
 //  QObject::connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
 //  QObject::connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisconnected);

@@ -4,21 +4,21 @@
 #include <QObject>
 #include <QTcpServer>
 
-class Server: public QObject
+class Server : public QObject
 {
     Q_OBJECT
 public:
-  explicit Server(QObject *parent = Q_NULLPTR);
-  void start(int port);
-  void stop();
+    explicit Server(QObject* parent = Q_NULLPTR);
+    void start(int port);
+    void stop();
 
 signals:
-  void newClient(QTcpSocket * socket);
+    void newClient(QTcpSocket* socket);
 
 public slots:
-  void newConnection();
+    void newConnection();
 
 private:
-  QTcpServer *server_;
+    QTcpServer* server_;
 };
 #endif

@@ -1,10 +1,13 @@
-#include <QDebug>
-#include <QTcpSocket>
-#include <memory>
 #include "Server.h"
+
+#include "Application.h"
 #include "Client.h"
 #include "Settings.h"
-#include "Application.h"
+
+#include <QDebug>
+#include <QTcpSocket>
+
+#include <memory>
 
 Server::Server(QObject* parent) : QObject(parent)
 {
@@ -13,8 +16,7 @@ Server::Server(QObject* parent) : QObject(parent)
 
 void Server::start(int port)
 {
-    QObject::connect(server_, &QTcpServer::newConnection,
-                     this, &Server::newConnection);
+    QObject::connect(server_, &QTcpServer::newConnection, this, &Server::newConnection);
 
     if (!server_->listen(QHostAddress::Any, port))
     {
@@ -37,8 +39,8 @@ void Server::newConnection()
 
     emit this->newClient(socket);
 
-    //QObject::connect(socket, &QTcpSocket::disconnected,
-    //                 this, [&] { delete socket; });
+    // QObject::connect(socket, &QTcpSocket::disconnected,
+    //                  this, [&] { delete socket; });
 
-    //socket->write("Hello client.\n");
+    // socket->write("Hello client.\n");
 }
