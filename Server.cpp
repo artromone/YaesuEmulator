@@ -1,20 +1,17 @@
-#include "Server.h"
-
-#include "Settings.h"
-
 #include <QDebug>
 #include <QTcpSocket>
-
 #include <memory>
+#include "Server.h"
+#include "Settings.h"
 
-TcpServer::TcpServer(QObject* parent) : QObject(parent)
+Server::Server(QObject* parent) : QObject(parent)
 {
-    Settings* settings = new Settings();
+    Settings settings;
     server_ = new QTcpServer();
 
-    QObject::connect(server_, &QTcpServer::newConnection, this, &TcpServer::newConnection);
+    QObject::connect(server_, &QTcpServer::newConnection, this, &Server::newConnection);
 
-    if (!server_->listen(settings->address, settings->port))
+    if (!server_->listen(settings.address, settings.port))
     {
         qDebug() << "Server could not start.";
     }
@@ -24,14 +21,11 @@ TcpServer::TcpServer(QObject* parent) : QObject(parent)
     }
 }
 
-void TcpServer::newConnection()
+void Server::newConnection()
 {
     auto socket = server_->nextPendingConnection();
 
     QObject::connect(socket, &QTcpSocket::disconnected, this, [&] { delete socket; });
 
     socket->write("Hello client.\n");
-    //    socket->flush();
-    //    socket->waitForBytesWritten(3000);
-    //    socket->close();
 }

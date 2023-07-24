@@ -3,11 +3,12 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include "Emulator.h"
 
-class TcpClient : public QObject
+class Client : public QObject
 {
 public:
-    explicit TcpClient(QObject *parent = Q_NULLPTR);
+    explicit Client(QObject *parent = Q_NULLPTR);
 
 public slots:
   void onConnected();
@@ -15,7 +16,8 @@ public slots:
   void onReadyRead();
 
 private:
-  QTcpSocket *socket_;
+  QTcpSocket *socket_; ///
+  Emulator emulator_;
 };
 
 #endif // CLIENT_H

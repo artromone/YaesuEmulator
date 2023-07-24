@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QTcpServer>
 
-class TcpServer: public QObject
+class Server: public QObject
 {
 public:
-  explicit TcpServer(QObject *parent = Q_NULLPTR);
+  explicit Server(QObject *parent = Q_NULLPTR);
 
 public slots:
   void newConnection();
@@ -16,3 +16,4 @@ private:
   QTcpServer *server_;
 };
 #endif
+//Список подключенных клиентов

@@ -2,19 +2,18 @@
 #include <QDebug>
 #include "Settings.h"
 
-TcpClient::TcpClient(QObject *parent): QObject(parent)
+Client::Client(QObject *parent): QObject(parent)
 {
-  Settings * settings = new Settings();
+  Settings settings;
   socket_ = new QTcpSocket();
 
-  QObject::connect(socket_, &QTcpSocket::connected, this, &TcpClient::onConnected);
-  QObject::connect(socket_, &QTcpSocket::disconnected, this, &TcpClient::onDisconnected);
-  QObject::connect(socket_, &QTcpSocket::readyRead, this, &TcpClient::onReadyRead);
+  QObject::connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
+  QObject::connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisconnected);
+  QObject::connect(socket_, &QTcpSocket::readyRead, this, &Client::onReadyRead);
 
-  socket_->connectToHost(settings->address, settings->port);
-  //socket_->open(QIODevice::ReadWrite);
+  socket_->connectToHost(settings.address, settings.port);
 
-  if (!socket_->waitForConnected(5000))
+  if (!socket_->waitForConnected(1000))
   {
       qDebug() << "Error: " << socket_->errorString();
   }
@@ -25,23 +24,23 @@ TcpClient::TcpClient(QObject *parent): QObject(parent)
   }
 }
 
-void TcpClient::onConnected()
+void Client::onConnected()
 {
     qDebug() << "Client connected.";
-    socket_->write("I am client.");
+    socket_->write("Client connected.");
 }
 
-void TcpClient::onDisconnected()
+void Client::onDisconnected()
 {
     qDebug() << "Disconnected.";
 }
 
-void TcpClient::onReadyRead()
+void Client::onReadyRead()
 {
-    qDebug() << "Reading data.";
+    qDebug() << "Reading data:";
     QByteArray data = socket_->readAll();
     qDebug() << data;
-    qDebug() << "Reading success.";
+    //qDebug() << "Reading success.";
     socket_->write("Reading success.");
     socket_->waitForBytesWritten(1000);
 }
