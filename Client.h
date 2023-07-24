@@ -8,7 +8,7 @@
 class Client : public QObject
 {
 public:
-    explicit Client(QObject *parent = Q_NULLPTR);
+    Client(QTcpSocket * socket, Emulator * emulator, QObject *parent = Q_NULLPTR);
 
 public slots:
   void onConnected();
@@ -16,8 +16,8 @@ public slots:
   void onReadyRead();
 
 private:
-  QTcpSocket *socket_; ///
-  Emulator emulator_;
+  QTcpSocket * socket_; ///
+  Emulator * emulator_;
 };
 
 #endif // CLIENT_H

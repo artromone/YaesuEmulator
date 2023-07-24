@@ -6,10 +6,14 @@
 
 class Server: public QObject
 {
+    Q_OBJECT
 public:
   explicit Server(QObject *parent = Q_NULLPTR);
   void start(int port);
   void stop();
+
+signals:
+  void newClient(QTcpSocket * socket);
 
 public slots:
   void newConnection();

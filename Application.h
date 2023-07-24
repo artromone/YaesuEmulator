@@ -15,10 +15,13 @@ public:
     Application(int argc, char *argv[]);
     void start();
 
+public slots:
+    void onNewClient(QTcpSocket * socket);
+
 private:
     std::unique_ptr<Emulator> emulator_;
     std::unique_ptr<Server> server_;
-    std::stack<Client> stackClient_;
+    std::stack<std::shared_ptr<Client>> stackClient_;
     Widget widget_;
 };
 

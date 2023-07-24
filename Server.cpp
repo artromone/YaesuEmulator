@@ -2,7 +2,9 @@
 #include <QTcpSocket>
 #include <memory>
 #include "Server.h"
+#include "Client.h"
 #include "Settings.h"
+#include "Application.h"
 
 Server::Server(QObject* parent) : QObject(parent)
 {
@@ -33,7 +35,10 @@ void Server::newConnection()
 {
     auto socket = server_->nextPendingConnection();
 
-    QObject::connect(socket, &QTcpSocket::disconnected, this, [&] { delete socket; });
+    emit this->newClient(socket);
 
-    socket->write("Hello client.\n");
+    //QObject::connect(socket, &QTcpSocket::disconnected,
+    //                 this, [&] { delete socket; });
+
+    //socket->write("Hello client.\n");
 }
