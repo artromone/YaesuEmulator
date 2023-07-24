@@ -6,12 +6,15 @@
 
 Server::Server(QObject* parent) : QObject(parent)
 {
-    Settings settings;
     server_ = new QTcpServer();
+}
 
-    QObject::connect(server_, &QTcpServer::newConnection, this, &Server::newConnection);
+void Server::start(int port)
+{
+    QObject::connect(server_, &QTcpServer::newConnection,
+                     this, &Server::newConnection);
 
-    if (!server_->listen(settings.address, settings.port))
+    if (!server_->listen(QHostAddress::Any, port))
     {
         qDebug() << "Server could not start.";
     }
@@ -19,6 +22,11 @@ Server::Server(QObject* parent) : QObject(parent)
     {
         qDebug() << "Server started.";
     }
+}
+
+void Server::stop()
+{
+    server_->close();
 }
 
 void Server::newConnection()

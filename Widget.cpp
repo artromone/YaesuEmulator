@@ -1,5 +1,3 @@
 #include "Widget.h"
 
-Widget::Widget(Emulator rhs)
-{
-}
+//Widget::Widget(std::unique_ptr<Emulator> rhs){}

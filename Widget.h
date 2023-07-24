@@ -6,7 +6,7 @@
 class Widget
 {
 public:
-    Widget(Emulator rhs);
+    //Widget(std::unique_ptr<Emulator> rhs);
 private:
     Emulator emulator_;
 };

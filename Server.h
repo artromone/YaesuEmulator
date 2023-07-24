@@ -8,6 +8,8 @@ class Server: public QObject
 {
 public:
   explicit Server(QObject *parent = Q_NULLPTR);
+  void start(int port);
+  void stop();
 
 public slots:
   void newConnection();
@@ -16,4 +18,3 @@ private:
   QTcpServer *server_;
 };
 #endif
-//Список подключенных клиентов
