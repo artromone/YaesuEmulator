@@ -4,12 +4,19 @@
 
 #include <QDebug>
 
+static int COUNTER = 0;
+
 Client::Client(QTcpSocket* socket, Emulator* emulator, QObject* parent)
-    : QObject(parent), socket_(socket), emulator_(emulator)
+    : QObject(parent), socket_(socket), emulator_(emulator), id_(COUNTER++)
 {
     QObject::connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
     QObject::connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisconnected);
     QObject::connect(socket_, &QTcpSocket::readyRead, this, &Client::onReadyRead);
+}
+
+Client::~Client()
+{
+    qDebug() << "~Client";
 }
 
 void Client::onConnected()
@@ -20,6 +27,8 @@ void Client::onConnected()
 void Client::onDisconnected()
 {
     qDebug() << "Disconnected.";
+
+    emit this->disconnected();
 }
 
 void Client::onReadyRead()
@@ -30,3 +39,5 @@ void Client::onReadyRead()
     socket_->write(newData);
     qDebug() << "Sent data:" << newData;
 }
+
+

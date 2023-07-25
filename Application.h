@@ -9,7 +9,7 @@
 #include <QObject>
 
 #include <memory>
-#include <stack>
+#include <unordered_map>
 
 class Application : public QObject
 {
@@ -18,12 +18,13 @@ public:
 
 public slots:
     void onNewClient(QTcpSocket* socket);
+    void onPopClient(int clientId);
 
 private:
     Settings settings_;
     std::unique_ptr<Emulator> emulator_;
     std::unique_ptr<Server> server_;
-    std::stack<std::shared_ptr<Client>> stackClient_;
+    std::unordered_map<int, std::shared_ptr<Client>> clientMap_;
 
     Widget widget_;
 };

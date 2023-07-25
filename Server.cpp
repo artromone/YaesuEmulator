@@ -37,5 +37,6 @@ void Server::newConnection()
 {
     qDebug() << "New connection to server.";
     auto socket = server_->nextPendingConnection();
+
     emit this->newClient(socket);
 }
