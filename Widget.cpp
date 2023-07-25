@@ -7,14 +7,14 @@ Widget::Widget(QQmlContext& context, Emulator* emulator, Settings* settings, QOb
     : QObject(parent), emulator_(emulator), settings_(settings)
 {
     context.setContextProperty("widget", this);
-    context.setContextProperty("rectColor", QColor(255, 255, 0));
+    context.setContextProperty("rectColor", QColor(255, 0, 0));
 }
 
 QColor Widget::color() const
 {
     qDebug() << "test";
 
-    return QColor(255, 255, 0);
+    return QColor(255, 0, 0);
 }
 
 int Widget::port() const

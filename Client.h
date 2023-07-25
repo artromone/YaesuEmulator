@@ -17,7 +17,7 @@ public slots:
     void onReadyRead();
 
 private:
-    QTcpSocket* socket_; ///
+    QTcpSocket* socket_;
     Emulator* emulator_;
 };
 

@@ -35,12 +35,7 @@ void Server::stop()
 
 void Server::newConnection()
 {
+    qDebug() << "Server::newConnection.";
     auto socket = server_->nextPendingConnection();
-
     emit this->newClient(socket);
-
-    // QObject::connect(socket, &QTcpSocket::disconnected,
-    //                  this, [&] { delete socket; });
-
-    // socket->write("Hello client.\n");
 }
