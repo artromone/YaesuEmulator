@@ -29,6 +29,7 @@ void Client::onDisconnected()
     qDebug() << "Disconnected.";
 
     emit this->disconnected();
+    //    emit this->disconnected(id_);
 }
 
 void Client::onReadyRead()
@@ -39,5 +40,3 @@ void Client::onReadyRead()
     socket_->write(newData);
     qDebug() << "Sent data:" << newData;
 }
-
-

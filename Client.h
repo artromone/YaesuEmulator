@@ -13,7 +13,7 @@ public:
     Client(QTcpSocket* socket, Emulator* emulator, QObject* parent = Q_NULLPTR);
     ~Client() override;
 
-    QTcpSocket *socket() const { return socket_; }
+    QTcpSocket* socket() const { return socket_; }
 
     int id() const { return id_; }
 
@@ -24,6 +24,7 @@ public slots:
 
 signals:
     void disconnected();
+    //    void disconnectedWithId(int id);
 
 private:
     QTcpSocket* socket_;
