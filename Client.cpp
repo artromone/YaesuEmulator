@@ -1,9 +1,9 @@
 #include "Client.h"
 
 #include "Settings.h"
+#include "Utils.h"
 
 #include <QDebug>
-#include <QtEndian>
 
 Client::Client(QTcpSocket* socket, Emulator* emulator, QObject* parent)
     : QObject(parent), socket_(socket), emulator_(emulator)
@@ -27,7 +27,6 @@ void Client::onReadyRead()
 {
     QByteArray data = socket_->readAll();
     qDebug() << "Read data:" << data;
-    int i = qFromLittleEndian<qint16>(data.data());
-    socket_->write("0");
+    socket_->write(qIntToByte(qByteToInt(data) + 1));
     socket_->waitForBytesWritten(1000);
 }
