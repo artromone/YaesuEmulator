@@ -1,7 +1,6 @@
 #include "Client.h"
 
 #include "Settings.h"
-#include "Utils.h"
 
 #include <QDebug>
 
@@ -27,6 +26,7 @@ void Client::onReadyRead()
 {
     QByteArray data = socket_->readAll();
     qDebug() << "Read data:" << data;
-    socket_->write(qIntToByte(qByteToInt(data) + 1));
-    socket_->waitForBytesWritten(1000);
+    QByteArray newData = QByteArray::fromStdString(std::to_string(data.toInt() + 1));
+    socket_->write(newData);
+    qDebug() << "Sent data:" << newData;
 }
