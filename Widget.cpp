@@ -15,6 +15,7 @@ Widget::Widget(QQmlContext& context, Emulator* emulator, QObject* parent)
 void Widget::startServer()
 {
     qDebug() << "startServer";
+    emit this->serverStart();
 }
 
 QColor Widget::color() const

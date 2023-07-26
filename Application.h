@@ -19,6 +19,7 @@ public:
 public slots:
     void onNewClient(QTcpSocket* socket);
     void onPopClient(int clientId);
+    void onStartServer();
 
 private:
     std::unique_ptr<Emulator> emulator_;

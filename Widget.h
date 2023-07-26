@@ -27,6 +27,7 @@ public:
 
 signals:
     void portChanged();
+    void serverStart();
 
 private:
     void init();

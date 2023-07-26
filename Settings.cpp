@@ -64,10 +64,6 @@ void Settings::load()
     QFile jsonFile;
     jsonFile.setFileName(filename);
 
-//    assert(false);
-
-    qDebug() << "load" << filename << jsonFile.fileName();
-
     if (!jsonFile.open(QIODevice::ReadOnly))
     {
         qDebug() << "Creating default settings config.";
@@ -75,8 +71,6 @@ void Settings::load()
         save();
         return;
     }
-
-    qDebug() << "###";
 
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(jsonFile.readAll(), &error);

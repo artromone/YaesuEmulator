@@ -15,6 +15,7 @@ public:
     void stop();
 
 signals:
+    void onStart(QTcpSocket* socket);
     void newClient(QTcpSocket* socket);
 
 public slots:
