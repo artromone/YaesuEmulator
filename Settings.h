@@ -1,6 +1,7 @@
 #ifndef YAESUEMULATOR_SETTINGS_H
 #define YAESUEMULATOR_SETTINGS_H
 #include <QHostAddress>
+#include <QJsonObject>
 
 class Settings
 {
@@ -9,11 +10,17 @@ public:
 
     static Settings* instance();
 
-    int getPort() const;
+    int getPort();
     void setPort(int otherPort);
 
 private:
-    int port_ {9999};
+    void save();
+    void load();
+    void createDefault();
+
+private:
+    QJsonObject currJsonObject_;
+    int port_;
     //QHostAddress address;
 };
 #endif

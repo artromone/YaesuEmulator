@@ -26,12 +26,12 @@ QColor Widget::color() const
 
 int Widget::port() const
 {
-    return Settings::instance()->port;
+    return Settings::instance()->getPort();
 }
 
 void Widget::setPort(int other)
 {
-    Settings::instance()->port = other;
+    Settings::instance()->setPort(other);
 }
 
 void Widget::init()

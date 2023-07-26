@@ -11,7 +11,7 @@ Application::Application(QQmlContext& context, QObject* parent)
 {
     QObject::connect(server_.get(), &Server::newClient, this, &Application::onNewClient);
 
-    server_.get()->start(Settings::instance()->port);
+    server_.get()->start(Settings::instance()->getPort());
 }
 
 void Application::onNewClient(QTcpSocket* socket)
@@ -34,6 +34,7 @@ void Application::onNewClient(QTcpSocket* socket)
 
 void Application::onPopClient(int clientId)
 {
+    Settings::instance()->setPort(8888);
     qDebug() << "Removed clients:" << clientMap_.erase(clientId)
              << "Clients number:" << clientMap_.size();
 }
