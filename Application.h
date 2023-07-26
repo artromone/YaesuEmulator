@@ -21,7 +21,6 @@ public slots:
     void onPopClient(int clientId);
 
 private:
-    Settings settings_;
     std::unique_ptr<Emulator> emulator_;
     std::unique_ptr<Server> server_;
     std::unordered_map<int, std::shared_ptr<Client>> clientMap_;

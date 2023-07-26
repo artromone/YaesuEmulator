@@ -10,15 +10,6 @@ Window {
     height: 500
     title: qsTr("Yaesu Emulator")
 
-
-    Rectangle {
-
-        anchors.centerIn: parent
-        width: 50
-        height: 50
-        color: rectColor
-    }
-
     TextInput {
 
         id: portEdit
@@ -30,5 +21,15 @@ Window {
         width: 250
         text: widget.port
     }
+
+    Button {
+
+        id: connectButton
+
+        text: qsTr("Подключиться")
+
+        onClicked: widget.startServer()
+    }
+
 
 }

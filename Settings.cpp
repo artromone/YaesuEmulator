@@ -1,10 +1,23 @@
 #include "Settings.h"
 
-Settings::Settings() : address(QHostAddress("127.0.0.1")), port(9999)
+Settings *Settings::instance()
 {
+    static Settings * ptrSettings_ = nullptr;
+    if (!ptrSettings_)
+    {
+        ptrSettings_ = new Settings();
+    }
+    return ptrSettings_;
 }
 
-Settings::~Settings()
+int Settings::getPort() const
 {
-    // QHostAddress::clear();
+    return port_;
+}
+
+void Settings::setPort(int otherPort)
+{
+    // if (otherPort != port) save
+
+    port_ = otherPort;
 }

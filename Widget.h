@@ -17,9 +17,9 @@ class Widget : public QObject
 public:
     explicit Widget(QQmlContext& context,
                     Emulator* emulator,
-                    Settings* settings,
                     QObject* parent = Q_NULLPTR);
 
+    Q_INVOKABLE void startServer();
     Q_INVOKABLE QColor color() const;
 
     int port() const;
@@ -29,8 +29,10 @@ signals:
     void portChanged();
 
 private:
+    void init();
+
+private:
     Emulator* emulator_;
-    Settings* settings_;
 };
 
 #endif // WIDGET_H

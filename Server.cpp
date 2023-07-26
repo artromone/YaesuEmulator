@@ -20,7 +20,7 @@ void Server::start(int port)
 
     if (!server_->listen(QHostAddress::Any, port))
     {
-        qDebug() << "Server could not start.";
+        qDebug() << "Server could not start:" << server_->errorString();
     }
     else
     {

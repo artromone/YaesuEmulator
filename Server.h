@@ -7,8 +7,10 @@
 class Server : public QObject
 {
     Q_OBJECT
+
 public:
     explicit Server(QObject* parent = Q_NULLPTR);
+
     void start(int port);
     void stop();
 

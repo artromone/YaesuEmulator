@@ -3,11 +3,18 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 
-Widget::Widget(QQmlContext& context, Emulator* emulator, Settings* settings, QObject* parent)
-    : QObject(parent), emulator_(emulator), settings_(settings)
+Widget::Widget(QQmlContext& context, Emulator* emulator, QObject* parent)
+    : QObject(parent), emulator_(emulator)
 {
     context.setContextProperty("widget", this);
     context.setContextProperty("rectColor", QColor(255, 0, 0));
+
+    init();
+}
+
+void Widget::startServer()
+{
+    qDebug() << "startServer";
 }
 
 QColor Widget::color() const
@@ -19,11 +26,15 @@ QColor Widget::color() const
 
 int Widget::port() const
 {
-    return settings_->port;
+    return Settings::instance()->port;
 }
 
-void Widget::setPort(int value)
+void Widget::setPort(int other)
 {
-    if (settings_->port != value)
-        settings_->port = value;
+    Settings::instance()->port = other;
+}
+
+void Widget::init()
+{
+    emit this->portChanged();
 }
