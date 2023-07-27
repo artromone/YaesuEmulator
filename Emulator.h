@@ -12,7 +12,7 @@ private:
     int azTarget_;
     int elTarget_;
     int speedAz_;
-    int speed_El_;
+    int speedEl_;
 };
 
 #endif // EMULATOR_H

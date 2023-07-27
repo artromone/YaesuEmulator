@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QJsonDocument>
+#include <QJsonValue>
 #include <QDebug>
 
 void Settings::createDefault()
@@ -59,7 +60,10 @@ void Settings::save()
 
 void Settings::load()
 {
+
     auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Config.json";
+
+    qDebug() << "load settings from file" << filename;
 
     QFile jsonFile;
     jsonFile.setFileName(filename);
@@ -82,5 +86,8 @@ void Settings::load()
     }
 
     currJsonObject_ = doc.object();
+
+    port_ = currJsonObject_.value("connection")["port_number"].toInt();
+
     jsonFile.close();
 }

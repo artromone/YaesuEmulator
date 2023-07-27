@@ -3,25 +3,21 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 
-Widget::Widget(QQmlContext& context, Emulator* emulator, QObject* parent)
-    : QObject(parent), emulator_(emulator)
+Widget::Widget(QQmlContext& context, Server *server, Emulator* emulator, QObject* parent)
+    : QObject(parent), server_(server), emulator_(emulator)
 {
     context.setContextProperty("widget", this);
     context.setContextProperty("rectColor", QColor(255, 0, 0));
 
-    init();
-}
+    QObject::connect(server_, &Server::stateChanged, this, [this](bool state) {
+        emit this->serverStateChanged();
+    });
 
-void Widget::startServer()
-{
-    qDebug() << "startServer";
-    emit this->serverStart();
+    init();
 }
 
 QColor Widget::color() const
 {
-    qDebug() << "test";
-
     return QColor(255, 0, 0);
 }
 
@@ -33,6 +29,24 @@ int Widget::port() const
 void Widget::setPort(int other)
 {
     Settings::instance()->setPort(other);
+}
+
+bool Widget::serverState() const
+{
+    return server_->isStarted();
+}
+
+void Widget::setServerState(bool state)
+{
+    qDebug() << serverState() << state;
+
+    if (state == server_->isStarted())
+        return;
+
+    if (state)
+        server_->start(Settings::instance()->getPort());
+    else
+        server_->stop();
 }
 
 void Widget::init()

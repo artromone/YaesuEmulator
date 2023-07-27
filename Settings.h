@@ -20,7 +20,7 @@ private:
 
 private:
     QJsonObject currJsonObject_;
-    int port_;
+    int port_{0};
     //QHostAddress address;
 };
 #endif

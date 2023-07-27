@@ -7,10 +7,9 @@ Application::Application(QQmlContext& context, QObject* parent)
     : QObject(parent),
       emulator_(std::make_unique<Emulator>()),
       server_(std::make_unique<Server>()),
-      widget_(context, emulator_.get())
+      widget_(context, server_.get(), emulator_.get())
 {
     QObject::connect(server_.get(), &Server::newClient, this, &Application::onNewClient);
-    QObject::connect(&widget_, &Widget::serverStart, this, &Application::onStartServer);
 }
 
 void Application::onNewClient(QTcpSocket* socket)
@@ -35,9 +34,4 @@ void Application::onPopClient(int clientId)
 {
     qDebug() << "Removed clients:" << clientMap_.erase(clientId)
              << "Clients number:" << clientMap_.size();
-}
-
-void Application::onStartServer()
-{
-    server_.get()->start(Settings::instance()->getPort());
 }

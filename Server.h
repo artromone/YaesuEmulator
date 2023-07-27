@@ -14,9 +14,12 @@ public:
     void start(int port);
     void stop();
 
+    bool isStarted() const;
+
 signals:
     void onStart(QTcpSocket* socket);
     void newClient(QTcpSocket* socket);
+    void stateChanged(bool state);
 
 public slots:
     void newConnection();
