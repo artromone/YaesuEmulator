@@ -41,12 +41,18 @@ void Widget::setServerState(bool state)
     qDebug() << serverState() << state;
 
     if (state == server_->isStarted())
+    {
         return;
+    }
 
     if (state)
+    {
         server_->start(Settings::instance()->getPort());
+    }
     else
+    {
         server_->stop();
+    }
 }
 
 void Widget::init()

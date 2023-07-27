@@ -12,7 +12,7 @@
 Server::Server(QObject* parent) : QObject(parent)
 {
     server_ = new QTcpServer();
-    }
+}
 
 void Server::start(int port)
 {
