@@ -34,6 +34,8 @@ void Server::start(int port)
 
 void Server::stop()
 {
+    qDebug() << "Server stopped.";
+
     server_->close();
     emit this->stateChanged(false);
 }
@@ -45,8 +47,8 @@ bool Server::isStarted() const
 
 void Server::newConnection()
 {
-    qDebug() << "New connection to server.";
     auto socket = server_->nextPendingConnection();
+    qDebug() << "New connection to server from" << socket->peerAddress();
 
     emit this->newClient(socket);
 }

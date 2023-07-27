@@ -14,6 +14,8 @@ Application::Application(QQmlContext& context, QObject* parent)
 
 void Application::onNewClient(QTcpSocket* socket)
 {
+    qDebug() << "onNewClient started";
+
     auto ptr = std::make_shared<Client>(socket, emulator_.get());
     clientMap_.emplace(ptr->id(), ptr);
 
@@ -26,12 +28,17 @@ void Application::onNewClient(QTcpSocket* socket)
     //QObject::connect(ptr.get(), &Client::disconnectedWithId, this,
     //                 this](int id) { this->onPopClient(id); });
 
-
-    qDebug() << "Clients number:" << clientMap_.size();
+    qDebug() << "Clients number:" << clientMap_.size();///
+    qDebug() << "onNewClient finished";
 }
 
 void Application::onPopClient(int clientId)
 {
+    qDebug() << "onPopClient started";
+
     qDebug() << "Removed clients:" << clientMap_.erase(clientId)
+             << "Id:" << clientId
              << "Clients number:" << clientMap_.size();
+
+    qDebug() << "onPopClient finished";
 }

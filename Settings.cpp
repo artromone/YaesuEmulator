@@ -19,6 +19,7 @@ Settings *Settings::instance()
     static Settings * ptrSettings_ = nullptr;
     if (!ptrSettings_)
     {
+        qDebug() << "Creating new Settings instance.";
         ptrSettings_ = new Settings();
         ptrSettings_->load();
     }
@@ -41,7 +42,7 @@ void Settings::setPort(int otherPort)
 
 void Settings::save()
 {
-    auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Config.json";
+    auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/config.json";
 
     QFile jsonFile(filename);
 
@@ -56,14 +57,15 @@ void Settings::save()
     jsonFile.close();
 
     qDebug() << "Successfully saved settings.";
+    qDebug() << "Current settings:" << currJsonObject_;
 }
 
 void Settings::load()
 {
 
-    auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Config.json";
+    auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/config.json";
 
-    qDebug() << "load settings from file" << filename;
+    qDebug() << "Loading settings from file" << filename;
 
     QFile jsonFile;
     jsonFile.setFileName(filename);
@@ -90,4 +92,6 @@ void Settings::load()
     port_ = currJsonObject_.value("connection")["port_number"].toInt();
 
     jsonFile.close();
+
+    qDebug() << "Current settings:" << currJsonObject_;
 }

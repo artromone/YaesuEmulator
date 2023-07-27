@@ -7,7 +7,7 @@ Widget::Widget(QQmlContext& context, Server *server, Emulator* emulator, QObject
     : QObject(parent), server_(server), emulator_(emulator)
 {
     context.setContextProperty("widget", this);
-    context.setContextProperty("rectColor", QColor(255, 0, 0));
+    // context.setContextProperty("rectColor", QColor(255, 0, 0));
 
     QObject::connect(server_, &Server::stateChanged, this, [this](bool state) {
         emit this->serverStateChanged();
@@ -38,7 +38,8 @@ bool Widget::serverState() const
 
 void Widget::setServerState(bool state)
 {
-    qDebug() << serverState() << state;
+    qDebug() << "Current server state (started):" << serverState()
+             << "Set to state (started):" << state;
 
     if (state == server_->isStarted())
     {
