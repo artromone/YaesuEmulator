@@ -20,12 +20,22 @@ Window {
 
     title: qsTr("Yaesu Emulator")
 
-    ServerView {
-
-        anchors {
-
+    ServerView
+    {
+        id: serverView_
+        anchors
+        {
             left: parent.left
             top: parent.top
+        }
+    }
+
+    EmulatorView
+    {
+        anchors
+        {
+            left: parent.left
+            top: serverView_.bottom
         }
     }
 }

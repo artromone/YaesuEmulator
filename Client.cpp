@@ -11,6 +11,7 @@ Client::Client(QTcpSocket* socket, Emulator* emulator, QObject* parent)
 {
     qDebug() << "Constructing Client:" << id_;
     QObject::connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
+
     QObject::connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisconnected);
     QObject::connect(socket_, &QTcpSocket::readyRead, this, &Client::onReadyRead);
 }
