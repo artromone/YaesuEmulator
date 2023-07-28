@@ -16,7 +16,7 @@ Server::Server(QObject* parent) : QObject(parent)
 
 void Server::start(int port)
 {
-    qDebug() << "start server on port:" << port;
+    qDebug() << "Attempt to start server on port:" << port;
 
     QObject::connect(server_, &QTcpServer::newConnection, this, &Server::newConnection);
 

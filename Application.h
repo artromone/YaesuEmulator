@@ -17,7 +17,7 @@ public:
     explicit Application(QQmlContext& context, QObject* parent = Q_NULLPTR);
 
 private slots:
-    void onNewClient(QTcpSocket* socket); //
+    void onNewClient(QTcpSocket* socket);
     void onPopClient(int clientId);
 
 private:
