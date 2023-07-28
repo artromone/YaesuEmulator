@@ -17,6 +17,7 @@ private:
     void save();
     void load();
     void createDefault();
+    void changePort(int otherPort);
 
 private:
     QJsonObject currJsonObject_;

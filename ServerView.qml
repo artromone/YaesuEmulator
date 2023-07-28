@@ -66,7 +66,9 @@ Item {
 
         id: portEdit
 
-        //inputMask: "0000"
+        inputMask: "0000"
+
+        width: 90
 
         anchors {
             left: textCurrPort.right; leftMargin: leftMargin_ / 2
@@ -79,6 +81,10 @@ Item {
 
         placeholderText: backend.port
         text: backend.port
+
+        onTextChanged: {
+            backend.port = text
+        }
 
         readOnly: backend.serverState
         // color: backend.serverState ? "black" : "gray"

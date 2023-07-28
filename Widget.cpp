@@ -25,6 +25,7 @@ int Widget::port() const
 void Widget::setPort(int other)
 {
     Settings::instance()->setPort(other);
+    emit this->portChanged();
 }
 
 bool Widget::serverState() const
@@ -60,7 +61,7 @@ void Widget::init()
         emit this->serverStateChanged();
     });
 
-//    QObject::connect(Settings::instance(), &Settings::stateChanged, this, [this](bool state) {
-//        emit this->portChanged();
+//    QObject::connect(this, &Widget::portChanged, this, [this](bool otherPort) {
+//        setPort(otherPort);
 //    });
 }

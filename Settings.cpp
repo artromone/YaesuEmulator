@@ -14,6 +14,15 @@ void Settings::createDefault()
     currJsonObject_.insert("connection", connection);
 }
 
+void Settings::changePort(int otherPort)
+{
+    QJsonObject connection;
+    connection.insert("port_number", otherPort);
+
+    currJsonObject_ = QJsonObject();
+    currJsonObject_.insert("connection", connection);
+}
+
 Settings *Settings::instance()
 {
     static Settings * ptrSettings_ = nullptr;
@@ -33,9 +42,11 @@ int Settings::getPort()
 
 void Settings::setPort(int otherPort)
 {
+    qDebug() << "port:" << port_ << "other port:" << otherPort;
     if (otherPort != port_)
     {
         port_ = otherPort;
+        changePort(port_);
         save();
     }
 }
