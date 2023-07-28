@@ -12,10 +12,10 @@ Item {
             top: parent.top; topMargin: topMargin_
         }
 
-        width: btnWidth_ //200
-        height: btnWidth_ / 4 //50
+        width: 266
+        height: 66
 
-        font.pointSize: btnWidth_ / 14 //14
+        font.pointSize: 19
         text: backend.serverState
               ? "Остановить сервер"
               : "Запустить сервер"
@@ -34,16 +34,16 @@ Item {
         visible: true
         // font.bold: true
 
+        font.pointSize: 19
+        text: qsTr(backend.serverState
+                   ? "Сервер запущен"
+                   : "Сервер остановлен")
+
         anchors {
             left: connectButton.right; leftMargin: leftMargin_
             top: parent.bottom; topMargin: connectButton.height / 2
                                            + font.pointSize / 7
         }
-
-        font.pointSize: btnWidth_ / 14 //14
-        text: qsTr(backend.serverState
-                   ? "Сервер запущен"
-                   : "Сервер остановлен")
     }
 
     Text {
@@ -53,31 +53,35 @@ Item {
         visible: true
         // font.bold: true
 
+        font.pointSize: 19
+        text: qsTr("Порт сервера:")
+
         anchors {
             left: parent.left; leftMargin: leftMargin_
             top: connectButton.bottom; topMargin: topMargin_ * 2
         }
-
-        font.pointSize: btnWidth_ / 14 //14
-        text: qsTr("Порт сервера:")
     }
 
-    TextInput {
+    TextField {
 
         id: portEdit
 
-        inputMask: "0000"
+        //inputMask: "0000"
 
         anchors {
             left: textCurrPort.right; leftMargin: leftMargin_ / 2
-            top: connectButton.bottom; topMargin: topMargin_ * 2
+            top: connectButton.bottom; topMargin: textCurrPort.height / 2
+                                                  + font.pointSize / 2
         }
 
-        font.pointSize: btnWidth_ / 14 //14
+        font.pointSize: 19
+        // text: backend.port
+
+        placeholderText: backend.port
         text: backend.port
 
         readOnly: backend.serverState
-        color: backend.serverState ? "black" : "gray"
+        // color: backend.serverState ? "black" : "gray"
     }
 
 //    Text {

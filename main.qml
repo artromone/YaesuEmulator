@@ -6,19 +6,17 @@ Window {
 
     visible: true
 
-    property double scale: 2
-
-    width: 800 * scale //800
-    height: width / 1.6 //500
-    minimumWidth: width / 1.45 //550
-    minimumHeight: height / 5 //100
+    width: 800
+    height: 500
+    minimumWidth: 550
+    minimumHeight: 200
 
     property var backend: widget
 
-    property int btnWidth_: width / 4 //200
+    property int btnWidth_: 266
 
-    property int topMargin_: btnWidth_ / 16 //12
-    property int leftMargin_: btnWidth_ / 16 //12
+    property int topMargin_: 16
+    property int leftMargin_: 16
 
     title: qsTr("Yaesu Emulator")
 
