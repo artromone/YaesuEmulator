@@ -60,8 +60,4 @@ void Widget::init()
     QObject::connect(server_, &Server::stateChanged, this, [this](bool state) {
         emit this->serverStateChanged();
     });
-
-//    QObject::connect(this, &Widget::portChanged, this, [this](bool otherPort) {
-//        setPort(otherPort);
-//    });
 }

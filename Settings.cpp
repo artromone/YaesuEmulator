@@ -7,20 +7,13 @@
 
 void Settings::createDefault()
 {
-    QJsonObject connection;
-    connection.insert("port_number", 9999);
+    port_ = 9999;
 
-    currJsonObject_ = QJsonObject();
-    currJsonObject_.insert("connection", connection);
-}
+//    QJsonObject connection;
+//    connection.insert("port_number", 9999);
 
-void Settings::changePort(int otherPort)
-{
-    QJsonObject connection;
-    connection.insert("port_number", otherPort);
-
-    currJsonObject_ = QJsonObject();
-    currJsonObject_.insert("connection", connection);
+//    currJsonObject_ = QJsonObject();
+//    currJsonObject_.insert("connection", connection);
 }
 
 Settings *Settings::instance()
@@ -46,7 +39,6 @@ void Settings::setPort(int otherPort)
     if (otherPort != port_)
     {
         port_ = otherPort;
-        changePort(port_);
         save();
     }
 }
@@ -64,11 +56,17 @@ void Settings::save()
         return;
     }
 
-    jsonFile.write(QJsonDocument(currJsonObject_).toJson(QJsonDocument::Indented));
+    QJsonObject connection;
+    connection.insert("port_number", port_);
+
+    auto currJsonObject = QJsonObject();
+    currJsonObject.insert("connection", connection);
+
+    jsonFile.write(QJsonDocument(currJsonObject).toJson(QJsonDocument::Indented));
     jsonFile.close();
 
     qDebug() << "Successfully saved settings.";
-    qDebug() << "Current settings:" << currJsonObject_;
+    qDebug() << "Current settings:" << currJsonObject;
 }
 
 void Settings::load()
@@ -86,7 +84,6 @@ void Settings::load()
         qDebug() << "Creating default settings config.";
         createDefault();
         save();
-        return;
     }
 
     QJsonParseError error;
@@ -98,11 +95,11 @@ void Settings::load()
         return;
     }
 
-    currJsonObject_ = doc.object();
+    auto currJsonObject = doc.object();
 
-    port_ = currJsonObject_.value("connection")["port_number"].toInt();
+    port_ = currJsonObject.value("connection")["port_number"].toInt();
 
     jsonFile.close();
 
-    qDebug() << "Current settings:" << currJsonObject_;
+    qDebug() << "Current settings:" << currJsonObject;
 }

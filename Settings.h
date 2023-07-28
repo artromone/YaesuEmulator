@@ -17,10 +17,9 @@ private:
     void save();
     void load();
     void createDefault();
-    void changePort(int otherPort);
 
 private:
-    QJsonObject currJsonObject_;
+//    QJsonObject currJsonObject_;
     int port_{0};
     //QHostAddress address;
 };
