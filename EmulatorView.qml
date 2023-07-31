@@ -14,9 +14,8 @@ Item {
         text: "Сервер остановлен"
 
         anchors {
-            left: connectButton.right; leftMargin: leftMargin_
-            top: parent.bottom; topMargin: connectButton.height / 2
-                                           + font.pointSize / 7
+            left: parent.left; leftMargin: leftMargin_
+            top: parent.bottom; topMargin: topMargin_ * 2
         }
     }
 }

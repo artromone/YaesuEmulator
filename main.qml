@@ -20,9 +20,61 @@ Window {
 
     title: qsTr("Yaesu Emulator")
 
+//    Rectangle
+//    {
+//        id: redRect
+//        height: 50
+//        width: 50
+//        color: "red"
+//        anchors
+//        {
+//            left: parent.left; leftMargin: 12
+//            top: parent.top; topMargin: 12
+//        }
+//    }
+
+//    Rectangle
+//    {
+//        id: yelRect
+//        height: 50
+//        width: 50
+//        color: "yellow"
+//        anchors
+//        {
+//            left: redRect.right;
+//            top: parent.top; topMargin: 12
+//        }
+//    }
+
+//    Rectangle
+//    {
+//        id: grRect
+//        height: 50
+//        width: 50
+//        color: "green"
+//        anchors
+//        {
+//            left: parent.left; leftMargin: 12
+//            top: redRect.bottom;
+//        }
+//    }
+
+//    Rectangle
+//    {
+//        id: blRect
+//        height: 50
+//        width: 50
+//        color: "blue"
+//        anchors
+//        {
+//            left: grRect.right;
+//            top: yelRect.bottom;
+//        }
+//    }
+
     ServerView
     {
-        id: serverView_
+        id: serverViewLayout
         anchors
         {
             left: parent.left
@@ -35,7 +87,7 @@ Window {
         anchors
         {
             left: parent.left
-            top: serverView_.bottom
+            top: serverViewLayout.bottom
         }
     }
 }

@@ -22,15 +22,25 @@ int Widget::port() const
     return Settings::instance()->getPort();
 }
 
-void Widget::setPort(int other)
+void Widget::setPort(int otherPort)
 {
-    Settings::instance()->setPort(other);
+    if (otherPort == Settings::instance()->getPort())
+    {
+        return;
+    }
+    Settings::instance()->setPort(otherPort);
     emit this->portChanged();
 }
 
 bool Widget::serverState() const
 {
     return server_->isStarted();
+}
+
+bool Widget::serverOK() const
+{
+    qDebug() << "server_->isOk()" << server_->isOk();
+    return server_->isOk();
 }
 
 void Widget::setServerState(bool state)
@@ -59,5 +69,8 @@ void Widget::init()
 
     QObject::connect(server_, &Server::stateChanged, this, [this](bool state) {
         emit this->serverStateChanged();
+    });
+    QObject::connect(server_, &Server::okChanged, this, [this](bool state) {
+        emit this->serverOKChanged();
     });
 }

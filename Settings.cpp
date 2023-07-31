@@ -1,5 +1,6 @@
 #include "Settings.h"
 #include <QFile>
+#include <QDir>
 #include <QStandardPaths>
 #include <QJsonDocument>
 #include <QJsonValue>
@@ -43,9 +44,15 @@ void Settings::setPort(int otherPort)
     }
 }
 
-void Settings::save()
+void Settings::save() // При отсутствии файла config ошибка в логах, приложение работает правильно
 {
-    auto filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/config.json";
+    auto fileDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    auto filename = fileDir + "/config.json";
+
+    if (!QDir(fileDir).exists())
+    {
+        QDir().mkdir(fileDir);
+    }
 
     QFile jsonFile(filename);
 

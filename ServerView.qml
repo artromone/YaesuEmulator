@@ -3,104 +3,96 @@ import QtQuick.Controls 2.0
 
 Item {
 
-    Button {
+    // property real maxHeight: Math.max()
+    implicitHeight: rowId.childrenRect.height
+    implicitWidth: rowId.childrenRect.width
 
-        id: connectButton
+    Row
+    {
+        id: rowId
+        spacing: 12
 
-        anchors {
-            left: parent.right; leftMargin: leftMargin_
-            top: parent.top; topMargin: topMargin_
+        Text {
+
+            id: textCurrPort
+            height: connectButton.height
+            verticalAlignment: Text.AlignBottom
+
+            font.pointSize: 19
+            text: qsTr("Порт сервера:")
+
+//            anchors {
+//                left: parent.left; leftMargin: leftMargin_
+//                top: connectButton.bottom; topMargin: topMargin_ * 2
+//            }
         }
 
-        width: 266
-        height: 66
+        TextField {
 
-        font.pointSize: 19
-        text: backend.serverState
-              ? "Остановить сервер"
-              : "Запустить сервер"
+            id: portEdit
 
-        //Свободна, выход в точку, ручное управление
+            inputMask: "0000"
 
-        onClicked: {
-            backend.serverState = !backend.serverState
+            width: 90
+
+//            anchors {
+//                left: textCurrPort.right; leftMargin: leftMargin_ / 2
+//                top: connectButton.bottom; topMargin: textCurrPort.height / 2
+//                                                      + font.pointSize / 2
+//            }
+
+            font.pointSize: 19
+
+            placeholderText: backend.port
+            text: backend.port
+
+            onTextChanged: {
+                backend.port = text
+            }
+
+            readOnly: backend.serverState
+            color: backend.serverState ? "black" : "gray"
         }
+
+        Button {
+
+            id: connectButton
+
+//            anchors {
+//                left: parent.right; leftMargin: leftMargin_
+//                top: parent.top; topMargin: topMargin_
+//            }
+
+            width: 266
+
+            font.pointSize: 19
+            text: backend.serverState
+                  ? "Остановить сервер"
+                  : "Запустить сервер"
+
+            //Свободна, выход в точку, ручное управление
+
+            onClicked: {
+                backend.serverState = !backend.serverState
+            }
+        }
+
+        Text {
+
+            id: textServerState
+
+            font.pointSize: 19
+
+            text: qsTr(backend.serverState
+                       ? "Сервер запущен"
+                       : backend.serverOK ? "Сервер запущен" : "Ошибка: порт занят")
+
+//            anchors {
+//                left: connectButton.right; leftMargin: leftMargin_
+//                top: parent.bottom; topMargin: connectButton.height / 2
+//                                               + font.pointSize / 7
+//            }
+        }
+
     }
-
-    Text {
-
-        id: textServerState
-
-        visible: true
-        // font.bold: true
-
-        font.pointSize: 19
-        text: qsTr(backend.serverState
-                   ? "Сервер запущен"
-                   : "Сервер остановлен")
-
-        anchors {
-            left: connectButton.right; leftMargin: leftMargin_
-            top: parent.bottom; topMargin: connectButton.height / 2
-                                           + font.pointSize / 7
-        }
-    }
-
-    Text {
-
-        id: textCurrPort
-
-        visible: true
-        // font.bold: true
-
-        font.pointSize: 19
-        text: qsTr("Порт сервера:")
-
-        anchors {
-            left: parent.left; leftMargin: leftMargin_
-            top: connectButton.bottom; topMargin: topMargin_ * 2
-        }
-    }
-
-    TextField {
-
-        id: portEdit
-
-        inputMask: "0000"
-
-        width: 90
-
-        anchors {
-            left: textCurrPort.right; leftMargin: leftMargin_ / 2
-            top: connectButton.bottom; topMargin: textCurrPort.height / 2
-                                                  + font.pointSize / 2
-        }
-
-        font.pointSize: 19
-        // text: backend.port
-
-        placeholderText: backend.port
-        text: backend.port
-
-        onTextChanged: {
-            backend.port = text
-        }
-
-        readOnly: backend.serverState
-        // color: backend.serverState ? "black" : "gray"
-    }
-
-//    Text {
-
-//        id: textBusyPort
-
-//        visible: false
-
-//        anchors {
-//            left: connectButton.right; leftMargin: 12
-//            top: parent.top; topMargin: 12
-//        }
-
-//        text: qsTr("Ошибка запуска сервера. Порт занят.")
-//    }
 }

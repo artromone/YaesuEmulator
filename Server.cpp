@@ -9,10 +9,11 @@
 
 #include <memory>
 
-Server::Server(QObject* parent) : QObject(parent)
-{
-    server_ = new QTcpServer();
-}
+Server::Server(QObject* parent):
+    QObject(parent),
+    server_(new QTcpServer()),
+    isOk_(true)
+{}
 
 void Server::start(int port)
 {
@@ -23,11 +24,15 @@ void Server::start(int port)
     if (!server_->listen(QHostAddress::Any, port))
     {
         qDebug() << "Server could not start:" << server_->errorString();
+        isOk_ = false;
+        emit this->okChanged(isOk_);
         emit this->stateChanged(false);
     }
     else
     {
         qDebug() << "Server started.";
+        isOk_ = true;
+        emit this->okChanged(isOk_);
         emit this->stateChanged(true);
     }
 }
@@ -43,6 +48,11 @@ void Server::stop()
 bool Server::isStarted() const
 {
     return server_->isListening();
+}
+
+bool Server::isOk() const
+{
+    return isOk_;
 }
 
 void Server::newConnection()
