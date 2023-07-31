@@ -30,8 +30,6 @@ void Client::onDisconnected()
 {
     qDebug() << "Client" << id_ << "emitted disconnected";
     emit this->disconnected();
-
-    //    emit this->disconnected(id_);
 }
 
 void Client::onReadyRead()

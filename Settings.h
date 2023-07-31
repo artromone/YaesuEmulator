@@ -19,7 +19,6 @@ private:
     void createDefault();
 
 private:
-//    QJsonObject currJsonObject_;
     int port_{0};
     //QHostAddress address;
 };

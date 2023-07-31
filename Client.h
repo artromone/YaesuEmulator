@@ -24,7 +24,6 @@ public slots:
 
 signals:
     void disconnected();
-    //    void disconnectedWithId(int id);
 
 private:
     QTcpSocket* socket_;

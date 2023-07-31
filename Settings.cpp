@@ -9,12 +9,6 @@
 void Settings::createDefault()
 {
     port_ = 9999;
-
-//    QJsonObject connection;
-//    connection.insert("port_number", 9999);
-
-//    currJsonObject_ = QJsonObject();
-//    currJsonObject_.insert("connection", connection);
 }
 
 Settings *Settings::instance()
