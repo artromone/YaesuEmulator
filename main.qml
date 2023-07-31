@@ -6,7 +6,7 @@ Window {
 
     visible: true
 
-    width: 800
+    width: 850
     height: 500
     minimumWidth: 550
     minimumHeight: 200
@@ -32,10 +32,23 @@ Window {
 
     EmulatorView
     {
+        id: emulatorViewLayout
         anchors
         {
             left: parent.left
-            top: serverViewLayout.bottom
+            top: serverViewLayout.bottom; topMargin: topMargin_
+        }
+    }
+
+    LoggerView
+    {
+        id: loggerViewLayout
+        anchors
+        {
+            left: parent.left
+            right: parent.right
+            top: emulatorViewLayout.bottom; topMargin: topMargin_
+            bottom: parent.bottom
         }
     }
 }

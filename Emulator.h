@@ -7,6 +7,12 @@ public:
     Emulator();
 
 private:
+    enum class AntennaState {
+        ready,
+        moveto,
+        manual
+    };
+
     int azCurrent_;
     int elCurrent_;
     int azTarget_;

@@ -3,19 +3,44 @@ import QtQuick.Controls 2.0
 
 Item {
 
-    Text {
+    implicitHeight: rowId.childrenRect.height
+    implicitWidth: rowId.childrenRect.width
 
-        id: fgfgfg
+    Row
+    {
+        id: rowId
+        spacing: 12
 
-        visible: true
+        Text {
 
-        font.pointSize: 19
+            id: antennaState
 
-        text: "Сервер остановлен"
+            font.pointSize: 19
+            text: "Состояние антены"
+        }
 
-        anchors {
-            left: parent.left; leftMargin: leftMargin_
-            top: parent.bottom; topMargin: topMargin_ * 2
+        Text {
+
+            id: antennaPos
+
+            font.pointSize: 19
+            text: "Положение:"
+        }
+
+        Text {
+
+            id: antennaTarget
+
+            font.pointSize: 19
+            text: "ЦУ:"
+        }
+
+        Text {
+
+            id: antennaError
+
+            font.pointSize: 19
+            text: "Ошибка"
         }
     }
 }

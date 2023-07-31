@@ -9,14 +9,15 @@ Item {
     Row
     {
         id: rowId
+
         spacing: 12
 
         Text {
 
             id: textCurrPort
+
             height: connectButton.height
             verticalAlignment: Text.AlignBottom
-
             font.pointSize: 19
             text: qsTr("Порт сервера:")
         }
@@ -55,10 +56,11 @@ Item {
             id: textServerState
 
             font.pointSize: 19
-
+            height: connectButton.height
+            verticalAlignment: Text.AlignBottom
             text: backend.serverState
-                       ? qsTr("Сервер запущен")
-                       : backend.serverOK ? qsTr("Сервер остановлен") : qsTr("Ошибка: порт занят")
+                  ? qsTr("Сервер запущен")
+                  : backend.serverOK ? qsTr("Сервер остановлен") : qsTr("Ошибка: порт занят")
         }
 
     }
