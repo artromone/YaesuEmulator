@@ -2,5 +2,4 @@
 
 Emulator::Emulator()
 {
-
 }

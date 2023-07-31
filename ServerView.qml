@@ -26,20 +26,14 @@ Item {
             id: portEdit
 
             inputMask: "0000"
-
             width: 90
-
             font.pointSize: 19
-
             placeholderText: backend.port
             text: backend.port
-
-            onTextChanged: {
-                backend.port = text
-            }
-
-            readOnly: backend.serverState
+            enabled: !backend.serverState
             color: backend.serverState ? "black" : "gray"
+
+            onTextChanged: backend.port = text
         }
 
         Button {
@@ -50,12 +44,10 @@ Item {
 
             font.pointSize: 19
             text: backend.serverState
-                  ? "Остановить сервер"
-                  : "Запустить сервер"
+                  ? qsTr("Остановить сервер")
+                  : qsTr("Запустить сервер")
 
-            onClicked: {
-                backend.serverState = !backend.serverState
-            }
+            onClicked: backend.serverState = !backend.serverState
         }
 
         Text {
@@ -64,9 +56,9 @@ Item {
 
             font.pointSize: 19
 
-            text: qsTr(backend.serverState
-                       ? "Сервер запущен"
-                       : backend.serverOK ? "Сервер запущен" : "Ошибка: порт занят")
+            text: backend.serverState
+                       ? qsTr("Сервер запущен")
+                       : backend.serverOK ? qsTr("Сервер остановлен") : qsTr("Ошибка: порт занят")
         }
 
     }

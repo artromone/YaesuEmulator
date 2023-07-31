@@ -15,4 +15,4 @@ private:
     int speedEl_;
 };
 
-#endif // EMULATOR_H
+#endif
