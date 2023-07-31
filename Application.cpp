@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "Utils.h"
 #include "Client.h"
 #include "Settings.h"
 

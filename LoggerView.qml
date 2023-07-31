@@ -5,30 +5,18 @@ Item {
 
     Text
     {
-
         id: logSectionTitle
 
         font.pointSize: 19
         text: qsTr("Логи:")
     }
 
-//    Rectangle
-//    {
-//        color: "red"
-//        anchors
-//                {
-//                    left: parent.left
-//                    right: parent.right
-//                    top: /*logSectionTitle.bottom*/parent.top
-//                    bottom: parent.bottom
-//                }
-//    }
-
     TextArea
     {
-        id: columnId
+        id: logArea
 
         clip: true
+        selectByMouse: true
 
         anchors
         {
@@ -37,15 +25,11 @@ Item {
             top: logSectionTitle.bottom
             bottom: parent.bottom
         }
-
-
     }
 
     Component.onCompleted:
     {
-        for (var i=0; i<100; ++i)
-        {
-            columnId.append(qsTr(i.toString()))
-        }
+        var time = backend.logMsg
+        logArea.append(qsTr(time + ":"))
     }
 }

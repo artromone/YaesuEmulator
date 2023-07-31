@@ -16,6 +16,7 @@ class Widget : public QObject
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(bool serverState READ serverState WRITE setServerState NOTIFY serverStateChanged)
     Q_PROPERTY(bool serverOK READ serverOK NOTIFY serverOKChanged)
+    Q_PROPERTY(QString logMsg READ logMsg)
 
 public:
     explicit Widget(QQmlContext& context,
@@ -26,6 +27,8 @@ public:
     Q_INVOKABLE QColor color() const;
 
     int port() const;
+    QString logMsg() const;
+
     void setPort(int value);
 
     bool serverState() const;

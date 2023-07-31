@@ -2,11 +2,21 @@
 
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QDateTime>
+
+namespace
+{
+    QString getCurrTime()
+    {
+        return QDateTime::currentDateTime().toString("hh:mm");
+    }
+}
 
 Widget::Widget(QQmlContext& context, Server *server, Emulator* emulator, QObject* parent)
     : QObject(parent), server_(server), emulator_(emulator)
 {
     context.setContextProperty("widget", this);
+
     // context.setContextProperty("rectColor", QColor(255, 0, 0));
 
     init();
@@ -22,13 +32,20 @@ int Widget::port() const
     return Settings::instance()->getPort();
 }
 
+QString Widget::logMsg() const
+{
+    return getCurrTime();
+}
+
 void Widget::setPort(int otherPort)
 {
     if (otherPort == Settings::instance()->getPort())
     {
         return;
     }
+
     Settings::instance()->setPort(otherPort);
+
     emit this->portChanged();
 }
 
