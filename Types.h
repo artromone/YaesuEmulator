@@ -43,10 +43,10 @@ public:
 public:
     AntennaStatus() : QObject() {}
 
-    static const QString text(Status state) {
-        if (S_READY == state) return tr("Готова");
-        if (S_MOVETO== state) return tr("Выход в точку");
-        if (S_MANUAL== state) return tr("Ручное");
+    static const QString text(Status status) {
+        if (S_READY == status) return tr("Готова");
+        if (S_MOVETO== status) return tr("Выход в точку");
+        if (S_MANUAL== status) return tr("Ручное");
         return tr("Неизвестно");
     }
 

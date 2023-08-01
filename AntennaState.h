@@ -7,6 +7,14 @@ public:
     AntennaState();
     ~AntennaState() = default;
     AntennaState(const AntennaState&);
+    bool operator==(const AntennaState&);
+    bool operator!=(const AntennaState&);
+
+    int azCurrent() const;
+    void setAzCurrent(int azCurrent);
+
+    int elCurrent() const;
+    void setElCurrent(int elCurrent);
 
 private:
     int azCurrent_;

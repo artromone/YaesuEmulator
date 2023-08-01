@@ -13,22 +13,22 @@ class Emulator : public QObject
 public:
     Emulator();
 
-    AntennaStatus::Status state() const;
+    AntennaStatus::Status status() const;
 
     AntennaState antennaState() const;
     void setAntennaState(const AntennaState &antennaState);
 
 signals:
-    void stateChanged(AntennaStatus::Status state);
-    void coordsChanged(AntennaState state);
+    void statusChanged(AntennaStatus::Status status);
+    void coordsChanged(AntennaState status);
 
 private:
-    void changeState(AntennaStatus::Status state);
+    void changeStatus(AntennaStatus::Status status);
     void changeCoords(AntennaState state);
 
 private:
     AntennaState antennaState_;
-    AntennaStatus::Status state_{AntennaStatus::Status::S_READY};
+    AntennaStatus::Status antennaStatus_{AntennaStatus::Status::S_READY};
 
     int testStateTimerId_{0};
 

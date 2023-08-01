@@ -18,7 +18,7 @@ Item {
             id: antennaState
 
             font.pointSize: 19
-            text: qsTr("Состояние антенны: %1").arg(widget.antennaStateString(widget.antennaState))
+            text: qsTr("Состояние антенны: %1").arg(widget.antennaStatusString(widget.antennaStatus))
 
             //text: AntennaState.S_READY
         }
@@ -28,7 +28,7 @@ Item {
             id: antennaPos
 
             font.pointSize: 19
-            text: qsTr("Положение: %1").arg(widget.azCurr)
+            text: qsTr("Положение: %1").arg(widget.antennaCoordsString(widget.antennaCoords))
         }
 
         Text {
