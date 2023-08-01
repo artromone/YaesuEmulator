@@ -5,7 +5,7 @@ import YaesuEmulator 1.0
 
 Item {
 
-    property bool serverConnected: (backend.serverState === ServerState.S_CONNECTED)
+    readonly property bool serverConnected: (backend.serverState === ServerState.S_CONNECTED)
 
     // property real maxHeight: Math.max()
     implicitHeight: rowId.childrenRect.height
@@ -53,16 +53,16 @@ Item {
             onClicked: backend.changeServerState(!serverConnected)
         }
 
-        Text {
+//        Text {
 
-            id: textServerState
+//            id: textServerState
 
-            font.pointSize: 19
-            height: connectButton.height
-            verticalAlignment: Text.AlignBottom
-            text: serverConnected ? qsTr("Сервер запущен")
-                                  : backend.serverState === ServerState.S_PORT_BUSY ? qsTr("Ошибка: порт занят")
-                                                                                    : qsTr("Сервер остановлен")
-        }
+//            font.pointSize: 19
+//            height: connectButton.height
+//            verticalAlignment: Text.AlignBottom
+//            text: serverConnected ? qsTr("Сервер запущен")
+//                                  : backend.serverState === ServerState.S_PORT_BUSY ? qsTr("Ошибка: порт занят")
+//                                                                                    : qsTr("Сервер остановлен")
+//        }
     }
 }

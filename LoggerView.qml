@@ -19,7 +19,6 @@ Item {
         text: qsTr("Логи:")
     }
 
-
     ScrollView {
 
         anchors {
@@ -35,6 +34,8 @@ Item {
             id: logArea
 
             selectByMouse: true
+
+            // color: if (logArea.getText().find("Ошибка 1")){"red"}
         }
     }
 }

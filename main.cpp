@@ -7,6 +7,7 @@
 void registerQmlTypes()
 {
     ServerState::registerType();
+    AntennaState::registerType();
 }
 
 int main(int argc, char* argv[])

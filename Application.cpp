@@ -1,6 +1,5 @@
 #include "Application.h"
 
-//#include "Utils.h" // FIXME у тебя файл есть, у меня его нет, не компилируется
 #include "Client.h"
 #include "Settings.h"
 
@@ -11,6 +10,7 @@ Application::Application(QQmlContext& context, QObject* parent)
       widget_(context, server_.get(), emulator_.get())
 {
     QObject::connect(server_.get(), &Server::newClient, this, &Application::onNewClient);
+    // qDebug() << "AZ:" << emulator_.get()->getAzCurrent();
 }
 
 void Application::onNewClient(QTcpSocket* socket)

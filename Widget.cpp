@@ -4,12 +4,13 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 
-namespace {
-QString getCurrTime()
+namespace
 {
-    return QDateTime::currentDateTime().toString("[hh:mm:ss] ");
+    QString getCurrTime()
+    {
+        return QDateTime::currentDateTime().toString("[hh:mm:ss] ");
+    }
 }
-} // namespace
 
 Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject* parent)
     : QObject(parent), server_(server), emulator_(emulator)
@@ -29,6 +30,11 @@ QColor Widget::color() const
 int Widget::port() const
 {
     return Settings::instance()->getPort();
+}
+
+QPair<QPair<int, int>, QPair<int, int> > Widget::antennaCoords() const
+{
+    return qMakePair(qMakePair(0,0), qMakePair(0,0));
 }
 
 QString Widget::logMsg() const
@@ -53,16 +59,10 @@ ServerState::State Widget::serverState() const
     return server_->state();
 }
 
-// bool Widget::serverState() const
-//{
-//     return server_->isStarted();
-// }
-
-// bool Widget::serverOK() const
-//{
-//     qDebug() << "server_->isOk()" << (server_->state() == Server::S_CONNECTED);
-//     return server_->state() == Server::S_CONNECTED;
-// }
+AntennaState::State Widget::antennaState() const
+{
+    return emulator_->state();
+}
 
 void Widget::changeServerState(bool state)
 {
@@ -84,21 +84,67 @@ void Widget::changeServerState(bool state)
     }
 }
 
+const QString Widget::antennaStateString(AntennaState::State state) const
+{
+    return AntennaState::text(state);
+}
+
 void Widget::init()
 {
     emit this->portChanged();
 
     QObject::connect(server_, &Server::stateChanged, this, [this](ServerState::State state) {
-        if (ServerState::S_CONNECTED == state)
+        // if (ServerState::S_CONNECTED == state)
+        if (server_->state() == ServerState::State::S_CONNECTED)
+        {
             this->sendLogMessage(
                 tr("Сервер запущен! Порт <%1>.").arg(Settings::instance()->getPort()));
-        if (ServerState::S_DISCONNECTED == state)
+        }
+        if (ServerState::State::S_DISCONNECTED == state)
+        {
             this->sendLogMessage(tr("Сервер остановлен."));
-        if (ServerState::S_PORT_BUSY == state)
+        }
+        if (ServerState::State::S_PORT_BUSY == state)
+        {
+            //QString redPart = QString("<span style=\" color:#ff0000;\">Не удалось запустить сервер...
+            //...Порт <%1> занят.</span>").arg(Settings::instance()->getPort());
             this->sendLogMessage(tr("Не удалось запустить сервер. Порт <%1> занят.")
-                                     .arg(Settings::instance()->getPort()));
+                                    .arg(Settings::instance()->getPort()));
+        }
 
         emit this->serverStateChanged();
+    });
+    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaState::State state) {
+        if (emulator_->state() == AntennaState::State::S_READY)
+        {
+            this->sendLogMessage(tr("Антенна готова."));
+        }
+        if (emulator_->state() == AntennaState::State::S_MOVETO)
+        {
+            this->sendLogMessage(tr("Антенна отправляется в точку."));
+        }
+        if (emulator_->state() == AntennaState::State::S_MANUAL)
+        {
+            this->sendLogMessage(tr("Ручное управление антенной."));
+        }
+
+        emit this->antennaStateChanged();
+    });
+    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaState::State state) {
+        if (emulator_->state() == AntennaState::State::S_READY)
+        {
+            this->sendLogMessage(tr("Антенна готова."));
+        }
+        if (emulator_->state() == AntennaState::State::S_MOVETO)
+        {
+            this->sendLogMessage(tr("Антенна отправляется в точку."));
+        }
+        if (emulator_->state() == AntennaState::State::S_MANUAL)
+        {
+            this->sendLogMessage(tr("Ручное управление антенной."));
+        }
+
+        emit this->antennaCoordsChanged();
     });
 }
 

@@ -17,11 +17,9 @@ public:
     void stop();
 
     bool isStarted() const;
-
-    ServerState::State state() const { return state_; }
+    ServerState::State state() const;
 
 signals:
-    // void onStart(QTcpSocket* socket); // UNUSED signal
     void newClient(QTcpSocket* socket);
     void stateChanged(ServerState::State state);
 
@@ -33,7 +31,7 @@ private:
 
 private:
     QTcpServer* server_;
-    ServerState::State state_ {ServerState::S_UNDEFINED};
+    ServerState::State state_ {ServerState::State::S_UNDEFINED};
 };
 
 #endif

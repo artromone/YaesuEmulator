@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 
+import YaesuEmulator 1.0
+
 Item {
 
     implicitHeight: rowId.childrenRect.height
@@ -16,7 +18,9 @@ Item {
             id: antennaState
 
             font.pointSize: 19
-            text: "Состояние антены"
+            text: qsTr("Состояние антенны: %1").arg(widget.antennaStateString(widget.antennaState))
+
+            //text: AntennaState.S_READY
         }
 
         Text {
@@ -24,7 +28,7 @@ Item {
             id: antennaPos
 
             font.pointSize: 19
-            text: "Положение:"
+            text: qsTr("Положение: %1").arg(widget.azCurr)
         }
 
         Text {

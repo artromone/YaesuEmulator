@@ -9,9 +9,9 @@ Window {
     // потом слоты для объекта, в который происходит изменении объекта
 
     property var backend: widget
-    property int btnWidth_: 266
-    property int topMargin_: 16
-    property int leftMargin_: 16
+    readonly property int btnWidth_: 266
+    readonly property int topMargin_: 16
+    readonly property int leftMargin_: 16
 
     visible: true // TODO нет необходимости
     width: 850
