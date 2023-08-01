@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "Utils.h"
+//#include "Utils.h" // FIXME у тебя файл есть, у меня его нет, не компилируется
 #include "Client.h"
 #include "Settings.h"
 
@@ -26,10 +26,10 @@ void Application::onNewClient(QTcpSocket* socket)
                              this->onPopClient(wptr.lock()->id());
                      });
     /*or*/
-    //QObject::connect(ptr.get(), &Client::disconnectedWithId, this,
-    //                 this](int id) { this->onPopClient(id); });
+    // QObject::connect(ptr.get(), &Client::disconnectedWithId, this,
+    //                  this](int id) { this->onPopClient(id); });
 
-    qDebug() << "Clients number:" << clientMap_.size();///
+    qDebug() << "Clients number:" << clientMap_.size(); ///
     qDebug() << "onNewClient finished";
 }
 
@@ -37,8 +37,7 @@ void Application::onPopClient(int clientId)
 {
     qDebug() << "onPopClient started";
 
-    qDebug() << "Removed clients:" << clientMap_.erase(clientId)
-             << "Id:" << clientId
+    qDebug() << "Removed clients:" << clientMap_.erase(clientId) << "Id:" << clientId
              << "Clients number:" << clientMap_.size();
 
     qDebug() << "onPopClient finished";

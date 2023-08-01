@@ -1,13 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 
+import YaesuEmulator 1.0
+
 Item {
+
+    property bool serverConnected: (backend.serverState === ServerState.S_CONNECTED)
+
     // property real maxHeight: Math.max()
     implicitHeight: rowId.childrenRect.height
     implicitWidth: rowId.childrenRect.width
 
-    Row
-    {
+    Row {
+
         id: rowId
 
         spacing: 12
@@ -31,8 +36,8 @@ Item {
             font.pointSize: 19
             placeholderText: backend.port
             text: backend.port
-            enabled: !backend.serverState
-            color: backend.serverState ? "black" : "gray"
+            enabled: !serverConnected
+            color: serverConnected ? "black" : "gray"
 
             onTextChanged: backend.port = text
         }
@@ -42,13 +47,10 @@ Item {
             id: connectButton
 
             width: 266
-
             font.pointSize: 19
-            text: backend.serverState
-                  ? qsTr("Остановить сервер")
-                  : qsTr("Запустить сервер")
+            text: serverConnected ? qsTr("Остановить сервер") : qsTr("Запустить сервер")
 
-            onClicked: backend.serverState = !backend.serverState
+            onClicked: backend.changeServerState(!serverConnected)
         }
 
         Text {
@@ -58,10 +60,9 @@ Item {
             font.pointSize: 19
             height: connectButton.height
             verticalAlignment: Text.AlignBottom
-            text: backend.serverState
-                  ? qsTr("Сервер запущен")
-                  : backend.serverOK ? qsTr("Сервер остановлен") : qsTr("Ошибка: порт занят")
+            text: serverConnected ? qsTr("Сервер запущен")
+                                  : backend.serverState === ServerState.S_PORT_BUSY ? qsTr("Ошибка: порт занят")
+                                                                                    : qsTr("Сервер остановлен")
         }
-
     }
 }

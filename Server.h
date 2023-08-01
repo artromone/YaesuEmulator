@@ -1,6 +1,8 @@
 #ifndef YAESUEMULATOR_QTCP_SERVER_H
 #define YAESUEMULATOR_QTCP_SERVER_H
 
+#include "Types.h"
+
 #include <QObject>
 #include <QTcpServer>
 
@@ -15,19 +17,23 @@ public:
     void stop();
 
     bool isStarted() const;
-    bool isOk() const;
+
+    ServerState::State state() const { return state_; }
 
 signals:
-    void onStart(QTcpSocket* socket);
+    // void onStart(QTcpSocket* socket); // UNUSED signal
     void newClient(QTcpSocket* socket);
-    void stateChanged(bool state);
-    void okChanged(bool ok);
+    void stateChanged(ServerState::State state);
 
-public slots:
-    void newConnection();
+private slots: // никак не связано с внешним миром
+    void onNewConnection();
+
+private:
+    void changeState(ServerState::State state);
 
 private:
     QTcpServer* server_;
-    bool isOk_;
+    ServerState::State state_ {ServerState::S_UNDEFINED};
 };
+
 #endif

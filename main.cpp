@@ -1,7 +1,13 @@
 #include "Application.h"
+#include "Types.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+
+void registerQmlTypes()
+{
+    ServerState::registerType();
+}
 
 int main(int argc, char* argv[])
 {
@@ -9,6 +15,9 @@ int main(int argc, char* argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+
+    registerQmlTypes();
+
     QGuiApplication::setApplicationName("YaesuEmulator");
 
     QQmlApplicationEngine engine;
