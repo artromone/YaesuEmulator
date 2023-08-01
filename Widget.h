@@ -15,10 +15,10 @@ class Widget : public QObject
     Q_OBJECT
     Q_PROPERTY(QString logMsg READ logMsg)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
-    Q_PROPERTY(ServerState::State serverState READ serverState NOTIFY serverStateChanged)
+    Q_PROPERTY(ServerStatus::Status serverState READ serverState NOTIFY serverStateChanged)
     Q_PROPERTY(QPair<QPair<int,int>, QPair<int,int>> antennaCoords
                READ antennaCoords /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
-    Q_PROPERTY(AntennaState::State antennaState READ antennaState /*WRITE setAntennaState*/ NOTIFY antennaStateChanged)
+    Q_PROPERTY(AntennaStatus::Status antennaState READ antennaState /*WRITE setAntennaState*/ NOTIFY antennaStateChanged)
 
 public:
     explicit Widget(QQmlContext& context,
@@ -28,13 +28,13 @@ public:
 
     Q_INVOKABLE QColor color() const;
     Q_INVOKABLE void changeServerState(bool state);
-    Q_INVOKABLE const QString antennaStateString(AntennaState::State state) const;
+    Q_INVOKABLE const QString antennaStateString(AntennaStatus::Status state) const;
 
     QString logMsg() const;
     int port() const;
     QPair<QPair<int,int>, QPair<int,int>> antennaCoords() const;
-    ServerState::State serverState() const;
-    AntennaState::State antennaState() const;
+    ServerStatus::Status serverState() const;
+    AntennaStatus::Status antennaState() const;
 
     void setPort(int value);
 

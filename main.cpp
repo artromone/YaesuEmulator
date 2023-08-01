@@ -6,8 +6,8 @@
 
 void registerQmlTypes()
 {
-    ServerState::registerType();
-    AntennaState::registerType();
+    ServerStatus::registerType();
+    AntennaStatus::registerType();
 }
 
 int main(int argc, char* argv[])

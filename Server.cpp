@@ -22,12 +22,12 @@ void Server::start(int port)
     if (!server_->listen(QHostAddress::Any, port))
     {
         qDebug() << "Server could not start:" << server_->errorString();
-        this->changeState(ServerState::State::S_PORT_BUSY);
+        this->changeState(ServerStatus::Status::S_PORT_BUSY);
     }
     else
     {
         qDebug() << "Server started.";
-        this->changeState(ServerState::State::S_CONNECTED);
+        this->changeState(ServerStatus::Status::S_CONNECTED);
     }
 }
 
@@ -36,7 +36,7 @@ void Server::stop()
     qDebug() << "Server stopped.";
 
     server_->close();
-    this->changeState(ServerState::State::S_DISCONNECTED);
+    this->changeState(ServerStatus::Status::S_DISCONNECTED);
 }
 
 bool Server::isStarted() const
@@ -44,7 +44,7 @@ bool Server::isStarted() const
     return server_->isListening();
 }
 
-ServerState::State Server::state() const
+ServerStatus::Status Server::state() const
 {
     return state_;
 }
@@ -57,7 +57,7 @@ void Server::onNewConnection()
     emit this->newClient(socket);
 }
 
-void Server::changeState(ServerState::State state)
+void Server::changeState(ServerStatus::Status state)
 {
     if (state_ != state)
     {

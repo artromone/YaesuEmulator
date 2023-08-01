@@ -17,21 +17,21 @@ public:
     void stop();
 
     bool isStarted() const;
-    ServerState::State state() const;
+    ServerStatus::Status state() const;
 
 signals:
     void newClient(QTcpSocket* socket);
-    void stateChanged(ServerState::State state);
+    void stateChanged(ServerStatus::Status state);
 
 private slots: // никак не связано с внешним миром
     void onNewConnection();
 
 private:
-    void changeState(ServerState::State state);
+    void changeState(ServerStatus::Status state);
 
 private:
     QTcpServer* server_;
-    ServerState::State state_ {ServerState::State::S_UNDEFINED};
+    ServerStatus::Status state_ {ServerStatus::Status::S_UNDEFINED};
 };
 
 #endif

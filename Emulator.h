@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "Types.h"
+#include "AntennaState.h"
 
 class Emulator : public QObject
 {
@@ -12,39 +13,25 @@ class Emulator : public QObject
 public:
     Emulator();
 
-//    int getAzCurrent() const;
-//    int getElCurrent() const;
+    AntennaStatus::Status state() const;
 
-//    int getAzTarget() const;
-//    int getElTarget() const;
-
-    int getSpeedAz() const;
-    int getSpeedEl() const;
-
-    AntennaState::State state() const;
+    AntennaState antennaState() const;
+    void setAntennaState(const AntennaState &antennaState);
 
 signals:
-    void stateChanged(AntennaState::State state);
-    void coordsChanged(QPair<QPair<int,int>, QPair<int,int>> state);
+    void stateChanged(AntennaStatus::Status state);
+    void coordsChanged(AntennaState state);
 
 private:
-    void changeState(AntennaState::State state);
-    void changeCoords(QPair<QPair<int,int>, QPair<int,int>> state);
+    void changeState(AntennaStatus::Status state);
+    void changeCoords(AntennaState state);
 
 private:
-//    int azCurrent_;
-//    int elCurrent_;
-//    int azTarget_;
-//    int elTarget_;
-    QPair<int,int> currCoords_;
-    QPair<int,int> targetCoords_;
-    int speedAz_;
-    int speedEl_;
-    AntennaState::State state_{AntennaState::State::S_READY};
+    AntennaState antennaState_;
+    AntennaStatus::Status state_{AntennaStatus::Status::S_READY};
 
     int testStateTimerId_{0};
 
-    // QObject interface
 protected:
     void timerEvent(QTimerEvent *event);
 };

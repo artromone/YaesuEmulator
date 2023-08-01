@@ -54,12 +54,12 @@ void Widget::setPort(int otherPort)
     emit this->portChanged();
 }
 
-ServerState::State Widget::serverState() const
+ServerStatus::Status Widget::serverState() const
 {
     return server_->state();
 }
 
-AntennaState::State Widget::antennaState() const
+AntennaStatus::Status Widget::antennaState() const
 {
     return emulator_->state();
 }
@@ -84,27 +84,27 @@ void Widget::changeServerState(bool state)
     }
 }
 
-const QString Widget::antennaStateString(AntennaState::State state) const
+const QString Widget::antennaStateString(AntennaStatus::Status state) const
 {
-    return AntennaState::text(state);
+    return AntennaStatus::text(state);
 }
 
 void Widget::init()
 {
     emit this->portChanged();
 
-    QObject::connect(server_, &Server::stateChanged, this, [this](ServerState::State state) {
+    QObject::connect(server_, &Server::stateChanged, this, [this](ServerStatus::Status state) {
         // if (ServerState::S_CONNECTED == state)
-        if (server_->state() == ServerState::State::S_CONNECTED)
+        if (server_->state() == ServerStatus::Status::S_CONNECTED)
         {
             this->sendLogMessage(
                 tr("Сервер запущен! Порт <%1>.").arg(Settings::instance()->getPort()));
         }
-        if (ServerState::State::S_DISCONNECTED == state)
+        if (ServerStatus::Status::S_DISCONNECTED == state)
         {
             this->sendLogMessage(tr("Сервер остановлен."));
         }
-        if (ServerState::State::S_PORT_BUSY == state)
+        if (ServerStatus::Status::S_PORT_BUSY == state)
         {
             //QString redPart = QString("<span style=\" color:#ff0000;\">Не удалось запустить сервер...
             //...Порт <%1> занят.</span>").arg(Settings::instance()->getPort());
@@ -114,32 +114,32 @@ void Widget::init()
 
         emit this->serverStateChanged();
     });
-    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaState::State state) {
-        if (emulator_->state() == AntennaState::State::S_READY)
+    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaStatus::Status state) {
+        if (emulator_->state() == AntennaStatus::Status::S_READY)
         {
             this->sendLogMessage(tr("Антенна готова."));
         }
-        if (emulator_->state() == AntennaState::State::S_MOVETO)
+        if (emulator_->state() == AntennaStatus::Status::S_MOVETO)
         {
             this->sendLogMessage(tr("Антенна отправляется в точку."));
         }
-        if (emulator_->state() == AntennaState::State::S_MANUAL)
+        if (emulator_->state() == AntennaStatus::Status::S_MANUAL)
         {
             this->sendLogMessage(tr("Ручное управление антенной."));
         }
 
         emit this->antennaStateChanged();
     });
-    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaState::State state) {
-        if (emulator_->state() == AntennaState::State::S_READY)
+    QObject::connect(emulator_, &Emulator::stateChanged, this, [this](AntennaStatus::Status state) {
+        if (emulator_->state() == AntennaStatus::Status::S_READY)
         {
             this->sendLogMessage(tr("Антенна готова."));
         }
-        if (emulator_->state() == AntennaState::State::S_MOVETO)
+        if (emulator_->state() == AntennaStatus::Status::S_MOVETO)
         {
             this->sendLogMessage(tr("Антенна отправляется в точку."));
         }
-        if (emulator_->state() == AntennaState::State::S_MANUAL)
+        if (emulator_->state() == AntennaStatus::Status::S_MANUAL)
         {
             this->sendLogMessage(tr("Ручное управление антенной."));
         }
