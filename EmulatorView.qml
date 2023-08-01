@@ -19,8 +19,6 @@ Item {
 
             font.pointSize: 19
             text: qsTr("Состояние антенны: %1").arg(widget.antennaStatusString(widget.antennaStatus))
-
-            //text: AntennaState.S_READY
         }
 
         Text {

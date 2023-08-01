@@ -14,15 +14,15 @@ AntennaStatus::Status Emulator::status() const
     return antennaStatus_;
 }
 
-AntennaState Emulator::antennaState() const
+const AntennaState &Emulator::antennaState() const
 {
     return antennaState_;
 }
 
-void Emulator::setAntennaState(const AntennaState &antennaState)
-{
-    antennaState_ = AntennaState(antennaState);
-}
+//void Emulator::setAntennaState(const AntennaState &antennaState)
+//{
+//    antennaState_ = AntennaState(antennaState);
+//}
 
 void Emulator::changeStatus(AntennaStatus::Status status)
 {
@@ -35,24 +35,26 @@ void Emulator::changeStatus(AntennaStatus::Status status)
     }
 }
 
-void Emulator::changeCoords(AntennaState state)
+void Emulator::changeCoords(int az, int el)
 {
-    if (antennaState_ != state)
+    if (antennaState_ != az)
     {
         qDebug() << "Antenna state changed.";
 
-        antennaState_ = state;
+        antennaState_ = az;
         emit this->coordsChanged(antennaState_);
     }
+    //emit this->coordsChanged(antennaState_);
 }
 
 void Emulator::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == testStateTimerId_)
     {
-        qDebug() << "1 Antenna AZ." << antennaState_.azCurrent();
-        antennaState_.setAzCurrent(antennaState_.azCurrent() + 1);
-        changeCoords(antennaState_);
+        // qDebug() << "1 Antenna AZ." << antennaState_.azCurrent();
+        AntennaState newAntennaState(antennaState_);
+        newAntennaState.setAzCurrent(newAntennaState.azCurrent() + 1);
+        changeCoords(newAntennaState);
         this->changeStatus((AntennaStatus::Status)(((int)antennaStatus_ + 1) % 4));
     }
 }

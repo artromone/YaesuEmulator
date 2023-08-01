@@ -52,7 +52,7 @@ public:
 
     static void registerType()
     {
-        qmlRegisterType<AntennaStatus>("YaesuEmulator", 1, 0, "AntennaState");
+        qmlRegisterType<AntennaStatus>("YaesuEmulator", 1, 0, "AntennaStatus");
     }
 };
 

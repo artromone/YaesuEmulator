@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Types.h"
+#include "AntennaState.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>

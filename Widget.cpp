@@ -92,8 +92,8 @@ const QString Widget::antennaStatusString(AntennaStatus::Status status) const
 
 const QString Widget::antennaCoordsString(AntennaState state) const
 {
-    return tr("AZ:") + QString(state.azCurrent()) +
-            tr("EL:") + QString(state.elCurrent());
+    return emulator_->antennaState();/*tr("AZ:") + QString(state.azCurrent())+
+            tr("EL:") + QString(state.elCurrent());*/
 }
 
 void Widget::init()
@@ -140,8 +140,7 @@ void Widget::init()
     });
 
     QObject::connect(emulator_, &Emulator::coordsChanged, this, [this](AntennaState state) {
-        qDebug() << "2 Antenna AZ." << state.azCurrent();
-        this->sendLogMessage(antennaCoordsString(state));
+        qDebug() << antennaCoordsString(state);
         emit this->antennaCoordsChanged();
     });
 }

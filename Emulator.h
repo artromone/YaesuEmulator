@@ -15,8 +15,8 @@ public:
 
     AntennaStatus::Status status() const;
 
-    AntennaState antennaState() const;
-    void setAntennaState(const AntennaState &antennaState);
+    const AntennaState &antennaState() const;
+//    void setAntennaState(const AntennaState &antennaState);
 
 signals:
     void statusChanged(AntennaStatus::Status status);
@@ -24,10 +24,13 @@ signals:
 
 private:
     void changeStatus(AntennaStatus::Status status);
-    void changeCoords(AntennaState state);
+    void changeCoords(int az, int el);
 
 private:
     AntennaState antennaState_;
+    //Coordinate{az,el} current_;
+    //Coordinate target_;
+
     AntennaStatus::Status antennaStatus_{AntennaStatus::Status::S_READY};
 
     int testStateTimerId_{0};

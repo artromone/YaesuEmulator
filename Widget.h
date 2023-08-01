@@ -30,7 +30,7 @@ public:
     Q_INVOKABLE QColor color() const;
     Q_INVOKABLE void changeServerState(bool state);
     Q_INVOKABLE const QString antennaStatusString(AntennaStatus::Status status) const;
-    Q_INVOKABLE const QString antennaCoordsString(AntennaState state) const;
+    Q_INVOKABLE const QString antennaCoordsString() const;
 
     QString logMsg() const;
     int port() const;
@@ -42,9 +42,13 @@ public:
 
 signals:
     void logMessage(const QString& msg);
+
     void portChanged();
-    void antennaCoordsChanged();
+
     void serverStateChanged();
+
+    void emulatorChanged();
+    void antennaCoordsChanged();
     void antennaStatusChanged();
 
 private:

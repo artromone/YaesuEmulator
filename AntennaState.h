@@ -1,12 +1,17 @@
 #ifndef ANTENNASTATE_H
 #define ANTENNASTATE_H
 
-class AntennaState
+#include <QObject>
+#include <QQmlEngine>
+
+class AntennaState : public QObject
 {
+    Q_OBJECT
+
 public:
     AntennaState();
-    ~AntennaState() = default;
-    AntennaState(const AntennaState&);
+//    AntennaState(const AntennaState&);
+
     bool operator==(const AntennaState&);
     bool operator!=(const AntennaState&);
 
@@ -17,14 +22,14 @@ public:
     void setElCurrent(int elCurrent);
 
 private:
-    int azCurrent_;
-    int elCurrent_;
+    int azCurrent_{0};
+    int elCurrent_{0};
 
-    int azTarget_;
-    int elTarget_;
+    int azTarget_{0};
+    int elTarget_{0};
 
-    int speedAz_;
-    int speedEl_;
+    int speedAz_{5};
+    int speedEl_{5};
 };
 
 #endif
