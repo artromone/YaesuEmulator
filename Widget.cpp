@@ -92,8 +92,8 @@ const QString Widget::antennaStatusString(AntennaStatus::Status status) const
 
 const QString Widget::antennaCoordsString(AntennaState state) const
 {
-    return emulator_->antennaState();/*tr("AZ:") + QString(state.azCurrent())+
-            tr("EL:") + QString(state.elCurrent());*/
+    return tr("AZ:") + QString(state.azCurrent())+
+            tr("EL:") + QString(state.elCurrent());
 }
 
 void Widget::init()

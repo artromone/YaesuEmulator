@@ -37,11 +37,11 @@ void Emulator::changeStatus(AntennaStatus::Status status)
 
 void Emulator::changeCoords(int az, int el)
 {
-    if (antennaState_ != az)
+    if (antennaState_.azCurrent() != az)
     {
-        qDebug() << "Antenna state changed.";
+        qDebug() << "Antenna azCurrent changed.";
 
-        antennaState_ = az;
+        antennaState_.setAzCurrent(az);
         emit this->coordsChanged(antennaState_);
     }
     //emit this->coordsChanged(antennaState_);
@@ -54,7 +54,7 @@ void Emulator::timerEvent(QTimerEvent *event)
         // qDebug() << "1 Antenna AZ." << antennaState_.azCurrent();
         AntennaState newAntennaState(antennaState_);
         newAntennaState.setAzCurrent(newAntennaState.azCurrent() + 1);
-        changeCoords(newAntennaState);
+        //changeCoords(newAntennaState);
         this->changeStatus((AntennaStatus::Status)(((int)antennaStatus_ + 1) % 4));
     }
 }

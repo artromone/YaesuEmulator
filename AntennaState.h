@@ -4,13 +4,11 @@
 #include <QObject>
 #include <QQmlEngine>
 
-class AntennaState : public QObject
+class AntennaState
 {
-    Q_OBJECT
-
 public:
     AntennaState();
-//    AntennaState(const AntennaState&);
+    AntennaState(const AntennaState&);
 
     bool operator==(const AntennaState&);
     bool operator!=(const AntennaState&);

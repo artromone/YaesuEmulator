@@ -17,8 +17,8 @@ class Widget : public QObject
     Q_PROPERTY(QString logMsg READ logMsg)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(ServerStatus::Status serverState READ serverState NOTIFY serverStateChanged)
-    Q_PROPERTY(AntennaState antennaCoords READ antennaCoords
-               /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
+//    Q_PROPERTY(AntennaState antennaCoords READ antennaCoords
+//               /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
     Q_PROPERTY(AntennaStatus::Status antennaStatus READ antennaStatus /*WRITE setAntennaState*/ NOTIFY antennaStatusChanged)
 
 public:
@@ -30,7 +30,7 @@ public:
     Q_INVOKABLE QColor color() const;
     Q_INVOKABLE void changeServerState(bool state);
     Q_INVOKABLE const QString antennaStatusString(AntennaStatus::Status status) const;
-    Q_INVOKABLE const QString antennaCoordsString() const;
+    Q_INVOKABLE const QString antennaCoordsString(AntennaState state) const;
 
     QString logMsg() const;
     int port() const;

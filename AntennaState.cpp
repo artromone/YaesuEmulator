@@ -1,17 +1,17 @@
 #include "AntennaState.h"
 
-AntennaState::AntennaState() : QObject()
+AntennaState::AntennaState()
 {}
 
-//AntennaState::AntennaState(const AntennaState &other)
-//{
-//    azCurrent_ = other.azCurrent_;
-//    elCurrent_ = other.elCurrent_;
-//    azTarget_ = other.azTarget_;
-//    elTarget_ = other.elTarget_;
-//    speedAz_ = other.speedAz_;
-//    speedEl_ = other.speedEl_;
-//}
+AntennaState::AntennaState(const AntennaState &other)
+{
+    azCurrent_ = other.azCurrent_;
+    elCurrent_ = other.elCurrent_;
+    azTarget_ = other.azTarget_;
+    elTarget_ = other.elTarget_;
+    speedAz_ = other.speedAz_;
+    speedEl_ = other.speedEl_;
+}
 
 bool AntennaState::operator==(const AntennaState &other)
 {
