@@ -14,6 +14,7 @@ find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 file(GLOB_RECURSE SOURCES *.cpp)
 file(GLOB_RECURSE HEADERS *.h)
 
-add_executable(${PROJECT_NAME} "qml.qrc" ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} "qml.qrc"
+    ${SOURCES} ${HEADERS})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick)

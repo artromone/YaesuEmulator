@@ -1,6 +1,7 @@
 #include "Client.h"
 
 #include "Settings.h"
+#include "CommandParser.h"
 
 #include <QDebug>
 
@@ -35,11 +36,10 @@ void Client::onDisconnected()
 void Client::onReadyRead()
 {
     qDebug() << "Client" << id_ << "reading data";
-    QByteArray data = socket_->readAll();
+    QByteArray input = socket_->readAll();
+    qDebug() << "Read data:" << input;
 
-    qDebug() << "Read data:" << data;
-    QByteArray newData = QByteArray::fromStdString(std::to_string(data.toInt() + 1));
-
-    socket_->write(newData);
-    qDebug() << "Sent data:" << newData;
+    CommandParser parser;
+    parser.createDictOfCommands(emulator_);
+    parser.dict[input[0]](socket_, input);
 }
