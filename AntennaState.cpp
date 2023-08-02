@@ -50,3 +50,23 @@ void AntennaState::setElCurrent(int elCurrent)
 {
     elCurrent_ = elCurrent;
 }
+
+int AntennaState::azTarget() const
+{
+    return azTarget_;
+}
+
+void AntennaState::setAzTarget(int azTarget)
+{
+    azTarget_ = azTarget;
+}
+
+int AntennaState::elTarget() const
+{
+    return elTarget_;
+}
+
+void AntennaState::setElTarget(int elTarget)
+{
+    elTarget_ = elTarget;
+}

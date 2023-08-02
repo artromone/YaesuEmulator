@@ -8,6 +8,14 @@ Item {
     implicitHeight: rowId.childrenRect.height
     implicitWidth: rowId.childrenRect.width
 
+    Connections {
+
+        target: widget
+
+        onAntennaCoordsChanged: antennaCoords.text =
+                                qsTr("Положение: [%1;%2], ЦУ: [%3;%4].").arg(azCurr).arg(elCurr).arg(azTarget).arg(elTarget)
+    }
+
     Row
     {
         id: rowId
@@ -18,23 +26,14 @@ Item {
             id: antennaState
 
             font.pointSize: 19
-            text: qsTr("Состояние антенны: %1").arg(widget.antennaStatusString(widget.antennaStatus))
+            text: qsTr("Состояние антенны: %1.").arg(widget.antennaStatusString(widget.antennaStatus))
         }
 
         Text {
 
-            id: antennaPos
+            id: antennaCoords
 
             font.pointSize: 19
-            text: qsTr("Положение: %1").arg(widget.antennaCoordsString(widget.antennaCoords))
-        }
-
-        Text {
-
-            id: antennaTarget
-
-            font.pointSize: 19
-            text: "ЦУ:"
         }
 
         Text {
@@ -42,7 +41,7 @@ Item {
             id: antennaError
 
             font.pointSize: 19
-            text: "Ошибка"
+            text: "Ошибка."
         }
     }
 }

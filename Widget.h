@@ -14,12 +14,14 @@ class QQmlContext;
 class Widget : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString logMsg READ logMsg)
+    Q_PROPERTY(QString logMsg /*READ logMsg*/)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(ServerStatus::Status serverState READ serverState NOTIFY serverStateChanged)
-//    Q_PROPERTY(AntennaState antennaCoords READ antennaCoords
-//               /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
-    Q_PROPERTY(AntennaStatus::Status antennaStatus READ antennaStatus /*WRITE setAntennaState*/ NOTIFY antennaStatusChanged)
+    //    Q_PROPERTY(AntennaState antennaCoords READ antennaCoords
+    //               /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
+    Q_PROPERTY(QString antennaCoords /*READ antennaCoords NOTIFY antennaCoordsChanged*/)
+    Q_PROPERTY(AntennaStatus::Status antennaStatus READ antennaStatus
+               /*WRITE setAntennaState*/ NOTIFY antennaStatusChanged)
 
 public:
     explicit Widget(QQmlContext& context,
@@ -30,13 +32,12 @@ public:
     Q_INVOKABLE QColor color() const;
     Q_INVOKABLE void changeServerState(bool state);
     Q_INVOKABLE const QString antennaStatusString(AntennaStatus::Status status) const;
-    Q_INVOKABLE const QString antennaCoordsString(AntennaState state) const;
 
-    QString logMsg() const;
+    //QString logMsg() const;
     int port() const;
-    AntennaState antennaCoords() const;
     AntennaStatus::Status antennaStatus() const;
     ServerStatus::Status serverState() const;
+    QString antennaCoords() const;
 
     void setPort(int value);
 
@@ -48,7 +49,8 @@ signals:
     void serverStateChanged();
 
     void emulatorChanged();
-    void antennaCoordsChanged();
+//    void antennaCoordsChanged(const QString& coords);
+    void antennaCoordsChanged(int azCurr, int elCurr, int azTarget, int elTarget);
     void antennaStatusChanged();
 
 private:

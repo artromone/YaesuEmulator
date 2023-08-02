@@ -24,7 +24,7 @@ signals:
 
 private:
     void changeStatus(AntennaStatus::Status status);
-    void changeCoords(int az, int el);
+    void changeCoords(int azCurrent, int elCurrent, int azTarget, int elTarget);
 
 private:
     AntennaState antennaState_;

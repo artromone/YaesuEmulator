@@ -19,6 +19,12 @@ public:
     int elCurrent() const;
     void setElCurrent(int elCurrent);
 
+    int azTarget() const;
+    void setAzTarget(int azTarget);
+
+    int elTarget() const;
+    void setElTarget(int elTarget);
+
 private:
     int azCurrent_{0};
     int elCurrent_{0};

@@ -10,8 +10,7 @@
 #include <memory>
 
 Server::Server(QObject* parent) : QObject(parent), server_(new QTcpServer())
-{
-}
+{}
 
 void Server::start(int port)
 {
@@ -19,7 +18,7 @@ void Server::start(int port)
 
     QObject::connect(server_, &QTcpServer::newConnection, this, &Server::onNewConnection);
 
-    if (!server_->listen(QHostAddress::Any, port))
+    if (!server_->listen(QHostAddress::AnyIPv4, port))
     {
         qDebug() << "Server could not start:" << server_->errorString();
         this->changeState(ServerStatus::Status::S_PORT_BUSY);

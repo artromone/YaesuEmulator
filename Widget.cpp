@@ -6,10 +6,10 @@
 
 namespace
 {
-QString getCurrTime()
-{
-    return QDateTime::currentDateTime().toString("[hh:mm:ss] ");
-}
+    QString getCurrTime()
+    {
+        return QDateTime::currentDateTime().toString("[hh:mm:ss] ");
+    }
 }
 
 Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject* parent)
@@ -32,16 +32,10 @@ int Widget::port() const
     return Settings::instance()->getPort();
 }
 
-AntennaState Widget::antennaCoords() const
-{
-    qDebug() << antennaCoordsString(emulator_->antennaState());
-    return emulator_->antennaState();
-}
-
-QString Widget::logMsg() const
-{
-    return getCurrTime();
-}
+//QString Widget::logMsg() const
+//{
+//    return getCurrTime();
+//}
 
 void Widget::setPort(int otherPort)
 {
@@ -90,12 +84,6 @@ const QString Widget::antennaStatusString(AntennaStatus::Status status) const
     return AntennaStatus::text(status);
 }
 
-const QString Widget::antennaCoordsString(AntennaState state) const
-{
-    return tr("AZ:") + QString(state.azCurrent())+
-            tr("EL:") + QString(state.elCurrent());
-}
-
 void Widget::init()
 {
     emit this->portChanged();
@@ -140,8 +128,7 @@ void Widget::init()
     });
 
     QObject::connect(emulator_, &Emulator::coordsChanged, this, [this](AntennaState state) {
-        qDebug() << antennaCoordsString(state);
-        emit this->antennaCoordsChanged();
+        emit this->antennaCoordsChanged(state.azCurrent(), state.elCurrent(), state.azTarget(), state.elTarget());
     });
 }
 
