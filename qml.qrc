@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ServerView.qml</file>
+        <file>EmulatorView.qml</file>
+        <file>LoggerView.qml</file>
+    </qresource>
+</RCC>
