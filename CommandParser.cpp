@@ -45,15 +45,17 @@ void CommandParser::sendState(QTcpSocket *socket)
 void CommandParser::setPos(QTcpSocket *socket_, QByteArray input)
 {
     int az = (input.at(1) - '0') * 100 + (input.at(2) - '0') * 10 + (input.at(3) - '0');
-    int el = (input.at(4) - '0') * 100 + (input.at(5) - '0') * 10 + (input.at(6) - '0');
-    AntennaState& ref = const_cast<AntennaState&>(emulator_->antennaState());
-    ref.setAzTarget(az);
-    ref.setElTarget(el); // так не обновляется
+    int el = (input.at(5) - '0') * 100 + (input.at(6) - '0') * 10 + (input.at(7) - '0');
 
-    emulator_->antennaState().setAzCurrent(0); // так не билдится
+    qDebug() << "az:" << az << "el" << el;
 
-    qDebug() << emulator_->antennaState().azCurrent() << " "
-             << emulator_->antennaState().elCurrent();
+    qDebug() << emulator_->antennaState().azCurrent();
+    emulator_->getModifiableAntennaState().setAzTarget(az);
+    qDebug() << emulator_->antennaState().azCurrent();
+
+    qDebug() << emulator_->antennaState().elCurrent();
+    emulator_->getModifiableAntennaState().setElTarget(el);
+    qDebug() << emulator_->antennaState().elCurrent();
 }
 
 //    dict['W'] = 20;

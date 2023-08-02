@@ -16,7 +16,7 @@ public:
     AntennaStatus::Status status() const;
 
     const AntennaState &antennaState() const;
-//    void setAntennaState(const AntennaState &antennaState);
+    AntennaState &getModifiableAntennaState();
 
 signals:
     void statusChanged(AntennaStatus::Status status);

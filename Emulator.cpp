@@ -19,6 +19,11 @@ const AntennaState &Emulator::antennaState() const
     return antennaState_;
 }
 
+AntennaState &Emulator::getModifiableAntennaState()
+{
+    return antennaState_;
+}
+
 //void Emulator::setAntennaState(const AntennaState &antennaState)
 //{
 //    antennaState_ = AntennaState(antennaState);
@@ -72,8 +77,8 @@ void Emulator::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == testStateTimerId_)
     {
-        changeCoords(antennaState_.azCurrent() + 1, antennaState_.elCurrent() + 1,
-                     antennaState_.azTarget() + 1, antennaState_.elTarget() + 1);
+//        changeCoords(antennaState_.azCurrent() + 1, antennaState_.elCurrent() + 1,
+//                     antennaState_.azTarget() + 1, antennaState_.elTarget() + 1);
         this->changeStatus((AntennaStatus::Status)(((int)antennaStatus_ + 1) % 4));
     }
 }
