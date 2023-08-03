@@ -3,6 +3,8 @@
 
 #include <utility>
 
+#include <QTcpSocket>
+
 #include "Types.h"
 #include "AntennaState.h"
 
@@ -18,6 +20,13 @@ public:
     const AntennaState &antennaState() const;
     AntennaState &getModifiableAntennaState();
 
+    void changeAz(QTcpSocket *socket, QByteArray input, int targetAz);
+    void changeEl(QTcpSocket *socket, QByteArray input, int targetAz);
+
+public:
+    std::atomic<bool> moveAzPossible_{true};
+    std::atomic<bool> moveElPossible_{true};
+
 signals:
     void statusChanged(AntennaStatus::Status status);
     void coordsChanged(AntennaState status);
@@ -28,12 +37,8 @@ private:
 
 private:
     AntennaState antennaState_;
-    //Coordinate{az,el} current_;
-    //Coordinate target_;
-
     AntennaStatus::Status antennaStatus_{AntennaStatus::Status::S_READY};
-
-    int testStateTimerId_{0};
+    // int testStateTimerId_{0};
 
 protected:
     void timerEvent(QTimerEvent *event);

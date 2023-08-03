@@ -1,7 +1,5 @@
 #include "CommandParser.h"
 
-#include <QThread>
-
 using namespace std::placeholders;
 
 namespace
@@ -34,65 +32,6 @@ void sendAnswer(QTcpSocket *socket)
 {
     socket->write(QByteArray("?\r\n"));
 }
-
-bool canMoveRight(Emulator* emulator, int targetAz)
-{
-    int az = emulator->antennaState().azCurrent();
-    int speed = emulator->antennaState().speedAz();
-    return (az >= 0 && az < targetAz - speed);
-}
-bool canMoveLeft(Emulator* emulator, int targetAz)
-{
-    int az = emulator->antennaState().azCurrent();
-    int speed = emulator->antennaState().speedAz();
-    return (az > 0 + speed && az <= targetAz);
-}
-
-bool canMoveDown(Emulator* emulator, int targetEl)
-{
-    int el = emulator->antennaState().elCurrent();
-    int speed = emulator->antennaState().speedEl();
-    return (el > 0 + speed && el <= targetEl);
-}
-bool canMoveUp(Emulator* emulator, int targetEl)
-{
-    int el = emulator->antennaState().elCurrent();
-    int speed = emulator->antennaState().speedEl();
-    return (el >= 0 && el < targetEl - speed);
-}
-}
-
-void CommandParser::moveAzImpl(QTcpSocket *socket, QByteArray input, int targetAz)
-{
-    int speedAz = emulator_->antennaState().speedAz();
-    int currAz = emulator_->antennaState().azCurrent();
-    while (moveAzPossible_ && (targetAz > currAz ?
-                               canMoveRight(emulator_, targetAz) : canMoveLeft(emulator_, targetAz)))
-    {
-        int delay = 500;
-        int speed = speedAz / 1000 * delay;
-
-        int currAz = emulator_->antennaState().azCurrent();
-        emulator_->getModifiableAntennaState().setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
-
-        QThread::msleep(delay);
-    }
-}
-void CommandParser::moveElImpl(QTcpSocket *socket, QByteArray input, int targetEl)
-{
-    int speedEl = emulator_->antennaState().speedEl();
-    int currEl = emulator_->antennaState().elCurrent();
-    while (moveElPossible_ && (targetEl > currEl ?
-                               canMoveUp(emulator_, targetEl) : canMoveDown(emulator_, targetEl)))
-    {
-        int delay = 500;
-        int speed = speedEl / 1000 * delay;
-
-        int currEl = emulator_->antennaState().elCurrent();
-        emulator_->getModifiableAntennaState().setElCurrent(targetEl > currEl ? currEl + speed : currEl - speed);
-
-        QThread::msleep(delay);
-    }
 }
 
 void CommandParser::createDictOfCommands(Emulator* emulator)
@@ -136,11 +75,11 @@ void CommandParser::setPos(QTcpSocket *socket, QByteArray input)
 
     if (azTarget != emulator_->antennaState().azCurrent())
     {
-        moveAzImpl(socket, input, azTarget);
+        emulator_->changeAz(socket, input, azTarget);
     }
     if (elTarget != emulator_->antennaState().elCurrent())
     {
-        moveElImpl(socket, input, elTarget);
+        emulator_->changeEl(socket, input, elTarget);
     }
 
     sendAnswer(socket);
@@ -158,25 +97,23 @@ void CommandParser::setAzSpeed(QTcpSocket *socket, QByteArray input)
 
 void CommandParser::stop(QTcpSocket *socket, QByteArray input)
 {
-    moveAzPossible_ = false;
-    moveElPossible_ = false;
+    emulator_->moveAzPossible_ = false;
+    emulator_->moveElPossible_ = false;
 }
 
 void CommandParser::stopAz(QTcpSocket *socket, QByteArray input)
 {
-    moveAzPossible_ = false;
+    emulator_->moveAzPossible_ = false;
 }
-
 void CommandParser::stopEl(QTcpSocket *socket, QByteArray input)
 {
-    moveElPossible_ = false;
+    emulator_->moveElPossible_ = false;
 }
 
 void CommandParser::moveRight(QTcpSocket *socket, QByteArray input)
 {
     moveAzImpl(socket, input, 450);
 }
-
 void CommandParser::moveLeft(QTcpSocket *socket, QByteArray input)
 {
     moveAzImpl(socket, input, 0);
@@ -186,7 +123,6 @@ void CommandParser::moveUp(QTcpSocket *socket, QByteArray input)
 {
     moveElImpl(socket, input, 180);
 }
-
 void CommandParser::moveDown(QTcpSocket *socket, QByteArray input)
 {
     moveElImpl(socket, input, 0);
