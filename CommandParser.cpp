@@ -4,7 +4,7 @@ using namespace std::placeholders;
 
 namespace
 {
-QByteArray numberToFormatQByte(int n)
+QByteArray unsafeFormatNumber(int n)
 {
     if (n >= 10 && n <= 99)
     {
@@ -18,7 +18,11 @@ QByteArray numberToFormatQByte(int n)
     {
         return QByteArray("00") + QByteArray::number(n);
     }
-    // throw;
+    throw std::invalid_argument("Некорректный угол:" + std::to_string(n));
+}
+int parseNumber(QByteArray input, int i)
+{
+    return (input.at(i) - '0') * 100 + (input.at(i+1) - '0') * 10 + (input.at(i+2) - '0');
 }
 }
 
@@ -28,38 +32,40 @@ void CommandParser::createDictOfCommands(Emulator* emulator)
 
     dict['C'] = std::bind(&CommandParser::sendState, this, _1);
     dict['W'] = std::bind(&CommandParser::setPos, this, _1, _2);
-
 }
 
 void CommandParser::sendState(QTcpSocket *socket)
 {
     auto state = emulator_->antennaState();
 
-    QByteArray newData = QByteArray("AZ=") + numberToFormatQByte(state.azCurrent()) +
-            QByteArray("  EL=") + numberToFormatQByte(state.elCurrent()) + QByteArray("\r\n");
+    QByteArray newData =
+            QByteArray("AZ=") + unsafeFormatNumber(state.azCurrent()) +
+            QByteArray("  EL=") + unsafeFormatNumber(state.elCurrent()) +
+            QByteArray("\r\n");
 
     socket->write(newData);
-    qDebug() << "Sent state:" << newData;
+    qDebug() << QByteArray("Sent state:") << newData;
 }
 
 void CommandParser::setPos(QTcpSocket *socket_, QByteArray input)
 {
-    int az = (input.at(1) - '0') * 100 + (input.at(2) - '0') * 10 + (input.at(3) - '0');
-    int el = (input.at(5) - '0') * 100 + (input.at(6) - '0') * 10 + (input.at(7) - '0');
+    int az = parseNumber(input, 1);
+    int el = parseNumber(input, 5);
 
-    qDebug() << "az:" << az << "el" << el;
+    qDebug() << "az:" << unsafeFormatNumber(az);
+    qDebug() << "el:" << unsafeFormatNumber(el);
+    // Не удалять дебаг вывод, numberToFormatQByte в случае невалидных данных
+    // выбрасывает исключение, которое обрабатывается в Client::onReadyRead()
 
-    qDebug() << emulator_->antennaState().azCurrent();
     emulator_->getModifiableAntennaState().setAzTarget(az);
-    qDebug() << emulator_->antennaState().azCurrent();
-
-    qDebug() << emulator_->antennaState().elCurrent();
     emulator_->getModifiableAntennaState().setElTarget(el);
-    qDebug() << emulator_->antennaState().elCurrent();
 }
 
-//    dict['W'] = 20;
-//    dict['X'] = 30;
+void CommandParser::setAzSpeed(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
 //    dict['S'] = 30;
 //    dict['A'] = 30;
 //    dict['E'] = 30;

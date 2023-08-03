@@ -16,6 +16,7 @@ private:
     Emulator* emulator_;
     void sendState(QTcpSocket* socket_);
     void setPos(QTcpSocket* socket_, QByteArray input);
+    void setAzSpeed(QTcpSocket* socket_, QByteArray input);
 };
 
 #endif

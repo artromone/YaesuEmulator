@@ -41,5 +41,13 @@ void Client::onReadyRead()
 
     CommandParser parser;
     parser.createDictOfCommands(emulator_);
-    parser.dict[input[0]](socket_, input);
+
+    try
+    {
+        parser.dict[input[0]](socket_, input);
+    }
+    catch (std::invalid_argument const& e)
+    {
+        qDebug() << e.what() << '\n';
+    }
 }
