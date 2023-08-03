@@ -38,8 +38,8 @@ private:
     int azTarget_{0};
     int elTarget_{0};
 
-    int speedAz_{50};
-    int speedEl_{50};
+    int speedAz_{5};
+    int speedEl_{5};
 };
 
 #endif

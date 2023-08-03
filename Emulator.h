@@ -20,8 +20,8 @@ public:
     const AntennaState &antennaState() const;
     AntennaState &getModifiableAntennaState();
 
-    void changeAz(QTcpSocket *socket, QByteArray input, int targetAz);
-    void changeEl(QTcpSocket *socket, QByteArray input, int targetEl);
+    void changeAz(int targetAz);
+    void changeEl(int targetEl);
 
 public:
     std::atomic<bool> moveAzPossible_{true};
