@@ -3,33 +3,50 @@
 #include <QDebug>
 #include <QTimerEvent>
 #include <QThread>
+#include <QFuture>
+#include <QtConcurrent/QtConcurrentRun>
 
 namespace
 {
-bool canMoveRight(Emulator* emulator, int targetAz)
+bool canMoveRight(Emulator* emulator, int targetAz, int speed)
 {
     int az = emulator->antennaState().azCurrent();
-    int speed = emulator->antennaState().speedAz();
-    return (az >= 0 && az < targetAz - speed);
+    return (az >= 0 && az <= targetAz - speed);
 }
-bool canMoveLeft(Emulator* emulator, int targetAz)
+bool canMoveLeft(Emulator* emulator, int targetAz, int speed)
 {
     int az = emulator->antennaState().azCurrent();
-    int speed = emulator->antennaState().speedAz();
-    return (az > 0 + speed && az <= targetAz);
+    return (az >= 0 + speed && az <= targetAz);
 }
 
-bool canMoveDown(Emulator* emulator, int targetEl)
+bool canMoveDown(Emulator* emulator, int targetEl, int speed)
 {
     int el = emulator->antennaState().elCurrent();
-    int speed = emulator->antennaState().speedEl();
-    return (el > 0 + speed && el <= targetEl);
+    return (el >= 0 + speed && el <= targetEl);
 }
-bool canMoveUp(Emulator* emulator, int targetEl)
+bool canMoveUp(Emulator* emulator, int targetEl, int speed)
 {
     int el = emulator->antennaState().elCurrent();
-    int speed = emulator->antennaState().speedEl();
-    return (el >= 0 && el < targetEl - speed);
+    return (el >= 0 && el <= targetEl - speed);
+}
+void changeAzImpl(Emulator* emulator, QTcpSocket *socket, QByteArray input, int targetAz)
+{
+    int speedAz = emulator->antennaState().speedAz();
+    int currAz = emulator->antennaState().azCurrent();
+
+    int delay = 500;
+    int speed = speedAz * delay / 1000;
+
+    while (emulator->moveAzPossible_ && (targetAz != currAz) &&
+           (targetAz > currAz ? canMoveRight(emulator, targetAz, speed) : canMoveLeft(emulator, targetAz, speed)))
+    {
+        int currAz = emulator->antennaState().azCurrent();
+        emulator->getModifiableAntennaState().setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
+
+        qDebug() << emulator->antennaState().azCurrent();
+
+        QThread::currentThread()->msleep(delay);
+    }
 }
 }
 
@@ -56,35 +73,27 @@ AntennaState &Emulator::getModifiableAntennaState()
 
 void Emulator::changeAz(QTcpSocket *socket, QByteArray input, int targetAz)
 {
-    int speedAz = antennaState_.speedAz();
-    int currAz = antennaState_.azCurrent();
-    while (moveAzPossible_ &&
-           (targetAz > currAz ? canMoveRight(this, targetAz) : canMoveLeft(this, targetAz)))
-    {
-        int delay = 500;
-        int speed = speedAz / 1000 * delay;
-
-        int currAz = antennaState_.azCurrent();
-        antennaState_.setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
-
-        QThread::msleep(delay);
-    }
+    QFuture<void> t = QtConcurrent::run(changeAzImpl, this, socket, input, targetAz);
+    t.waitForFinished();
 }
 
-void Emulator::changeEl(QTcpSocket *socket, QByteArray input, int targetAz)
+void Emulator::changeEl(QTcpSocket *socket, QByteArray input, int targetEl)
 {
     int speedEl = antennaState_.speedEl();
     int currEl = antennaState_.elCurrent();
-    while (moveElPossible_ &&
-           (targetEl > currEl ? canMoveUp(this, targetEl) : canMoveDown(this, targetEl)))
-    {
-        int delay = 500;
-        int speed = speedEl / 1000 * delay;
 
+    int delay = 500;
+    int speed = speedEl * delay / 1000;
+
+    while (moveElPossible_ && (targetEl != currEl) &&
+           (targetEl > currEl ? canMoveUp(this, targetEl, speed) : canMoveDown(this, targetEl, speed)))
+    {
         int currEl = antennaState_.elCurrent();
         antennaState_.setElCurrent(targetEl > currEl ? currEl + speed : currEl - speed);
 
-        QThread::msleep(delay);
+        qDebug() << antennaState_.azCurrent();
+
+        QThread::currentThread()->msleep(delay);
     }
 }
 

@@ -14,10 +14,6 @@ public:
        std::function< void(QTcpSocket* socket_, QByteArray input)> > dict;
 private:
     Emulator* emulator_;
-//    std::atomic<bool> moveAzPossible_{true};
-//    std::atomic<bool> moveElPossible_{true};
-    void moveAzImpl(QTcpSocket *socket, QByteArray input, int targetAz);
-    void moveElImpl(QTcpSocket *socket, QByteArray input, int targetEl);
 
 private:
     void stop(QTcpSocket* socket, QByteArray input);

@@ -21,7 +21,7 @@ public:
     AntennaState &getModifiableAntennaState();
 
     void changeAz(QTcpSocket *socket, QByteArray input, int targetAz);
-    void changeEl(QTcpSocket *socket, QByteArray input, int targetAz);
+    void changeEl(QTcpSocket *socket, QByteArray input, int targetEl);
 
 public:
     std::atomic<bool> moveAzPossible_{true};
@@ -34,6 +34,8 @@ signals:
 private:
     void changeStatus(AntennaStatus::Status status);
     void changeCoords(int azCurrent, int elCurrent, int azTarget, int elTarget);
+
+    // void changeAzImpl(QTcpSocket *socket, QByteArray input, int targetAz);
 
 private:
     AntennaState antennaState_;

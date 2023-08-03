@@ -28,4 +28,4 @@ private:
     Widget widget_;
 };
 
-#endif // APPLICATION_H
+#endif

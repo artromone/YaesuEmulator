@@ -10,7 +10,7 @@ QByteArray unsafeFormatNumber(int n)
     {
         return QByteArray("0") + QByteArray::number(n);
     }
-    if (n >= 100 && n <= 180)
+    if (n >= 100 && n <= 450)
     {
         return QByteArray::number(n);
     }
@@ -112,18 +112,18 @@ void CommandParser::stopEl(QTcpSocket *socket, QByteArray input)
 
 void CommandParser::moveRight(QTcpSocket *socket, QByteArray input)
 {
-    moveAzImpl(socket, input, 450);
+    emulator_->changeAz(socket, input, 450);
 }
 void CommandParser::moveLeft(QTcpSocket *socket, QByteArray input)
 {
-    moveAzImpl(socket, input, 0);
+    emulator_->changeAz(socket, input, 0);
 }
 
 void CommandParser::moveUp(QTcpSocket *socket, QByteArray input)
 {
-    moveElImpl(socket, input, 180);
+    emulator_->changeEl(socket, input, 180);
 }
 void CommandParser::moveDown(QTcpSocket *socket, QByteArray input)
 {
-    moveElImpl(socket, input, 0);
+    emulator_->changeEl(socket, input, 0);
 }
