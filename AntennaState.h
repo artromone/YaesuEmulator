@@ -28,6 +28,9 @@ public:
     int speedAz() const;
     void setSpeedAz(int speedAz);
 
+    int speedEl() const;
+    void setSpeedEl(int speedEl);
+
 private:
     int azCurrent_{0};
     int elCurrent_{0};
@@ -35,8 +38,8 @@ private:
     int azTarget_{0};
     int elTarget_{0};
 
-    int speedAz_{5};
-    int speedEl_{5};
+    int speedAz_{50};
+    int speedEl_{50};
 };
 
 #endif

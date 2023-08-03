@@ -19,7 +19,6 @@ Client::Client(QTcpSocket* socket, Emulator* emulator, QObject* parent)
 
 Client::~Client()
 {
-    qDebug() << "Destroying Client:" << id_;
 }
 
 void Client::onConnected()

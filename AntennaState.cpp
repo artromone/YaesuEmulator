@@ -1,5 +1,7 @@
 #include "AntennaState.h"
 
+#include <QDebug>
+
 AntennaState::AntennaState()
 {}
 
@@ -40,6 +42,7 @@ int AntennaState::azCurrent() const
 void AntennaState::setAzCurrent(int azCurrent)
 {
     azCurrent_ = azCurrent;
+    qDebug() << "Antenna azCurrent changed.";
 }
 
 int AntennaState::elCurrent() const
@@ -49,6 +52,7 @@ int AntennaState::elCurrent() const
 void AntennaState::setElCurrent(int elCurrent)
 {
     elCurrent_ = elCurrent;
+    qDebug() << "Antenna elCurrent changed.";
 }
 
 int AntennaState::azTarget() const
@@ -59,6 +63,7 @@ int AntennaState::azTarget() const
 void AntennaState::setAzTarget(int azTarget)
 {
     azTarget_ = azTarget;
+    qDebug() << "Antenna azTarget changed.";
 }
 
 int AntennaState::elTarget() const
@@ -69,6 +74,7 @@ int AntennaState::elTarget() const
 void AntennaState::setElTarget(int elTarget)
 {
     elTarget_ = elTarget;
+    qDebug() << "Antenna elTarget changed.";
 }
 
 int AntennaState::speedAz() const
@@ -79,4 +85,14 @@ int AntennaState::speedAz() const
 void AntennaState::setSpeedAz(int speedAz)
 {
     speedAz_ = speedAz;
+}
+
+int AntennaState::speedEl() const
+{
+    return speedEl_;
+}
+
+void AntennaState::setSpeedEl(int speedEl)
+{
+    speedEl_ = speedEl;
 }

@@ -45,25 +45,21 @@ void Emulator::changeCoords(int azCurrent, int elCurrent, int azTarget, int elTa
     bool toEmit = false;
     if (antennaState_.azCurrent() != azCurrent)
     {
-        qDebug() << "Antenna azCurrent changed.";
         antennaState_.setAzCurrent(azCurrent);
         toEmit = true;
     }
     if (antennaState_.elCurrent() != elCurrent)
     {
-        qDebug() << "Antenna elCurrent changed.";
         antennaState_.setElCurrent(elCurrent);
         toEmit = true;
     }
     if (antennaState_.azTarget() != azTarget)
     {
-        qDebug() << "Antenna azTarget changed.";
         antennaState_.setAzTarget(azTarget);
         toEmit = true;
     }
     if (antennaState_.elTarget() != elTarget)
     {
-        qDebug() << "Antenna elTarget changed.";
         antennaState_.setElTarget(elTarget);
         toEmit = true;
     }
@@ -77,8 +73,8 @@ void Emulator::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == testStateTimerId_)
     {
-//        changeCoords(antennaState_.azCurrent() + 1, antennaState_.elCurrent() + 1,
-//                     antennaState_.azTarget() + 1, antennaState_.elTarget() + 1);
+        //        changeCoords(antennaState_.azCurrent() + 1, antennaState_.elCurrent() + 1,
+        //                     antennaState_.azTarget() + 1, antennaState_.elTarget() + 1);
         this->changeStatus((AntennaStatus::Status)(((int)antennaStatus_ + 1) % 4));
     }
 }

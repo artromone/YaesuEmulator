@@ -14,17 +14,20 @@ public:
        std::function< void(QTcpSocket* socket_, QByteArray input)> > dict;
 private:
     Emulator* emulator_;
-    void sendState(QTcpSocket* socket_);
-    void setPos(QTcpSocket* socket_, QByteArray input);
-    void setAzSpeed(QTcpSocket* socket_, QByteArray input);
+    std::atomic<bool> moveAzPossible_{true};
+    std::atomic<bool> moveElPossible_{true};
 
-    void stop(QTcpSocket* socket_, QByteArray input);
-    void stopAz(QTcpSocket* socket_, QByteArray input);
-    void stopEl(QTcpSocket* socket_, QByteArray input);
-    void moveRight(QTcpSocket* socket_, QByteArray input);
-    void moveLeft(QTcpSocket* socket_, QByteArray input);
-    void moveUp(QTcpSocket* socket_, QByteArray input);
-    void moveDown(QTcpSocket* socket_, QByteArray input);
+private:
+    void stop(QTcpSocket* socket, QByteArray input);
+    void stopAz(QTcpSocket* socket, QByteArray input);
+    void stopEl(QTcpSocket* socket, QByteArray input);
+    void setPos(QTcpSocket* socket, QByteArray input);
+    void moveUp(QTcpSocket* socket, QByteArray input);
+    void moveDown(QTcpSocket* socket, QByteArray input);
+    void moveLeft(QTcpSocket* socket, QByteArray input);
+    void moveRight(QTcpSocket* socket, QByteArray input);
+    void setAzSpeed(QTcpSocket* socket, QByteArray input);
+    void sendState(QTcpSocket* socket);
 };
 
 #endif

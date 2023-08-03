@@ -1,37 +1,63 @@
 #include "CommandParser.h"
 
+#include <QThread>
+
 using namespace std::placeholders;
 
 namespace
 {
-    QByteArray unsafeFormatNumber(int n)
+QByteArray unsafeFormatNumber(int n)
+{
+    if (n >= 10 && n <= 99)
     {
-        if (n >= 10 && n <= 99)
-        {
-            return QByteArray("0") + QByteArray::number(n);
-        }
-        if (n >= 100 && n <= 180)
-        {
-            return QByteArray::number(n);
-        }
-        if (n >= 0 && n <= 9)
-        {
-            return QByteArray("00") + QByteArray::number(n);
-        }
-        throw std::invalid_argument("Некорректный угол:" + std::to_string(n));
+        return QByteArray("0") + QByteArray::number(n);
     }
-    int parseNumber(QByteArray input, int i)
+    if (n >= 100 && n <= 180)
     {
-        return (input.at(i) - '0') * 100 + (input.at(i+1) - '0') * 10 + (input.at(i+2) - '0');
+        return QByteArray::number(n);
     }
-    void checkNumber(int n)
+    if (n >= 0 && n <= 9)
     {
-        unsafeFormatNumber(n);
+        return QByteArray("00") + QByteArray::number(n);
     }
-    void sendAnswer(QTcpSocket *socket)
-    {
-        socket->write(QByteArray("?\r\n"));
-    }
+    throw std::invalid_argument("Некорректный угол:" + std::to_string(n));
+}
+int parseNumber(QByteArray input, int i)
+{
+    return (input.at(i) - '0') * 100 + (input.at(i+1) - '0') * 10 + (input.at(i+2) - '0');
+}
+void checkNumber(int n)
+{
+    unsafeFormatNumber(n);
+}
+void sendAnswer(QTcpSocket *socket)
+{
+    socket->write(QByteArray("?\r\n"));
+}
+bool canMoveRight(Emulator* emulator)
+{
+    int az = emulator->antennaState().azCurrent();
+    int speed = emulator->antennaState().speedAz();
+    return (az >= 0 && az < 450 - speed);
+}
+bool canMoveLeft(Emulator* emulator)
+{
+    int az = emulator->antennaState().azCurrent();
+    int speed = emulator->antennaState().speedAz();
+    return (az > 0 + speed && az <= 450);
+}
+bool canMoveDown(Emulator* emulator)
+{
+    int el = emulator->antennaState().elCurrent();
+    int speed = emulator->antennaState().speedEl();
+    return (el > 0 + speed && el <= 180);
+}
+bool canMoveUp(Emulator* emulator)
+{
+    int el = emulator->antennaState().elCurrent();
+    int speed = emulator->antennaState().speedEl();
+    return (el >= 0 && el < 180 - speed);
+}
 }
 
 void CommandParser::createDictOfCommands(Emulator* emulator)
@@ -86,37 +112,62 @@ void CommandParser::setAzSpeed(QTcpSocket *socket, QByteArray input)
     sendAnswer(socket);
 }
 
-void CommandParser::stop(QTcpSocket *socket_, QByteArray input)
+void CommandParser::stop(QTcpSocket *socket, QByteArray input)
 {
-
+    moveAzPossible_ = false;
+    moveElPossible_ = false;
 }
 
-void CommandParser::stopAz(QTcpSocket *socket_, QByteArray input)
+void CommandParser::stopAz(QTcpSocket *socket, QByteArray input)
 {
-
+    moveAzPossible_ = false;
 }
 
-void CommandParser::stopEl(QTcpSocket *socket_, QByteArray input)
+void CommandParser::stopEl(QTcpSocket *socket, QByteArray input)
 {
-
+    moveElPossible_ = false;
 }
 
-void CommandParser::moveRight(QTcpSocket *socket_, QByteArray input)
+void CommandParser::moveRight(QTcpSocket *socket, QByteArray input)
 {
-
+    int speedAz = emulator_->antennaState().speedAz();
+    while (moveAzPossible_ && canMoveRight(emulator_))
+    {
+        int currAz = emulator_->antennaState().azCurrent();
+        emulator_->getModifiableAntennaState().setAzCurrent(currAz + speedAz);
+        QThread::msleep(1000);
+    }
 }
 
-void CommandParser::moveLeft(QTcpSocket *socket_, QByteArray input)
+void CommandParser::moveLeft(QTcpSocket *socket, QByteArray input)
 {
-
+    int speedAz = emulator_->antennaState().speedAz();
+    while (moveAzPossible_ && canMoveLeft(emulator_))
+    {
+        int currAz = emulator_->antennaState().azCurrent();
+        emulator_->getModifiableAntennaState().setAzCurrent(currAz - speedAz);
+        QThread::msleep(1000);
+    }
 }
 
-void CommandParser::moveUp(QTcpSocket *socket_, QByteArray input)
+void CommandParser::moveUp(QTcpSocket *socket, QByteArray input)
 {
-
+    int speedEl = emulator_->antennaState().speedEl();
+    while (moveElPossible_ && canMoveUp(emulator_))
+    {
+        int currEl = emulator_->antennaState().elCurrent();
+        emulator_->getModifiableAntennaState().setElCurrent(currEl + speedEl);
+        QThread::msleep(1000);
+    }
 }
 
-void CommandParser::moveDown(QTcpSocket *socket_, QByteArray input)
+void CommandParser::moveDown(QTcpSocket *socket, QByteArray input)
 {
-
+    int speedEl = emulator_->antennaState().speedEl();
+    while (moveElPossible_ && canMoveDown(emulator_))
+    {
+        int currEl = emulator_->antennaState().elCurrent();
+        emulator_->getModifiableAntennaState().setElCurrent(currEl - speedEl);
+        QThread::msleep(1000);
+    }
 }
