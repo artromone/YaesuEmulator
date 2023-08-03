@@ -42,6 +42,7 @@ Item {
 
             font.pointSize: 19
             text: "Ошибка."
+            visible: false
         }
     }
 }

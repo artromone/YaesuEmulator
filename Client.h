@@ -31,4 +31,4 @@ private:
     const int id_;
 };
 
-#endif // CLIENT_H
+#endif

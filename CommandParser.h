@@ -17,6 +17,14 @@ private:
     void sendState(QTcpSocket* socket_);
     void setPos(QTcpSocket* socket_, QByteArray input);
     void setAzSpeed(QTcpSocket* socket_, QByteArray input);
+
+    void stop(QTcpSocket* socket_, QByteArray input);
+    void stopAz(QTcpSocket* socket_, QByteArray input);
+    void stopEl(QTcpSocket* socket_, QByteArray input);
+    void moveRight(QTcpSocket* socket_, QByteArray input);
+    void moveLeft(QTcpSocket* socket_, QByteArray input);
+    void moveUp(QTcpSocket* socket_, QByteArray input);
+    void moveDown(QTcpSocket* socket_, QByteArray input);
 };
 
 #endif

@@ -4,34 +4,50 @@ using namespace std::placeholders;
 
 namespace
 {
-QByteArray unsafeFormatNumber(int n)
-{
-    if (n >= 10 && n <= 99)
+    QByteArray unsafeFormatNumber(int n)
     {
-        return QByteArray("0") + QByteArray::number(n);
+        if (n >= 10 && n <= 99)
+        {
+            return QByteArray("0") + QByteArray::number(n);
+        }
+        if (n >= 100 && n <= 180)
+        {
+            return QByteArray::number(n);
+        }
+        if (n >= 0 && n <= 9)
+        {
+            return QByteArray("00") + QByteArray::number(n);
+        }
+        throw std::invalid_argument("Некорректный угол:" + std::to_string(n));
     }
-    if (n >= 100 && n <= 180)
+    int parseNumber(QByteArray input, int i)
     {
-        return QByteArray::number(n);
+        return (input.at(i) - '0') * 100 + (input.at(i+1) - '0') * 10 + (input.at(i+2) - '0');
     }
-    if (n >= 0 && n <= 9)
+    void checkNumber(int n)
     {
-        return QByteArray("00") + QByteArray::number(n);
+        unsafeFormatNumber(n);
     }
-    throw std::invalid_argument("Некорректный угол:" + std::to_string(n));
-}
-int parseNumber(QByteArray input, int i)
-{
-    return (input.at(i) - '0') * 100 + (input.at(i+1) - '0') * 10 + (input.at(i+2) - '0');
-}
+    void sendAnswer(QTcpSocket *socket)
+    {
+        socket->write(QByteArray("?\r\n"));
+    }
 }
 
 void CommandParser::createDictOfCommands(Emulator* emulator)
 {
     emulator_ = emulator;
 
-    dict['C'] = std::bind(&CommandParser::sendState, this, _1);
+    dict['S'] = std::bind(&CommandParser::stop, this, _1, _2);
+    dict['A'] = std::bind(&CommandParser::stopAz, this, _1, _2);
+    dict['E'] = std::bind(&CommandParser::stopEl, this, _1, _2);
     dict['W'] = std::bind(&CommandParser::setPos, this, _1, _2);
+    dict['U'] = std::bind(&CommandParser::moveUp, this, _1, _2);
+    dict['D'] = std::bind(&CommandParser::moveDown, this, _1, _2);
+    dict['L'] = std::bind(&CommandParser::moveLeft, this, _1, _2);
+    dict['R'] = std::bind(&CommandParser::moveRight, this, _1, _2);
+    dict['X'] = std::bind(&CommandParser::setAzSpeed, this, _1, _2);
+    dict['C'] = std::bind(&CommandParser::sendState, this, _1);
 }
 
 void CommandParser::sendState(QTcpSocket *socket)
@@ -47,29 +63,60 @@ void CommandParser::sendState(QTcpSocket *socket)
     qDebug() << QByteArray("Sent state:") << newData;
 }
 
-void CommandParser::setPos(QTcpSocket *socket_, QByteArray input)
+void CommandParser::setPos(QTcpSocket *socket, QByteArray input)
 {
     int az = parseNumber(input, 1);
     int el = parseNumber(input, 5);
-
-    qDebug() << "az:" << unsafeFormatNumber(az);
-    qDebug() << "el:" << unsafeFormatNumber(el);
-    // Не удалять дебаг вывод, numberToFormatQByte в случае невалидных данных
-    // выбрасывает исключение, которое обрабатывается в Client::onReadyRead()
+    checkNumber(az);
+    checkNumber(el);
 
     emulator_->getModifiableAntennaState().setAzTarget(az);
     emulator_->getModifiableAntennaState().setElTarget(el);
+
+    sendAnswer(socket);
 }
 
-void CommandParser::setAzSpeed(QTcpSocket *socket_, QByteArray input)
+void CommandParser::setAzSpeed(QTcpSocket *socket, QByteArray input)
+{
+    int azSpeed = parseNumber(input, 1);
+    checkNumber(azSpeed);
+
+    emulator_->getModifiableAntennaState().setSpeedAz(azSpeed);
+
+    sendAnswer(socket);
+}
+
+void CommandParser::stop(QTcpSocket *socket_, QByteArray input)
 {
 
 }
 
-//    dict['S'] = 30;
-//    dict['A'] = 30;
-//    dict['E'] = 30;
-//    dict['R'] = 30;
-//    dict['L'] = 30;
-//    dict['U'] = 30;
-//    dict['D'] = 30;
+void CommandParser::stopAz(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
+void CommandParser::stopEl(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
+void CommandParser::moveRight(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
+void CommandParser::moveLeft(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
+void CommandParser::moveUp(QTcpSocket *socket_, QByteArray input)
+{
+
+}
+
+void CommandParser::moveDown(QTcpSocket *socket_, QByteArray input)
+{
+
+}

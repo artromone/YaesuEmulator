@@ -25,6 +25,9 @@ public:
     int elTarget() const;
     void setElTarget(int elTarget);
 
+    int speedAz() const;
+    void setSpeedAz(int speedAz);
+
 private:
     int azCurrent_{0};
     int elCurrent_{0};

@@ -70,3 +70,13 @@ void AntennaState::setElTarget(int elTarget)
 {
     elTarget_ = elTarget;
 }
+
+int AntennaState::speedAz() const
+{
+    return speedAz_;
+}
+
+void AntennaState::setSpeedAz(int speedAz)
+{
+    speedAz_ = speedAz;
+}
