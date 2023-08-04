@@ -1,12 +1,11 @@
 #include "Emulator.h"
 
 #include <QDebug>
-#include <QTimerEvent>
 #include <QThread>
+#include <QTimerEvent>
 #include <QtConcurrent/QtConcurrentRun>
 
-namespace
-{
+namespace {
 bool canMoveRight(Emulator* emulator, int targetAz, int speed)
 {
     int az = emulator->antennaState().azCurrent();
@@ -37,10 +36,12 @@ void changeAzImpl(Emulator* emulator, int targetAz)
     int speed = speedAz * delay / 1000;
 
     while (emulator->moveAzPossible_ && (targetAz != currAz) &&
-           (targetAz > currAz ? canMoveRight(emulator, targetAz, speed) : canMoveLeft(emulator, targetAz, speed)))
+           (targetAz > currAz ? canMoveRight(emulator, targetAz, speed) :
+                                canMoveLeft(emulator, targetAz, speed)))
     {
         int currAz = emulator->antennaState().azCurrent();
-        emulator->getModifiableAntennaState().setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
+        emulator->getModifiableAntennaState().setAzCurrent(targetAz > currAz ? currAz + speed :
+                                                                               currAz - speed);
 
         qDebug() << "az:" << emulator->antennaState().azCurrent();
         qDebug() << "speed:" << speed;
@@ -48,10 +49,9 @@ void changeAzImpl(Emulator* emulator, int targetAz)
         QThread::currentThread()->msleep(delay);
     }
 }
-}
+} // namespace
 
-Emulator::Emulator():
-    antennaState_(AntennaState())
+Emulator::Emulator() : antennaState_(AntennaState())
 {
     // testStateTimerId_ = this->startTimer(2000);
 }
@@ -61,47 +61,48 @@ AntennaStatus::Status Emulator::status() const
     return antennaStatus_;
 }
 
-const AntennaState &Emulator::antennaState() const
+const AntennaState& Emulator::antennaState() const
 {
     return antennaState_;
 }
 
-AntennaState &Emulator::getModifiableAntennaState()
+AntennaState& Emulator::getModifiableAntennaState()
 {
     return antennaState_;
 }
 
 void Emulator::changeAz(int targetAz)
 {
-    QtConcurrent::run([=]{
+    qDebug() << "Emulator change az" << antennaState_.azCurrent() << "->" << targetAz;
 
-        int speedAz = antennaState().speedAz();
-        int currAz = antennaState().azCurrent();
+    QtConcurrent::run([=] {
+        int speedAz = antennaState_.speedAz();
+        int currAz = antennaState_.azCurrent();
 
         int delay = 200;
         int speed = speedAz * delay / 1000;
 
-        auto check = [=](){
-            int az = antennaState().azCurrent();
+        auto check = [=]() {
+            int az = antennaState_.azCurrent();
             return (az >= 0 && az <= targetAz - speed);
-
         };
 
-        auto check2 = [=](){
-            int az = antennaState().azCurrent();
+        auto check2 = [=]() {
+            int az = antennaState_.azCurrent();
             return (az >= 0 + speed && az <= targetAz);
         };
 
-        while (moveAzPossible_ && (targetAz != currAz) &&
-               (targetAz > currAz ? check() : check2()))
+        qDebug() << "c1" << check() << "c2" << check2();
+
+        while (moveAzPossible_ && (targetAz != currAz) && (targetAz > currAz ? check() : check2()))
         {
-            int currAz = antennaState().azCurrent();
-            getModifiableAntennaState().setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
+            int currAz = antennaState_.azCurrent();
+            antennaState_.setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
 
             qDebug() << "az:" << antennaState().azCurrent();
             qDebug() << "speed:" << speed;
 
-            QThread::currentThread()->msleep(delay);
+            QThread::msleep(delay);
         }
     });
 }
@@ -166,7 +167,7 @@ void Emulator::changeCoords(int azCurrent, int elCurrent, int azTarget, int elTa
     }
 }
 
-void Emulator::timerEvent(QTimerEvent *event)
+void Emulator::timerEvent(QTimerEvent* event)
 {
     //    if (event->timerId() == testStateTimerId_)
     //    {
