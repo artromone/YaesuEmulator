@@ -14,14 +14,13 @@ class QQmlContext;
 class Widget : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString logMsg /*READ logMsg*/)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(ServerStatus::Status serverState READ serverState NOTIFY serverStateChanged)
-    //    Q_PROPERTY(AntennaState antennaCoords READ antennaCoords
-    //               /*WRITE setAntennaCoords*/ NOTIFY antennaCoordsChanged)
-    Q_PROPERTY(QString antennaCoords /*READ antennaCoords NOTIFY antennaCoordsChanged*/)
-    Q_PROPERTY(AntennaStatus::Status antennaStatus READ antennaStatus
-               /*WRITE setAntennaState*/ NOTIFY antennaStatusChanged)
+    Q_PROPERTY(AntennaStatus::Status antennaStatus READ antennaStatus NOTIFY antennaStateChanged)
+    Q_PROPERTY(int az READ az NOTIFY antennaStateChanged)
+    Q_PROPERTY(int el READ el NOTIFY antennaStateChanged)
+    Q_PROPERTY(int targetAz READ targetAz NOTIFY antennaStateChanged)
+    Q_PROPERTY(int targetEl READ targetEl NOTIFY antennaStateChanged)
 
 public:
     explicit Widget(QQmlContext& context,
@@ -29,17 +28,20 @@ public:
                     Emulator* emulator,
                     QObject* parent = Q_NULLPTR);
 
-    Q_INVOKABLE QColor color() const;
     Q_INVOKABLE void changeServerState(bool state);
     Q_INVOKABLE const QString antennaStatusString(AntennaStatus::Status status) const;
 
-    //QString logMsg() const;
     int port() const;
-    AntennaStatus::Status antennaStatus() const;
-    ServerStatus::Status serverState() const;
-    QString antennaCoords() const;
-
     void setPort(int value);
+
+    ServerStatus::Status serverState() const;
+
+    AntennaStatus::Status antennaStatus() const;
+
+    int az() const;
+    int el() const;
+    int targetAz() const;
+    int targetEl() const;
 
 signals:
     void logMessage(const QString& msg);
@@ -49,9 +51,7 @@ signals:
     void serverStateChanged();
 
     void emulatorChanged();
-//    void antennaCoordsChanged(const QString& coords);
-    void antennaCoordsChanged(int azCurr, int elCurr, int azTarget, int elTarget);
-    void antennaStatusChanged();
+    void antennaStateChanged();
 
 private:
     void init();

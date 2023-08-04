@@ -15,10 +15,8 @@ class Emulator : public QObject
 public:
     Emulator();
 
-    AntennaStatus::Status status() const;
-
     const AntennaState &antennaState() const;
-    AntennaState &getModifiableAntennaState();
+    AntennaState &antennaState();
 
     void changeAz(int targetAz);
     void changeEl(int targetEl);
@@ -26,10 +24,6 @@ public:
 public:
     std::atomic<bool> moveAzPossible_{true};
     std::atomic<bool> moveElPossible_{true};
-
-signals:
-    void statusChanged(AntennaStatus::Status status);
-    void coordsChanged(AntennaState status);
 
 private:
     void changeStatus(AntennaStatus::Status status);
@@ -39,7 +33,6 @@ private:
 
 private:
     AntennaState antennaState_;
-    AntennaStatus::Status antennaStatus_{AntennaStatus::Status::S_READY};
     // int testStateTimerId_{0};
 
 protected:

@@ -17,25 +17,14 @@ Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject
 {
     context.setContextProperty("widget", this);
 
-    // context.setContextProperty("rectColor", QColor(255, 0, 0));
-
     init();
 }
 
-QColor Widget::color() const
-{
-    return QColor(255, 0, 0);
-}
 
 int Widget::port() const
 {
     return Settings::instance()->getPort();
 }
-
-//QString Widget::logMsg() const
-//{
-//    return getCurrTime();
-//}
 
 void Widget::setPort(int otherPort)
 {
@@ -56,7 +45,27 @@ ServerStatus::Status Widget::serverState() const
 
 AntennaStatus::Status Widget::antennaStatus() const
 {
-    return emulator_->status();
+    return emulator_->antennaState().status();
+}
+
+int Widget::az() const
+{
+    return emulator_->antennaState().azCurrent();
+}
+
+int Widget::el() const
+{
+    return emulator_->antennaState().elCurrent();
+}
+
+int Widget::targetAz() const
+{
+    return emulator_->antennaState().azTarget();
+}
+
+int Widget::targetEl() const
+{
+    return emulator_->antennaState().elTarget();
 }
 
 void Widget::changeServerState(bool state)
@@ -110,25 +119,21 @@ void Widget::init()
         emit this->serverStateChanged();
     });
 
-    QObject::connect(emulator_, &Emulator::statusChanged, this, [this](AntennaStatus::Status status) {
-        if (emulator_->status() == AntennaStatus::Status::S_READY)
+    QObject::connect(&emulator_->antennaState(), &AntennaState::changed, this, [this]() {
+        if (emulator_->antennaState().status() == AntennaStatus::Status::S_READY)
         {
             this->sendLogMessage(tr("Антенна готова."));
         }
-        if (emulator_->status() == AntennaStatus::Status::S_MOVETO)
+        if (emulator_->antennaState().status() == AntennaStatus::Status::S_MOVETO)
         {
             this->sendLogMessage(tr("Антенна отправляется в точку."));
         }
-        if (emulator_->status() == AntennaStatus::Status::S_MANUAL)
+        if (emulator_->antennaState().status() == AntennaStatus::Status::S_MANUAL)
         {
             this->sendLogMessage(tr("Ручное управление антенной."));
         }
 
-        emit this->antennaStatusChanged();
-    });
-
-    QObject::connect(emulator_, &Emulator::coordsChanged, this, [this](AntennaState state) {
-        emit this->antennaCoordsChanged(state.azCurrent(), state.elCurrent(), state.azTarget(), state.elTarget());
+        emit this->antennaStateChanged();
     });
 }
 

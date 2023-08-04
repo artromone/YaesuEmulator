@@ -13,9 +13,6 @@ class AntennaState : public QObject
 public:
     AntennaState(QObject* parent = nullptr);
 
-    bool operator==(const AntennaState&);
-    bool operator!=(const AntennaState&);
-
     AntennaStatus::Status status() const;
     void setStatus(const AntennaStatus::Status &status);
 
@@ -36,6 +33,9 @@ public:
 
     int speedEl() const { return speedEl_; }
     void setSpeedEl(int speedEl);
+
+signals:
+    void changed();
 
 private:
     AntennaStatus::Status status_{AntennaStatus::S_READY};

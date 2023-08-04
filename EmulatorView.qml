@@ -8,41 +8,38 @@ Item {
     implicitHeight: rowId.childrenRect.height
     implicitWidth: rowId.childrenRect.width
 
-    Connections {
+        Row
+        {
+            id: rowId
+            spacing: 12
 
-        target: widget
+            Text {
 
-        onAntennaCoordsChanged: antennaCoords.text =
-                                qsTr("Положение: [%1;%2], ЦУ: [%3;%4].").arg(azCurr).arg(elCurr).arg(azTarget).arg(elTarget)
-    }
+                id: antennaState
 
-    Row
-    {
-        id: rowId
-        spacing: 12
+                font.pointSize: 19
+                text: qsTr("Состояние антенны: %1.").arg(widget.antennaStatusString(widget.antennaStatus))
+            }
 
-        Text {
+            Text {
 
-            id: antennaState
+                id: antennaCoords
 
-            font.pointSize: 19
-            text: qsTr("Состояние антенны: %1.").arg(widget.antennaStatusString(widget.antennaStatus))
-        }
+                font.pointSize: 19
+                text: qsTr("Положение: [%1;%2], ЦУ: [%3;%4].")
+                .arg(widget.az)
+                .arg(widget.el)
+                .arg(widget.targetAz)
+                .arg(widget.targetEl)
+            }
 
-        Text {
+            Text {
 
-            id: antennaCoords
+                id: antennaError
 
-            font.pointSize: 19
-        }
-
-        Text {
-
-            id: antennaError
-
-            font.pointSize: 19
-            text: "Ошибка."
-            visible: false
+                font.pointSize: 19
+                text: "Ошибка."
+                visible: false
+            }
         }
     }
-}

@@ -56,7 +56,7 @@ void CommandParser::createDictOfCommands(Emulator* emulator)
 
 void CommandParser::sendState(QTcpSocket* socket)
 {
-    auto state = emulator_->antennaState();
+    auto &state = emulator_->antennaState();
 
     QByteArray newData = QByteArray("AZ=") + unsafeFormatNumber(state.azCurrent()) +
                          QByteArray("  EL=") + unsafeFormatNumber(state.elCurrent()) +
@@ -79,8 +79,8 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
         emulator_->antennaState().elTarget() == elTarget)
         return;
 
-    emulator_->getModifiableAntennaState().setAzTarget(azTarget);
-    emulator_->getModifiableAntennaState().setElTarget(elTarget);
+    emulator_->antennaState().setAzTarget(azTarget);
+    emulator_->antennaState().setElTarget(elTarget);
 
     if (azTarget != emulator_->antennaState().azCurrent())
     {
@@ -99,7 +99,7 @@ void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
     int azSpeed = parseNumber(input, 1);
     checkNumber(azSpeed);
 
-    emulator_->getModifiableAntennaState().setSpeedAz(azSpeed);
+    emulator_->antennaState().setSpeedAz(azSpeed);
 
     sendAnswer(socket);
 }
