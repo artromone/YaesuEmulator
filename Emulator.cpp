@@ -72,11 +72,6 @@ AntennaState& Emulator::antennaState()
 
 void Emulator::updateCoords(int targetAz, int targetEl)
 {
-    if (targetAz == antennaState_.azCurrent() && targetEl == antennaState_.elCurrent())
-    {
-        return;
-    }
-
     qDebug() << "Emulator change az" << antennaState_.azCurrent() << "->" << targetAz;
     qDebug() << "Emulator change el" << antennaState_.elCurrent() << "->" << targetEl;
 
@@ -98,16 +93,21 @@ void Emulator::updateCoords(int targetAz, int targetEl)
             int currAz = antennaState_.azCurrent();
             if (targetAz != currAz && canChangeAz(currAz, targetAz, iterSpeedAz))
             {
-                antennaState_.setAzCurrent(targetAz > currAz ? currAz + iterSpeedAz : currAz - iterSpeedAz);
+                antennaState_.setAzCurrent(currAz + (targetAz > currAz ? iterSpeedAz : -iterSpeedAz));
             }
 
             int currEl = antennaState_.elCurrent();
             if (targetEl != currEl && canChangeEl(currEl, targetEl, iterSpeedEl))
             {
-                antennaState_.setElCurrent(targetEl > currEl ? currEl + iterSpeedEl : currEl - iterSpeedEl);
+                antennaState_.setElCurrent(currEl + (targetEl > currEl ? iterSpeedEl : -iterSpeedEl));
             }
 
             QThread::msleep(delay);
+
+            if (targetAz == antennaState_.azCurrent() && targetEl == antennaState_.elCurrent())
+            {
+                return;
+            }
 
             qDebug() << "az:" << antennaState().azCurrent();
             qDebug() << "iterSpeedAz:" << iterSpeedAz;
@@ -121,7 +121,6 @@ void Emulator::updateCoords(int targetAz, int targetEl)
             //            qDebug() << moveAzPossible_ << iterSpeedAz;
             //            qDebug() << canMoveRight(currAz, targetAz, iterSpeedAz) << iterSpeedAz;
             //            qDebug() << canMoveLeft(currAz, targetAz, iterSpeedAz) << iterSpeedAz;
-
         }
     });
 }
