@@ -6,48 +6,44 @@
 #include <QtConcurrent/QtConcurrentRun>
 
 namespace {
-bool canMoveRight(Emulator* emulator, int targetAz, int speed)
+bool canMoveRight(int az, int targetAz, int speed)
 {
-    int az = emulator->antennaState().azCurrent();
-    return (az >= 0 && az <= targetAz - speed);
+    return (az <= 450 - speed && az <= targetAz - speed);
 }
-bool canMoveLeft(Emulator* emulator, int targetAz, int speed)
+bool canMoveLeft(int az, int targetAz, int speed)
 {
-    int az = emulator->antennaState().azCurrent();
-    return (az >= 0 + speed && az <= targetAz);
+    return (az >= speed && az >= targetAz + speed);
 }
 
-bool canMoveDown(Emulator* emulator, int targetEl, int speed)
+bool canMoveDown(int el, int targetEl, int speed)
 {
-    int el = emulator->antennaState().elCurrent();
     return (el >= 0 + speed && el <= targetEl);
 }
-bool canMoveUp(Emulator* emulator, int targetEl, int speed)
+bool canMoveUp(int el, int targetEl, int speed)
 {
-    int el = emulator->antennaState().elCurrent();
     return (el >= 0 && el <= targetEl - speed);
 }
 void changeAzImpl(Emulator* emulator, int targetAz)
 {
-    int speedAz = emulator->antennaState().speedAz();
-    int currAz = emulator->antennaState().azCurrent();
+    //    int speedAz = emulator->antennaState().speedAz();
+    //    int currAz = emulator->antennaState().azCurrent();
 
-    int delay = 200;
-    int speed = speedAz * delay / 1000;
+    //    int delay = 200;
+    //    int speed = speedAz * delay / 1000;
 
-    while (emulator->moveAzPossible_ && (targetAz != currAz) &&
-           (targetAz > currAz ? canMoveRight(emulator, targetAz, speed) :
-            canMoveLeft(emulator, targetAz, speed)))
-    {
-        int currAz = emulator->antennaState().azCurrent();
-        emulator->antennaState().setAzCurrent(targetAz > currAz ? currAz + speed :
-                                                                  currAz - speed);
+    //    while (emulator->moveAzPossible_ && (targetAz != currAz) &&
+    //           (targetAz > currAz ? canMoveRight(emulator, targetAz, speed) :
+    //            canMoveLeft(emulator, targetAz, speed)))
+    //    {
+    //        int currAz = emulator->antennaState().azCurrent();
+    //        emulator->antennaState().setAzCurrent(targetAz > currAz ? currAz + speed :
+    //                                                                  currAz - speed);
 
-        qDebug() << "az:" << emulator->antennaState().azCurrent();
-        qDebug() << "speed:" << speed;
+    //        qDebug() << "az:" << emulator->antennaState().azCurrent();
+    //        qDebug() << "speed:" << speed;
 
-        QThread::currentThread()->msleep(delay);
-    }
+    //        QThread::currentThread()->msleep(delay);
+    //    }
 }
 } // namespace
 
@@ -68,38 +64,62 @@ AntennaState& Emulator::antennaState()
 
 void Emulator::changeAz(int targetAz)
 {
-    qDebug() << "Emulator change az" << antennaState_.azCurrent() << "->" << targetAz;
+    if (targetAz != antennaState_.azCurrent())
+    {
+        qDebug() << "Emulator change az" << antennaState_.azCurrent() << "->" << targetAz;
 
-    QtConcurrent::run([=] {
-        int speedAz = antennaState_.speedAz();
-        int currAz = antennaState_.azCurrent();
+        QtConcurrent::run([=] {
+            int speedAz = antennaState_.speedAz();
 
-        int delay = 200;
-        int speed = speedAz * delay / 1000;
+            int delay = 200;
+            if (delay > 1000 / speedAz)
+            {
+                delay = 1000 / speedAz;
+            }
 
-        auto check = [=]() {
-            int az = antennaState_.azCurrent();
-            return (az >= 0 && az <= targetAz - speed);
-        };
+            int speed = speedAz * delay / 1000;
 
-        auto check2 = [=]() {
-            int az = antennaState_.azCurrent();
-            return (az >= 0 + speed && az <= targetAz);
-        };
+            auto check = [=]() {
+                int az = antennaState_.azCurrent();
+                //return (currAz >= 0 && currAz <= targetAz - speed);
+                qDebug() << "az >= 0" << (az >= 0);
+                qDebug() << "az <= targetAz - speed" << (az <= targetAz - speed);
+                return (az >= 0 && az <= targetAz - speed);
+            };
 
-        qDebug() << "c1" << check() << "c2" << check2();
+            auto check2 = [=]() {
+                int az = antennaState_.azCurrent();
+                //return (currAz >= 0 + speed && currAz <= targetAz);
+                qDebug() << "az >= 0 + speed" << (az >= 0 + speed);
+                qDebug() << "az <= targetAz" << (az <= targetAz);
+                return (az >= 0 + speed && targetAz < az);
+            };
 
-        while (moveAzPossible_ && (targetAz != currAz) && (targetAz > currAz ? check() : check2()))
-        {
-            int currAz = antennaState_.azCurrent();
-            antennaState_.setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
 
-            qDebug() << "az:" << antennaState().azCurrent();
-            qDebug() << "speed:" << speed;
+            while (moveAzPossible_ && (targetAz != antennaState().azCurrent()))
+            {
+                qDebug() << "c1" << check() << "c2" << check2();
+                int currAz = antennaState_.azCurrent();
+                if (!(targetAz > currAz ? canMoveRight(currAz, targetAz, speed) : canMoveLeft(currAz, targetAz, speed)))
+                {
+                    break;
+                }
+                antennaState_.setAzCurrent(targetAz > currAz ? currAz + speed : currAz - speed);
 
-            QThread::msleep(delay);
-        }
-    });
+                qDebug() << "az:" << antennaState().azCurrent();
+                qDebug() << "speed:" << speed;
+
+                qDebug() << targetAz;
+                qDebug() << currAz;
+                qDebug() << speed;
+                qDebug() << moveAzPossible_ << speed;
+                qDebug() << canMoveRight(currAz, targetAz, speed) << speed;
+                qDebug() << canMoveLeft(currAz, targetAz, speed) << speed;
+
+                QThread::msleep(delay);
+            }
+        });
+    }
 }
 
 void Emulator::changeEl(int targetEl)

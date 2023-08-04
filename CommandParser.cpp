@@ -77,15 +77,15 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
 
     if (emulator_->antennaState().azTarget() == azTarget ||
         emulator_->antennaState().elTarget() == elTarget)
+    {
         return;
+    }
 
     emulator_->antennaState().setAzTarget(azTarget);
     emulator_->antennaState().setElTarget(elTarget);
 
-    if (azTarget != emulator_->antennaState().azCurrent())
-    {
-        emulator_->changeAz(azTarget);
-    }
+    emulator_->changeAz(azTarget);
+
     if (elTarget != emulator_->antennaState().elCurrent())
     {
         emulator_->changeEl(elTarget);
