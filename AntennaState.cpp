@@ -2,61 +2,54 @@
 
 #include <QDebug>
 
-AntennaState::AntennaState()
+AntennaState::AntennaState(QObject* parent) : QObject(parent)
 {
-}
-
-AntennaState::AntennaState(const AntennaState& other)
-{
-    azCurrent_ = other.azCurrent_;
-    elCurrent_ = other.elCurrent_;
-    azTarget_ = other.azTarget_;
-    elTarget_ = other.elTarget_;
-    speedAz_ = other.speedAz_;
-    speedEl_ = other.speedEl_;
-}
-
-bool AntennaState::operator==(const AntennaState& other)
-{
-    return azCurrent_ == other.azCurrent_ && elCurrent_ == other.elCurrent_ &&
-           azTarget_ == other.azTarget_ && elTarget_ == other.elTarget_ &&
-           speedAz_ == other.speedAz_ && speedEl_ == other.speedEl_;
-}
-
-bool AntennaState::operator!=(const AntennaState& other)
-{
-    return !(*this == other); /*azCurrent_ != other.azCurrent_ ||
-             elCurrent_ != other.elCurrent_ ||
-             azTarget_ != other.azTarget_ ||
-             elTarget_ != other.elTarget_ ||
-             speedAz_ != other.speedAz_ ||
-             speedEl_ != other.speedEl_;*/
 }
 
 void AntennaState::setAzCurrent(int azCurrent)
 {
+    if (azCurrent == azCurrent_)
+    {
+        return;
+    }
     qDebug() << "Antenna azCurrent changed." << azCurrent_ << "->" << azCurrent;
     azCurrent_ = azCurrent;
+    emit this->changed();
 }
 
 
 void AntennaState::setElCurrent(int elCurrent)
 {
+    if (elCurrent == elCurrent_)
+    {
+        return;
+    }
+    qDebug() << "Antenna elCurrent changed." << elCurrent_ << "->" << elCurrent;
     elCurrent_ = elCurrent;
-    qDebug() << "Antenna elCurrent changed.";
+    emit this->changed();
 }
 
 
 void AntennaState::setAzTarget(int azTarget)
 {
+    if (azTarget == azTarget_)
+    {
+        return;
+    }
+    qDebug() << "Antenna azTarget changed." << azTarget_ << "->" << azTarget;
     azTarget_ = azTarget;
-    qDebug() << "Antenna azTarget changed.";
+    emit this->changed();
 }
 
 void AntennaState::setElTarget(int elTarget)
 {
+    if (elTarget == elTarget_)
+    {
+        return;
+    }
+    qDebug() << "Antenna elTarget changed." << elTarget_ << "->" << elTarget;
     elTarget_ = elTarget;
-    qDebug() << "Antenna elTarget changed.";
+    emit this->changed();
 }
 
 void AntennaState::setSpeedAz(int speedAz)
@@ -67,4 +60,20 @@ void AntennaState::setSpeedAz(int speedAz)
 void AntennaState::setSpeedEl(int speedEl)
 {
     speedEl_ = speedEl;
+}
+
+AntennaStatus::Status AntennaState::status() const
+{
+    return status_;
+}
+
+void AntennaState::setStatus(const AntennaStatus::Status &status)
+{
+    if (status == status_)
+    {
+        return;
+    }
+    qDebug() << "Antenna status changed." << status_ << "->" << status;
+    status_ = status;
+    emit this->changed();
 }

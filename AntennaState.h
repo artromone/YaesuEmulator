@@ -1,17 +1,23 @@
 #ifndef ANTENNASTATE_H
 #define ANTENNASTATE_H
 
+#include "Types.h"
+
 #include <QObject>
 #include <QQmlEngine>
 
-class AntennaState
+class AntennaState : public QObject
 {
+    Q_OBJECT
+
 public:
-    AntennaState();
-    AntennaState(const AntennaState&);
+    AntennaState(QObject* parent = nullptr);
 
     bool operator==(const AntennaState&);
     bool operator!=(const AntennaState&);
+
+    AntennaStatus::Status status() const;
+    void setStatus(const AntennaStatus::Status &status);
 
     int azCurrent() const { return azCurrent_; }
     void setAzCurrent(int azCurrent);
@@ -32,6 +38,8 @@ public:
     void setSpeedEl(int speedEl);
 
 private:
+    AntennaStatus::Status status_{AntennaStatus::S_READY};
+
     int azCurrent_ {0};
     int elCurrent_ {0};
 
