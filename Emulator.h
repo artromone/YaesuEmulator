@@ -15,10 +15,10 @@ class Emulator : public QObject
 public:
     Emulator();
 
-    const AntennaState &antennaState() const;
-    AntennaState &antennaState();
+    const AntennaState &anState() const;
+    AntennaState &anState();
 
-    void updateCoords(int targetAz, int targetEl);
+    void updateCoords();
 
 public:
     std::atomic<bool> moveAzPossible_{true};

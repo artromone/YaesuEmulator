@@ -62,6 +62,12 @@ void AntennaState::setSpeedEl(int speedEl)
     speedEl_ = speedEl;
 }
 
+void AntennaState::setTarget(int azTarget, int elTarget)
+{
+    setAzTarget(azTarget);
+    setElTarget(elTarget);
+}
+
 AntennaStatus::Status AntennaState::status() const
 {
     return status_;

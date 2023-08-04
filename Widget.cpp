@@ -45,27 +45,27 @@ ServerStatus::Status Widget::serverState() const
 
 AntennaStatus::Status Widget::antennaStatus() const
 {
-    return emulator_->antennaState().status();
+    return emulator_->anState().status();
 }
 
 int Widget::az() const
 {
-    return emulator_->antennaState().azCurrent();
+    return emulator_->anState().azCurrent();
 }
 
 int Widget::el() const
 {
-    return emulator_->antennaState().elCurrent();
+    return emulator_->anState().elCurrent();
 }
 
 int Widget::targetAz() const
 {
-    return emulator_->antennaState().azTarget();
+    return emulator_->anState().azTarget();
 }
 
 int Widget::targetEl() const
 {
-    return emulator_->antennaState().elTarget();
+    return emulator_->anState().elTarget();
 }
 
 void Widget::changeServerState(bool state)
@@ -119,16 +119,16 @@ void Widget::init()
         emit this->serverStateChanged();
     });
 
-    QObject::connect(&emulator_->antennaState(), &AntennaState::changed, this, [this]() {
-        if (emulator_->antennaState().status() == AntennaStatus::Status::S_READY)
+    QObject::connect(&emulator_->anState(), &AntennaState::changed, this, [this]() {
+        if (emulator_->anState().status() == AntennaStatus::Status::S_READY)
         {
             this->sendLogMessage(tr("Антенна готова."));
         }
-        if (emulator_->antennaState().status() == AntennaStatus::Status::S_MOVETO)
+        if (emulator_->anState().status() == AntennaStatus::Status::S_MOVETO)
         {
             this->sendLogMessage(tr("Антенна отправляется в точку."));
         }
-        if (emulator_->antennaState().status() == AntennaStatus::Status::S_MANUAL)
+        if (emulator_->anState().status() == AntennaStatus::Status::S_MANUAL)
         {
             this->sendLogMessage(tr("Ручное управление антенной."));
         }

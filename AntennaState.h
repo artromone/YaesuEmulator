@@ -34,6 +34,8 @@ public:
     int speedEl() const { return speedEl_; }
     void setSpeedEl(int speedEl);
 
+    void setTarget(int azTarget, int elTarget);
+
 signals:
     void changed();
 
