@@ -9,6 +9,8 @@
 void Settings::createDefault()
 {
     port_ = 9999;
+    az_ = 50;
+    el_ = 50;
 }
 
 Settings *Settings::instance()
@@ -23,11 +25,38 @@ Settings *Settings::instance()
     return ptrSettings_;
 }
 
+int Settings::getEl() const
+{
+    return el_;
+}
+void Settings::setEl(int el)
+{
+    qDebug() << "el:" << el_ << "other el:" << el;
+    if (el_ != el)
+    {
+        el_ = el;
+        save();
+    }
+}
+
+int Settings::getAz() const
+{
+    return az_;
+}
+void Settings::setAz(int az)
+{
+    qDebug() << "az:" << az_ << "other az:" << az;
+    if (az_ != az)
+    {
+        az_ = az;
+        save();
+    }
+}
+
 int Settings::getPort()
 {
     return port_;
 }
-
 void Settings::setPort(int otherPort)
 {
     qDebug() << "port:" << port_ << "other port:" << otherPort;
@@ -59,6 +88,8 @@ void Settings::save() // При отсутствии файла config ошиб�
 
     QJsonObject connection;
     connection.insert("port_number", port_);
+    connection.insert("az", az_);
+    connection.insert("el", el_);
 
     auto currJsonObject = QJsonObject();
     currJsonObject.insert("connection", connection);
@@ -99,6 +130,8 @@ void Settings::load()
     auto currJsonObject = doc.object();
 
     port_ = currJsonObject.value("connection")["port_number"].toInt();
+    az_ = currJsonObject.value("connection")["az"].toInt();
+    el_ = currJsonObject.value("connection")["el"].toInt();
 
     jsonFile.close();
 

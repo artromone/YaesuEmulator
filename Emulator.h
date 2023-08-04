@@ -7,6 +7,7 @@
 
 #include "Types.h"
 #include "AntennaState.h"
+#include "Settings.h"
 
 class Emulator : public QObject
 {

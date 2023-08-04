@@ -13,6 +13,12 @@ public:
     int getPort();
     void setPort(int otherPort);
 
+    int getAz() const;
+    void setAz(int az);
+
+    int getEl() const;
+    void setEl(int el);
+
 private:
     void save();
     void load();
@@ -20,6 +26,8 @@ private:
 
 private:
     int port_{0};
+    int az_{0};
+    int el_{0};
     //QHostAddress address;
 };
 #endif

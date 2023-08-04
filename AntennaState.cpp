@@ -1,9 +1,13 @@
 #include "AntennaState.h"
 
+#include "Settings.h"
+
 #include <QDebug>
 
 AntennaState::AntennaState(QObject* parent) : QObject(parent)
 {
+    azCurrent_ = Settings::instance()->getAz();
+    elCurrent_ = Settings::instance()->getEl();
 }
 
 void AntennaState::setAzCurrent(int azCurrent)

@@ -74,20 +74,25 @@ void Emulator::updateCoords()
             int targetAz = antennaState_.azTarget();
             if (targetAz != currAz && canChangeAz(currAz, targetAz, iterSpeedAz))
             {
-                antennaState_.setAzCurrent(currAz + (targetAz > currAz ? iterSpeedAz : -iterSpeedAz));
+                int newAz = currAz + (targetAz > currAz ? iterSpeedAz : -iterSpeedAz);
+                antennaState_.setAzCurrent(newAz);
             }
 
             int currEl = antennaState_.elCurrent();
             int targetEl = antennaState_.elTarget();
             if (targetEl != currEl && canChangeEl(currEl, targetEl, iterSpeedEl))
             {
-                antennaState_.setElCurrent(currEl + (targetEl > currEl ? iterSpeedEl : -iterSpeedEl));
+                int newEl = currEl + (targetEl > currEl ? iterSpeedEl : -iterSpeedEl);
+                antennaState_.setElCurrent(newEl);
+                Settings::instance()->setEl(newEl);
             }
 
             QThread::msleep(delay);
 
             if (targetAz == antennaState_.azCurrent() && targetEl == antennaState_.elCurrent())
             {
+                Settings::instance()->setAz(targetAz);
+                Settings::instance()->setEl(targetEl);
                 return;
             }
 
