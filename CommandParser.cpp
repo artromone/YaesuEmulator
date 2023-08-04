@@ -84,12 +84,7 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
     emulator_->antennaState().setAzTarget(azTarget);
     emulator_->antennaState().setElTarget(elTarget);
 
-    emulator_->changeAz(azTarget);
-
-    if (elTarget != emulator_->antennaState().elCurrent())
-    {
-        emulator_->changeEl(elTarget);
-    }
+    emulator_->updateCoords(azTarget, elTarget);
 
     //    sendAnswer(socket);
 }
@@ -122,20 +117,20 @@ void CommandParser::stopEl(QTcpSocket* socket, QByteArray input)
 
 void CommandParser::moveRight(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->changeAz(450);
+    emulator_->updateCoords(450, emulator_->antennaState().elCurrent());
 }
 
 void CommandParser::moveLeft(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->changeAz(0);
+    emulator_->updateCoords(0, emulator_->antennaState().elCurrent());
 }
 
 void CommandParser::moveUp(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->changeEl(180);
+    emulator_->updateCoords(emulator_->antennaState().azCurrent(), 180);
 }
 
 void CommandParser::moveDown(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->changeEl(0);
+    emulator_->updateCoords(emulator_->antennaState().azCurrent(), 0);
 }

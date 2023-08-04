@@ -18,16 +18,15 @@ public:
     const AntennaState &antennaState() const;
     AntennaState &antennaState();
 
-    void changeAz(int targetAz);
-    void changeEl(int targetEl);
+    void updateCoords(int targetAz, int targetEl);
 
 public:
     std::atomic<bool> moveAzPossible_{true};
     std::atomic<bool> moveElPossible_{true};
 
 private:
-    void changeStatus(AntennaStatus::Status status);
-    void changeCoords(int azCurrent, int elCurrent, int azTarget, int elTarget);
+    void setStatus(AntennaStatus::Status status);
+    void setCoords(int azCurrent, int elCurrent, int azTarget, int elTarget);
 
     // void changeAzImpl(QTcpSocket *socket, QByteArray input, int targetAz);
 
