@@ -11,6 +11,7 @@ void Settings::createDefault()
     port_ = 9999;
     az_ = 50;
     el_ = 50;
+    autoconncet_ = false;
 }
 
 Settings *Settings::instance()
@@ -23,6 +24,21 @@ Settings *Settings::instance()
         ptrSettings_->load();
     }
     return ptrSettings_;
+}
+
+bool Settings::getAutoConncet() const
+{
+    return autoconncet_;
+}
+
+void Settings::setAutoConncet(bool otherConnect)
+{
+    qDebug() << "auto:" << autoconncet_ << "other auto:" << otherConnect;
+    if (autoconncet_ != otherConnect)
+    {
+        autoconncet_ = otherConnect;
+        save();
+    }
 }
 
 int Settings::getEl() const
@@ -90,6 +106,7 @@ void Settings::save() // При отсутствии файла config ошиб�
     connection.insert("port_number", port_);
     connection.insert("az", az_);
     connection.insert("el", el_);
+    connection.insert("auto_connect", autoconncet_);
 
     auto currJsonObject = QJsonObject();
     currJsonObject.insert("connection", connection);
@@ -132,6 +149,7 @@ void Settings::load()
     port_ = currJsonObject.value("connection")["port_number"].toInt();
     az_ = currJsonObject.value("connection")["az"].toInt();
     el_ = currJsonObject.value("connection")["el"].toInt();
+    autoconncet_ = currJsonObject.value("connection")["auto_connect"].toBool();
 
     jsonFile.close();
 

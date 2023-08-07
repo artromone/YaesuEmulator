@@ -68,6 +68,11 @@ int Widget::targetEl() const
     return emulator_->anState().elTarget();
 }
 
+int Widget::autoConnect() const
+{
+    return Settings::instance()->getAutoConncet();
+}
+
 void Widget::changeServerState(bool state)
 {
     qDebug() << "Current server state (started):" << serverState()
@@ -93,16 +98,25 @@ const QString Widget::antennaStatusString(AntennaStatus::Status status) const
     return AntennaStatus::text(status);
 }
 
+void Widget::changeAutoconectOption(bool autoconnect)
+{
+    Settings::instance()->setAutoConncet(autoconnect);
+}
+
 void Widget::init()
 {
     emit this->portChanged();
 
+    if (autoConnect())
+    {
+        server_->start(Settings::instance()->getPort());
+    }
+
     QObject::connect(server_, &Server::stateChanged, this, [this](ServerStatus::Status state) {
-        // if (ServerState::S_CONNECTED == state)
         if (server_->state() == ServerStatus::Status::S_CONNECTED)
         {
-            this->sendLogMessage(
-                        tr("Сервер запущен! Порт <%1>.").arg(Settings::instance()->getPort()));
+            this->sendLogMessage(tr("Сервер запущен! Порт <%1>.")
+                                 .arg(Settings::instance()->getPort()));
         }
         if (ServerStatus::Status::S_DISCONNECTED == state)
         {
@@ -110,8 +124,6 @@ void Widget::init()
         }
         if (ServerStatus::Status::S_PORT_BUSY == state)
         {
-            //QString redPart = QString("<span style=\" color:#ff0000;\">Не удалось запустить сервер...
-            //...Порт <%1> занят.</span>").arg(Settings::instance()->getPort());
             this->sendLogMessage(tr("Не удалось запустить сервер. Порт <%1> занят.")
                                  .arg(Settings::instance()->getPort()));
         }

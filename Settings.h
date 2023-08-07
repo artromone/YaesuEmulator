@@ -19,6 +19,9 @@ public:
     int getEl() const;
     void setEl(int el);
 
+    bool getAutoConncet() const;
+    void setAutoConncet(bool otherConnect);
+
 private:
     void save();
     void load();
@@ -28,6 +31,7 @@ private:
     int port_{0};
     int az_{0};
     int el_{0};
+    bool autoconncet_{false};
     //QHostAddress address;
 };
 #endif

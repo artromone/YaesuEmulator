@@ -21,6 +21,7 @@ class Widget : public QObject
     Q_PROPERTY(int el READ el NOTIFY antennaStateChanged)
     Q_PROPERTY(int targetAz READ targetAz NOTIFY antennaStateChanged)
     Q_PROPERTY(int targetEl READ targetEl NOTIFY antennaStateChanged)
+    Q_PROPERTY(bool autoConnect READ autoConnect)
 
 public:
     explicit Widget(QQmlContext& context,
@@ -30,6 +31,7 @@ public:
 
     Q_INVOKABLE void changeServerState(bool state);
     Q_INVOKABLE const QString antennaStatusString(AntennaStatus::Status status) const;
+    Q_INVOKABLE void changeAutoconectOption(bool autoconnect);
 
     int port() const;
     void setPort(int value);
@@ -42,6 +44,7 @@ public:
     int el() const;
     int targetAz() const;
     int targetEl() const;
+    int autoConnect() const;
 
 signals:
     void logMessage(const QString& msg);

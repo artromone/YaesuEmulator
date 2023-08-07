@@ -53,16 +53,15 @@ Item {
             onClicked: backend.changeServerState(!serverConnected)
         }
 
-//        Text {
+        CheckBox
+        {
+            id: autoConnect
 
-//            id: textServerState
+            checked: backend.autoConnect
+            text: qsTr("Автоподключение")
+            height: connectButton.height
 
-//            font.pointSize: 19
-//            height: connectButton.height
-//            verticalAlignment: Text.AlignBottom
-//            text: serverConnected ? qsTr("Сервер запущен")
-//                                  : backend.serverState === ServerState.S_PORT_BUSY ? qsTr("Ошибка: порт занят")
-//                                                                                    : qsTr("Сервер остановлен")
-//        }
+            onClicked: backend.changeAutoconectOption(autoConnect.checked);
+        }
     }
 }
