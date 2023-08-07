@@ -9,6 +9,14 @@
 #include "AntennaState.h"
 #include "Settings.h"
 
+enum class Diraction
+{
+    D_Left,
+    D_Right,
+    D_UP,
+    D_Down
+};
+
 class Emulator : public QObject
 {
     Q_OBJECT
@@ -17,32 +25,23 @@ public:
     Emulator();
 
     const AntennaState &anState() const;
-//    AntennaState &anState();
 
     void updateCoords();
 
-
     void moveTo(int az, int el);
-    void move(char direction);
+    void move(Diraction diraction);
     void stop();
+
+    void setSpeed(int azSpeed, int elSpeed);
 
 protected:
     void timerEvent(QTimerEvent *event);
 
 private:
     void setStatus(AntennaStatus::Status status);
-    void setCoords(int azCurrent, int elCurrent, int azTarget, int elTarget);
-
-    // void changeAzImpl(QTcpSocket *socket, QByteArray input, int targetAz);
 
 private:
     AntennaState antennaState_;
     int testStateTimerId_{0};
-    std::atomic<bool> moveAzPossible_{true};
-    std::atomic<bool> moveElPossible_{true};
-
 };
-
-// Обновить настройки при закрытии приложения
-
 #endif

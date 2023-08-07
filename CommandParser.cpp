@@ -36,7 +36,7 @@ void sendAnswer(QTcpSocket* socket)
     socket->write(QByteArray("?\r\n"));
 }
 
-} // namespace
+}
 
 void CommandParser::createDictOfCommands(Emulator* emulator)
 {
@@ -63,7 +63,6 @@ void CommandParser::sendState(QTcpSocket* socket)
                          QByteArray("\r\n");
 
     socket->write(newData);
-    //    qDebug() << QByteArray("Sent state:") << newData;
 }
 
 void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
@@ -81,10 +80,9 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
         return;
     }
 
-    emulator_->anState().setAzTarget(azTarget);
-    emulator_->anState().setElTarget(elTarget);
-
+    emulator_->moveTo(azTarget, elTarget);
     emulator_->updateCoords();
+
     sendAnswer(socket);
 }
 
@@ -93,47 +91,40 @@ void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
     int azSpeed = parseNumber(input, 1);
     checkNumber(azSpeed);
 
-    emulator_->anState().setSpeedAz(azSpeed);
-
-    //sendAnswer(socket);
+    emulator_->setSpeed(azSpeed, emulator_->anState().speedEl());
 }
 
 void CommandParser::stop(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->moveAzPossible_ = false;
-    emulator_->moveElPossible_ = false;
+    emulator_->stop();
 }
 
 void CommandParser::stopAz(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->moveAzPossible_ = false;
+    emulator_->stop();
 }
 
 void CommandParser::stopEl(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->moveElPossible_ = false;
+    emulator_->stop();
 }
 
 void CommandParser::moveRight(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->anState().setTarget(450, emulator_->anState().elCurrent());
-    emulator_->updateCoords();
+    emulator_->move(Diraction::D_Right);
 }
 
 void CommandParser::moveLeft(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->anState().setTarget(0, emulator_->anState().elCurrent());
-    emulator_->updateCoords();
+    emulator_->move(Diraction::D_Left);
 }
 
 void CommandParser::moveUp(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->anState().setTarget(emulator_->anState().azCurrent(), 180);
-    emulator_->updateCoords();
+    emulator_->move(Diraction::D_UP);
 }
 
 void CommandParser::moveDown(QTcpSocket* socket, QByteArray input)
 {
-    emulator_->anState().setTarget(emulator_->anState().azCurrent(), 0);
-    emulator_->updateCoords();
+    emulator_->move(Diraction::D_Down);
 }

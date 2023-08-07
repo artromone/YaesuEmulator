@@ -21,7 +21,6 @@ void AntennaState::setAzCurrent(int azCurrent)
     emit this->changed();
 }
 
-
 void AntennaState::setElCurrent(int elCurrent)
 {
     if (elCurrent == elCurrent_)
@@ -32,7 +31,6 @@ void AntennaState::setElCurrent(int elCurrent)
     elCurrent_ = elCurrent;
     emit this->changed();
 }
-
 
 void AntennaState::setAzTarget(int azTarget)
 {
@@ -70,6 +68,18 @@ void AntennaState::setTarget(int azTarget, int elTarget)
 {
     setAzTarget(azTarget);
     setElTarget(elTarget);
+}
+
+void AntennaState::setCurrent(int azCurrent, int elCurrent)
+{
+    setAzCurrent(azCurrent);
+    setElCurrent(elCurrent);
+}
+
+void AntennaState::setSpeed(int azSpeed, int elSpeed)
+{
+    setSpeedAz(azSpeed);
+    setSpeedEl(elSpeed);
 }
 
 AntennaStatus::Status AntennaState::status() const

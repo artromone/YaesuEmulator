@@ -47,7 +47,10 @@ void Client::onReadyRead()
         qDebug() << "##########################################4ko" << input[0];
         qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << input;
 
-        parser.dict[input[0]](socket_, input);
+        if (parser.dict.count(input[0]) > 0)
+        {
+            parser.dict[input[0]](socket_, input);
+        }
     }
     catch (std::invalid_argument const& e)
     {

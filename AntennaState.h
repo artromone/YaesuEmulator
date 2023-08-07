@@ -35,6 +35,8 @@ public:
     void setSpeedEl(int speedEl);
 
     void setTarget(int azTarget, int elTarget);
+    void setCurrent(int azCurrent, int elCurrent);
+    void setSpeed(int azSpeed, int elSpeed);
 
 signals:
     void changed();
