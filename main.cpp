@@ -38,5 +38,7 @@ int main(int argc, char* argv[])
 
     engine.load(url);
 
+    application.init();
+
     return app.exec();
 }

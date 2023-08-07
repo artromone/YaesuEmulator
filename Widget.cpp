@@ -2,6 +2,7 @@
 
 #include <QDateTime>
 #include <QQmlContext>
+// #include <QThread>
 #include <QQmlEngine>
 
 namespace
@@ -19,7 +20,6 @@ Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject
 
     init();
 }
-
 
 int Widget::port() const
 {
@@ -106,11 +106,6 @@ void Widget::changeAutoconectOption(bool autoconnect)
 void Widget::init()
 {
     emit this->portChanged();
-
-    if (autoConnect())
-    {
-        server_->start(Settings::instance()->getPort());
-    }
 
     QObject::connect(server_, &Server::stateChanged, this, [this](ServerStatus::Status state) {
         if (server_->state() == ServerStatus::Status::S_CONNECTED)

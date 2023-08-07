@@ -4,6 +4,7 @@
 #include "Settings.h"
 
 #include <QDebug>
+#include <QDateTime>
 
 static int COUNTER = 0;
 
@@ -43,7 +44,8 @@ void Client::onReadyRead()
 
     try
     {
-        qDebug() << "###4ko" << input[0];
+        qDebug() << "##########################################4ko" << input[0];
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << input;
 
         parser.dict[input[0]](socket_, input);
     }

@@ -17,13 +17,17 @@ public:
     Emulator();
 
     const AntennaState &anState() const;
-    AntennaState &anState();
+//    AntennaState &anState();
 
     void updateCoords();
 
-public:
-    std::atomic<bool> moveAzPossible_{true};
-    std::atomic<bool> moveElPossible_{true};
+
+    void moveTo(int az, int el);
+    void move(char direction);
+    void stop();
+
+protected:
+    void timerEvent(QTimerEvent *event);
 
 private:
     void setStatus(AntennaStatus::Status status);
@@ -33,10 +37,12 @@ private:
 
 private:
     AntennaState antennaState_;
-    // int testStateTimerId_{0};
+    int testStateTimerId_{0};
+    std::atomic<bool> moveAzPossible_{true};
+    std::atomic<bool> moveElPossible_{true};
 
-protected:
-    void timerEvent(QTimerEvent *event);
 };
+
 // Обновить настройки при закрытии приложения
+
 #endif

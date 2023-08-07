@@ -61,7 +61,7 @@ Item {
             text: qsTr("Автоподключение")
             height: connectButton.height
 
-            onClicked: backend.changeAutoconectOption(autoConnect.checked);
+            onClicked: backend.changeAutoconectOption(autoConnect.checked)
         }
     }
 }

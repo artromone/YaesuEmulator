@@ -13,6 +13,14 @@ Application::Application(QQmlContext& context, QObject* parent)
     // qDebug() << "AZ:" << emulator_.get()->getAzCurrent();
 }
 
+void Application::init()
+{
+    if (Settings::instance()->getAutoConncet())
+    {
+        server_->start(Settings::instance()->getPort());
+    }
+}
+
 void Application::onNewClient(QTcpSocket* socket)
 {
     qDebug() << "onNewClient started";

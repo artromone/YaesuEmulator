@@ -85,6 +85,7 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
     emulator_->anState().setElTarget(elTarget);
 
     emulator_->updateCoords();
+    sendAnswer(socket);
 }
 
 void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
@@ -94,7 +95,7 @@ void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
 
     emulator_->anState().setSpeedAz(azSpeed);
 
-    sendAnswer(socket);
+    //sendAnswer(socket);
 }
 
 void CommandParser::stop(QTcpSocket* socket, QByteArray input)

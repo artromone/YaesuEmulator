@@ -62,7 +62,7 @@ private:
 
 private:
     Server* const server_;
-    Emulator* emulator_;
+    Emulator* const emulator_;
 };
 
 #endif
