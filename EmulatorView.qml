@@ -24,7 +24,7 @@ Item
             id: antennaCoords
 
             font.pointSize: 19
-            text: qsTr("Позиция: [%1;%2], ЦУ: [%3;%4].")
+            text: qsTr("ПЗ: [%1;%2], ЦУ: [%3;%4].")
             .arg(widget.az)
             .arg(widget.el)
             .arg(widget.targetAz)
