@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 
     engine.rootContext()->setContextProperty("logger", Logger::instance());
     engine.load(url);
-    Logger::instance()->addLog("Старт приложения.", 1);
+    Logger::instance()->addLog("Старт приложения.");
 
     application.init();
 

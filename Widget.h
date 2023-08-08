@@ -55,7 +55,7 @@ signals:
 
 private:
     void init();
-    void sendLogMessage(const QString& message);
+    void sendLogMessage(const QString& message, int logType);
 
 private:
     Server* const server_;

@@ -2,6 +2,8 @@
 
 #include "Logger.h"
 
+#include <QObject>
+
 namespace {
 
 QByteArray unsafeFormatNumber(int n)
@@ -68,6 +70,7 @@ void CommandParser::sendState(QTcpSocket* socket)
 
 void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Выход в точку\"."), 3);
     qDebug() << "CommandParser setPos";
 
     int azTarget = parseNumber(input, 1);
@@ -89,6 +92,8 @@ void CommandParser::setPos(QTcpSocket* socket, QByteArray input)
 
 void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Установить азимутальную скорость\"."), 3);
+
     int azSpeed = parseNumber(input, 1);
     checkNumber(azSpeed);
 
@@ -97,35 +102,49 @@ void CommandParser::setAzSpeed(QTcpSocket* socket, QByteArray input)
 
 void CommandParser::stop(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Стоп\"."), 3);
+
     emulator_->stop();
 }
 
 void CommandParser::stopAz(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Стоп по азимуту\"."), 3);
+
     emulator_->stop();
 }
 
 void CommandParser::stopEl(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Стоп по углу места\"."), 3);
+
     emulator_->stop();
 }
 
 void CommandParser::moveRight(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться вправо\"."), 3);
+
     emulator_->move(Diraction::D_Right);
 }
 
 void CommandParser::moveLeft(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться влево\"."), 3);
+
     emulator_->move(Diraction::D_Left);
 }
 
 void CommandParser::moveUp(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться вверх\"."), 3);
+
     emulator_->move(Diraction::D_UP);
 }
 
 void CommandParser::moveDown(QTcpSocket* socket, QByteArray input)
 {
+    Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться вниз\"."), 3);
+
     emulator_->move(Diraction::D_Down);
 }

@@ -43,7 +43,7 @@ void Client::onReadyRead()
 
     try
     {
-        Logger::instance()->addLog(QString("Получена команда: \"") + input.trimmed() + QString("\""), 1);
+        //Logger::instance()->addLog(QString("Получена команда: \"") + input.trimmed() + QString("\""), 1);
 
         if (parser.dict.count(input[0]) > 0)
         {

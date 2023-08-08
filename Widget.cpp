@@ -100,17 +100,17 @@ void Widget::init()
     QObject::connect(server_, &Server::stateChanged, this, [this](ServerStatus::Status state) {
         if (server_->state() == ServerStatus::Status::S_CONNECTED)
         {
-            this->sendLogMessage(tr("Сервер запущен! Порт <%1>.")
-                                 .arg(Settings::instance()->getPort()));
+            this->sendLogMessage(tr("Сервер запущен! Порт [%1].")
+                                 .arg(Settings::instance()->getPort()), 1);
         }
         if (ServerStatus::Status::S_DISCONNECTED == state)
         {
-            this->sendLogMessage(tr("Сервер остановлен."));
+            this->sendLogMessage(tr("Сервер остановлен."), 1);
         }
         if (ServerStatus::Status::S_PORT_BUSY == state)
         {
-            this->sendLogMessage(tr("Не удалось запустить сервер. Порт <%1> занят.")
-                                 .arg(Settings::instance()->getPort()));
+            this->sendLogMessage(tr("Не удалось запустить сервер. Порт [%1] занят.")
+                                 .arg(Settings::instance()->getPort()), 2);
         }
 
         emit this->serverStateChanged();
@@ -132,26 +132,9 @@ void Widget::init()
 
         emit this->antennaStateChanged();
     });
-
-    QObject::connect(&emulator_->anState(), &AntennaState::changed, this, [this]() {
-        if (emulator_->anState().status() == AntennaStatus::Status::S_READY)
-        {
-            //this->sendLogMessage(tr("Антенна готова."));
-        }
-        if (emulator_->anState().status() == AntennaStatus::Status::S_MOVETO)
-        {
-            //this->sendLogMessage(tr("Антенна отправляется в точку."));
-        }
-        if (emulator_->anState().status() == AntennaStatus::Status::S_MANUAL)
-        {
-            //this->sendLogMessage(tr("Ручное управление антенной."));
-        }
-
-        emit this->antennaStateChanged();
-    });
 }
 
-void Widget::sendLogMessage(const QString& message)
+void Widget::sendLogMessage(const QString& message, int logType)
 {
-    Logger::instance()->addLog(message, 1);
+    Logger::instance()->addLog(message, logType);
 }

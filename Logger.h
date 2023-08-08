@@ -11,7 +11,7 @@ public:
 
     static Logger* instance();
 
-    void addLog(const QString& msg, int logType);
+    void addLog(const QString& msg, int logType = 1);
 
 signals:
     void logMessage(const QString& logMsg, int logType);

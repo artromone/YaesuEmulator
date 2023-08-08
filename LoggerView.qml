@@ -14,7 +14,7 @@ Item {
 
         onLogMessage:
         {
-            logArea.append((logType == 2 ? redPrefix : blackPrefix)
+            logArea.append((logType == 1 ? blackPrefix : (logType == 3 ? bluePrefix : blackPrefix))
                            + logMsg + "</span>")
         }
     }
@@ -24,7 +24,7 @@ Item {
         id: logSectionTitle
 
         font.pointSize: 19
-        text: qsTr("Логи:")
+        text: qsTr("Логи: (" + logArea.lineCount + qsTr(")"))
     }
 
     ScrollView {
