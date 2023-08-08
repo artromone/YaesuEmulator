@@ -14,7 +14,7 @@ Item {
 
         onLogMessage:
         {
-            logArea.append((logType == 1 ? blackPrefix : (logType == 3 ? bluePrefix : blackPrefix))
+            logArea.append((logType == 1 ? blackPrefix : (logType == 3 ? bluePrefix : redPrefix))
                            + logMsg + "</span>")
         }
     }

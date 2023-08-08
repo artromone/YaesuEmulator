@@ -125,14 +125,14 @@ void CommandParser::moveRight(QTcpSocket* socket, QByteArray input)
 {
     Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться вправо\"."), 3);
 
-    emulator_->move(Diraction::D_Right);
+    emulator_->move(Diraction::D_RIGHT);
 }
 
 void CommandParser::moveLeft(QTcpSocket* socket, QByteArray input)
 {
     Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться влево\"."), 3);
 
-    emulator_->move(Diraction::D_Left);
+    emulator_->move(Diraction::D_LEFT);
 }
 
 void CommandParser::moveUp(QTcpSocket* socket, QByteArray input)
@@ -146,5 +146,5 @@ void CommandParser::moveDown(QTcpSocket* socket, QByteArray input)
 {
     Logger::instance()->addLog(QObject::tr("Получена команда: \"Двигаться вниз\"."), 3);
 
-    emulator_->move(Diraction::D_Down);
+    emulator_->move(Diraction::D_DOWN);
 }

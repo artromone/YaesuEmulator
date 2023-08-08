@@ -1,5 +1,7 @@
 #include "Emulator.h"
 
+#include "Logger.h"
+
 #include <QDebug>
 #include <QThread>
 #include <QTimerEvent>
@@ -80,11 +82,11 @@ void Emulator::moveTo(int az, int el)
 void Emulator::move(Diraction diraction)
 {
     antennaState_.setStatus(AntennaStatus::S_MANUAL);
-    if (Diraction::D_Right == diraction)
+    if (Diraction::D_RIGHT == diraction)
     {
         antennaState_.setTarget(450, anState().elCurrent());
     }
-    else if (Diraction::D_Left == diraction)
+    else if (Diraction::D_LEFT == diraction)
     {
         antennaState_.setTarget(0, anState().elCurrent());
     }
@@ -92,7 +94,7 @@ void Emulator::move(Diraction diraction)
     {
         antennaState_.setTarget(anState().azCurrent(), 180);
     }
-    else if (Diraction::D_Down == diraction)
+    else if (Diraction::D_DOWN == diraction)
     {
         antennaState_.setTarget(anState().azCurrent(), 0);
     }
@@ -113,6 +115,24 @@ void Emulator::setSpeed(int azSpeed, int elSpeed)
 void Emulator::setStatus(AntennaStatus::Status status)
 {
     antennaState_.setStatus(status);
+}
+
+bool Emulator::isLockedTunnel() const
+{
+    return isLockedTunnel_;
+}
+
+void Emulator::setTunnelLocked(bool value)
+{
+    isLockedTunnel_ = value;
+    if (value)
+    {
+        Logger::instance()->addLog("Связь заблокирована.");
+    }
+    else
+    {
+        Logger::instance()->addLog("Связь разблокирована.");
+    }
 }
 
 void Emulator::timerEvent(QTimerEvent* event)

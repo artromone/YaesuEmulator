@@ -41,17 +41,22 @@ void Client::onReadyRead()
     CommandParser parser;
     parser.createDictOfCommands(emulator_);
 
-    try
+    if (!emulator_->isLockedTunnel())
     {
-        //Logger::instance()->addLog(QString("Получена команда: \"") + input.trimmed() + QString("\""), 1);
-
-        if (parser.dict.count(input[0]) > 0)
+        try
         {
-            parser.dict[input[0]](socket_, input);
+            if (parser.dict.count(input[0]) > 0)
+            {
+                parser.dict[input[0]](socket_, input);
+            }
+            else
+            {
+                Logger::instance()->addLog(QString("Команда не распознана"), 2);
+            }
         }
-    }
-    catch (std::invalid_argument const& e)
-    {
-        qDebug() << e.what() << '\n';
+        catch (std::invalid_argument const& e)
+        {
+            qDebug() << e.what() << '\n';
+        }
     }
 }

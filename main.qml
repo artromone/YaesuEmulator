@@ -24,14 +24,24 @@ Window {
 
         id: serverViewLayout
 
-        anchors { left: parent.left; top: parent.top }
+        anchors {
+            left: parent.left;
+            bottomMargin: 0;
+            margins: 12;
+            top: parent.top
+        }
     }
 
     EmulatorView {
 
         id: emulatorViewLayout
 
-        anchors { left: parent.left; top: serverViewLayout.bottom; topMargin: topMargin_ }
+        anchors {
+            left: parent.left;
+            bottomMargin: 0;
+            margins: 12;
+            top: serverViewLayout.bottom;
+            topMargin: topMargin_ }
     }
 
     LoggerView {
@@ -42,7 +52,10 @@ Window {
 
             left: parent.left
             right: parent.right
-            top: emulatorViewLayout.bottom; topMargin: topMargin_
+            bottomMargin: 0;
+            margins: 12;
+            top: emulatorViewLayout.bottom;
+            topMargin: topMargin_
             bottom: parent.bottom
         }
     }

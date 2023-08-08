@@ -63,6 +63,11 @@ int Widget::autoConnect() const
     return Settings::instance()->getAutoConncet();
 }
 
+void Widget::setTunnelLocked(bool value)
+{
+    return emulator_->setTunnelLocked(value);
+}
+
 void Widget::changeServerState(bool state)
 {
     qDebug() << "Current server state (started):" << serverState()

@@ -11,16 +11,15 @@
 
 enum class Diraction
 {
-    D_Left,
-    D_Right,
+    D_LEFT,
+    D_RIGHT,
     D_UP,
-    D_Down
+    D_DOWN
 };
 
 class Emulator : public QObject
 {
     Q_OBJECT
-
 public:
     Emulator();
 
@@ -34,6 +33,9 @@ public:
 
     void setSpeed(int azSpeed, int elSpeed);
 
+    bool isLockedTunnel() const;
+    void setTunnelLocked(bool value);
+
 protected:
     void timerEvent(QTimerEvent *event);
 
@@ -43,5 +45,7 @@ private:
 private:
     AntennaState antennaState_;
     int testStateTimerId_{0};
+    bool isLockedTunnel_{false};
 };
+
 #endif
