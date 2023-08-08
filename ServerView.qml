@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import QtGraphicalEffects 1.0
 
 import YaesuEmulator 1.0
 
@@ -45,10 +46,38 @@ Item {
         Button {
 
             id: connectButton
+            property color backgroundDefaultColor: "#777777"//"#0ACF97"
+            property color backgroundPressedColor: Qt.darker(backgroundDefaultColor, 1.2)
+            property color contentItemTextColor: "white"
 
-            width: 266
-            font.pointSize: 19
             text: serverConnected ? qsTr("Остановить сервер") : qsTr("Запустить сервер")
+            contentItem: Text {
+                text: connectButton.text
+                color: connectButton.contentItemTextColor
+                font.pixelSize: 19
+                font.family: "Calibri"
+                font.weight: Font.Thin
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            background: Rectangle {
+                implicitWidth: 266
+                implicitHeight: 37
+                color: connectButton.down ?
+                           connectButton.backgroundPressedColor :
+                           connectButton.backgroundDefaultColor
+                radius: 5
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    transparentBorder: true
+                    color: connectButton.down ?
+                               connectButton.backgroundPressedColor :
+                               connectButton.backgroundDefaultColor
+                    samples: 20
+                }
+            }
 
             onClicked: backend.changeServerState(!serverConnected)
         }
@@ -57,9 +86,8 @@ Item {
         {
             id: autoConnect
 
-            checked: backend.autoConnect
             text: qsTr("Автоподключение")
-            height: connectButton.height
+            checked: backend.autoConnect
 
             onClicked: backend.changeAutoconectOption(autoConnect.checked)
         }
