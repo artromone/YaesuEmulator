@@ -25,9 +25,13 @@ Item {
 
         font.pointSize: 19
         text: qsTr("Логи: (" + logArea.lineCount + qsTr(")"))
+
+        anchors.top: parent.top
+        anchors.left: parent.left
     }
 
-    ScrollView {
+    ScrollView
+    {
 
         anchors {
 

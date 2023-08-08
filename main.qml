@@ -9,20 +9,23 @@ Window {
     // потом слоты для объекта, в который происходит изменении объекта
 
     property var backend: widget
-    readonly property int btnWidth_: 266
+    readonly property int btnWidth_: 260
     readonly property int topMargin_: 16
     readonly property int leftMargin_: 16
 
     visible: true // TODO нет необходимости
-    width: 850
-    height: 500
-    minimumWidth: 550
-    minimumHeight: 200
+    width: 650
+    height: 280
+    minimumWidth: 650
+    minimumHeight: 280
     title: qsTr("Yaesu Emulator")
 
-    ServerView {
-
+    ServerView
+    {
         id: serverViewLayout
+
+        height: 170
+        width: 300
 
         anchors {
             left: parent.left;
@@ -35,6 +38,9 @@ Window {
     EmulatorView {
 
         id: emulatorViewLayout
+
+        height: 100
+        width: 300
 
         anchors {
             left: parent.left;
@@ -50,11 +56,11 @@ Window {
 
         anchors {
 
-            left: parent.left
+            left: serverViewLayout.right
             right: parent.right
             bottomMargin: 0;
             margins: 12;
-            top: emulatorViewLayout.bottom;
+            top: parent.top;
             topMargin: topMargin_
             bottom: parent.bottom
         }

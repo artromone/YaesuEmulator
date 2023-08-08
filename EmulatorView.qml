@@ -5,48 +5,46 @@ import YaesuEmulator 1.0
 
 Item
 {
-
     implicitHeight: rowId.childrenRect.height
     implicitWidth: rowId.childrenRect.width
 
-    Row
-    {
-        id: rowId
-        spacing: 12
-
-        Text {
-
+        Text
+        {
             id: antennaState
 
             font.pointSize: 19
-            text: qsTr("Состояние антенны: %1.").arg(widget.antennaStatusString(widget.antennaStatus))
+            text: qsTr("Антенна: %1.").arg(widget.antennaStatusString(widget.antennaStatus))
+
+            anchors.top: parent.top
+            anchors.left: parent.left
         }
 
-        Text {
-
+        Text
+        {
             id: antennaCoords
 
             font.pointSize: 19
-            text: qsTr("Положение: [%1;%2], ЦУ: [%3;%4].")
+            text: qsTr("Позиция: [%1;%2], ЦУ: [%3;%4].")
             .arg(widget.az)
             .arg(widget.el)
             .arg(widget.targetAz)
             .arg(widget.targetEl)
+
+            anchors.top: antennaState.bottom
+            anchors.left: parent.left
         }
 
-            Text {
-                id: antennaError
+//            Text
+//            {
+//                id: antennaError
 
-                font.pointSize: 19
-                text: "Ошибка."
-                visible: false
-            }
+//                font.pointSize: 19
+//                text: "Ошибка."
+//                visible: false
 
-            CheckBox
-            {
-                id: lockTunnel
-                text: qsTr("Блокировать связь")
-                onClicked: backend.setTunnelLocked(lockTunnel.checked);
-            }
+//                anchors.top: antennaState.top
+//                anchors.left: parent.left
+//            }
+
         }
-    }
+
