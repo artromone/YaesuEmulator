@@ -8,10 +8,14 @@ Item {
 
         target: logger
 
+        property string redPrefix: "<span style='color:red'>";
+        property string blackPrefix: "<span style='color:black'>";
+        property string bluePrefix: "<span style='color:blue'>";
+
         onLogMessage:
         {
-            logArea.append(logMsg)
-            // logArea.color = logType == 2 ? "red" : "black"
+            logArea.append((logType == 2 ? redPrefix : blackPrefix)
+                           + logMsg + "</span>")
         }
     }
 
@@ -37,6 +41,7 @@ Item {
 
             id: logArea
 
+            textFormat: TextEdit.RichText
             selectByMouse: true
         }
     }

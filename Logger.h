@@ -11,10 +11,10 @@ public:
 
     static Logger* instance();
 
-    void addLog(const QString& msg);
+    void addLog(const QString& msg, int logType);
 
 signals:
-    void logMessage(const QString& logMsg);
+    void logMessage(const QString& logMsg, int logType);
 };
 
 #endif

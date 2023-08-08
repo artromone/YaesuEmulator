@@ -22,7 +22,7 @@ Logger *Logger::instance()
     return ptrLogger;
 }
 
-void Logger::addLog(const QString &msg)
+void Logger::addLog(const QString &msg, int logType)
 {
-    emit this->logMessage(getCurrTime() + msg);
+    emit this->logMessage(getCurrTime() + msg, logType);
 }

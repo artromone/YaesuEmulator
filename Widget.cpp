@@ -153,5 +153,5 @@ void Widget::init()
 
 void Widget::sendLogMessage(const QString& message)
 {
-    Logger::instance()->addLog(message);
+    Logger::instance()->addLog(message, 1);
 }
