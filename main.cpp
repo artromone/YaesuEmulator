@@ -1,7 +1,9 @@
 #include "Application.h"
 #include "Types.h"
 #include "AntennaState.h"
+#include "Logger.h"
 
+#include <QQmlContext>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
@@ -36,7 +38,9 @@ int main(int argc, char* argv[])
 
     Application application(*engine.rootContext());
 
+    engine.rootContext()->setContextProperty("logger", Logger::instance());
     engine.load(url);
+    Logger::instance()->addLog("gtgtgtg");
 
     application.init();
 

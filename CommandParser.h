@@ -9,9 +9,11 @@
 class CommandParser
 {
 public:
+    std::unordered_map< char, std::function< void(QTcpSocket* socket_, QByteArray input)> > dict;
+
+public:
     void createDictOfCommands(Emulator* emulator);
-    std::unordered_map<char,
-       std::function< void(QTcpSocket* socket_, QByteArray input)> > dict;
+
 private:
     Emulator* emulator_;
 

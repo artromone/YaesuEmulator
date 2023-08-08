@@ -8,8 +8,7 @@
 
 #include <QColor>
 #include <QObject>
-
-class QQmlContext;
+#include <QQmlContext>
 
 class Widget : public QObject
 {

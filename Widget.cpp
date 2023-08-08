@@ -1,7 +1,5 @@
 #include "Widget.h"
 
-#include <QDateTime>
-#include <QQmlContext>
 // #include <QThread>
 #include <QQmlEngine>
 
@@ -9,7 +7,7 @@ namespace
 {
     QString getCurrTime()
     {
-        return QDateTime::currentDateTime().toString("[hh:mm:ss] ");
+        return QString("");//QDateTime::currentDateTime().toString("[hh:mm:ss] ");
     }
 }
 
@@ -129,15 +127,32 @@ void Widget::init()
     QObject::connect(&emulator_->anState(), &AntennaState::changed, this, [this]() {
         if (emulator_->anState().status() == AntennaStatus::Status::S_READY)
         {
-            this->sendLogMessage(tr("Антенна готова."));
+            //this->sendLogMessage(tr("Антенна готова."));
         }
         if (emulator_->anState().status() == AntennaStatus::Status::S_MOVETO)
         {
-            this->sendLogMessage(tr("Антенна отправляется в точку."));
+            //this->sendLogMessage(tr("Антенна отправляется в точку."));
         }
         if (emulator_->anState().status() == AntennaStatus::Status::S_MANUAL)
         {
-            this->sendLogMessage(tr("Ручное управление антенной."));
+            //this->sendLogMessage(tr("Ручное управление антенной."));
+        }
+
+        emit this->antennaStateChanged();
+    });
+
+    QObject::connect(&emulator_->anState(), &AntennaState::changed, this, [this]() {
+        if (emulator_->anState().status() == AntennaStatus::Status::S_READY)
+        {
+            //this->sendLogMessage(tr("Антенна готова."));
+        }
+        if (emulator_->anState().status() == AntennaStatus::Status::S_MOVETO)
+        {
+            //this->sendLogMessage(tr("Антенна отправляется в точку."));
+        }
+        if (emulator_->anState().status() == AntennaStatus::Status::S_MANUAL)
+        {
+            //this->sendLogMessage(tr("Ручное управление антенной."));
         }
 
         emit this->antennaStateChanged();

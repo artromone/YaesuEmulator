@@ -5,6 +5,7 @@
 #include "Emulator.h"
 #include "Server.h"
 #include "Widget.h"
+#include "Logger.h"
 
 #include <QObject>
 

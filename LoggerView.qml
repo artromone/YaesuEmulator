@@ -6,9 +6,13 @@ Item {
 
     Connections {
 
-        target: widget
+        target: logger
 
-        onLogMessage: logArea.append(msg)
+        onLogMessage:
+        {
+            logArea.append(logMsg)
+            //logArea.color = logType == 1 ? "red" : "black"
+        }
     }
 
     Text {
@@ -34,8 +38,6 @@ Item {
             id: logArea
 
             selectByMouse: true
-
-            // color: if (logArea.getText().find("Ошибка 1")){"red"}
         }
     }
 }

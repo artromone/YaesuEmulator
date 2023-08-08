@@ -1,5 +1,6 @@
 #ifndef YAESUEMULATOR_SETTINGS_H
 #define YAESUEMULATOR_SETTINGS_H
+
 #include <QHostAddress>
 #include <QJsonObject>
 
@@ -34,4 +35,5 @@ private:
     bool autoconncet_{false};
     //QHostAddress address;
 };
+
 #endif

@@ -10,7 +10,6 @@ Application::Application(QQmlContext& context, QObject* parent)
       widget_(context, server_.get(), emulator_.get())
 {
     QObject::connect(server_.get(), &Server::newClient, this, &Application::onNewClient);
-    // qDebug() << "AZ:" << emulator_.get()->getAzCurrent();
 }
 
 void Application::init()
@@ -31,7 +30,9 @@ void Application::onNewClient(QTcpSocket* socket)
     QObject::connect(ptr.get(), &Client::disconnected, this,
                      [wptr = std::weak_ptr<Client>(ptr), this] {
                          if (!wptr.expired())
+                         {
                              this->onPopClient(wptr.lock()->id());
+                         }
                      });
     /*or*/
     // QObject::connect(ptr.get(), &Client::disconnectedWithId, this,

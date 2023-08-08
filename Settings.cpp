@@ -16,7 +16,7 @@ void Settings::createDefault()
 
 Settings *Settings::instance()
 {
-    static Settings * ptrSettings_ = nullptr;
+    static Settings* ptrSettings_ = nullptr;
     if (!ptrSettings_)
     {
         qDebug() << "Creating new Settings instance.";
