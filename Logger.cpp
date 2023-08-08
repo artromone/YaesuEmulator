@@ -24,5 +24,5 @@ Logger *Logger::instance()
 
 void Logger::addLog(const QString &msg)
 {
-    emit this->logMessage(getCurrTime() + msg/*, LT_Regular*/);
+    emit this->logMessage(getCurrTime() + msg);
 }

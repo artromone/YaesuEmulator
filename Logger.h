@@ -13,13 +13,8 @@ public:
 
     void addLog(const QString& msg);
 
-    enum LoggType
-    {
-        LT_Regular
-    };
-
 signals:
-    void logMessage(const QString& logMsg/*, LoggType logType*/);
+    void logMessage(const QString& logMsg);
 };
 
 #endif

@@ -2,6 +2,7 @@
 
 #include "CommandParser.h"
 #include "Settings.h"
+#include "Logger.h"
 
 #include <QDebug>
 #include <QDateTime>
@@ -35,17 +36,14 @@ void Client::onDisconnected()
 
 void Client::onReadyRead()
 {
-    //    qDebug() << "Client" << id_ << "reading data";
     QByteArray input = socket_->readAll();
-    //    qDebug() << "Read data:" << input;
 
     CommandParser parser;
     parser.createDictOfCommands(emulator_);
 
     try
     {
-        qDebug() << "##########################################4ko" << input[0];
-        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << input;
+        Logger::instance()->addLog(QString("Получена команда: \"") + input.trimmed() + QString("\""));
 
         if (parser.dict.count(input[0]) > 0)
         {

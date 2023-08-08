@@ -11,7 +11,7 @@ Item {
         onLogMessage:
         {
             logArea.append(logMsg)
-            //logArea.color = logType == 1 ? "red" : "black"
+            // logArea.color = logType == 2 ? "red" : "black"
         }
     }
 

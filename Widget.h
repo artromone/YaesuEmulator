@@ -46,8 +46,6 @@ public:
     int autoConnect() const;
 
 signals:
-    void logMessage(const QString& msg);
-
     void portChanged();
 
     void serverStateChanged();

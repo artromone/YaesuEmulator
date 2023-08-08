@@ -1,15 +1,7 @@
 #include "Widget.h"
+#include "Logger.h"
 
-// #include <QThread>
 #include <QQmlEngine>
-
-namespace
-{
-    QString getCurrTime()
-    {
-        return QString("");//QDateTime::currentDateTime().toString("[hh:mm:ss] ");
-    }
-}
 
 Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject* parent)
     : QObject(parent), server_(server), emulator_(emulator)
@@ -161,5 +153,5 @@ void Widget::init()
 
 void Widget::sendLogMessage(const QString& message)
 {
-    emit this->logMessage(getCurrTime() + message);
+    Logger::instance()->addLog(message);
 }

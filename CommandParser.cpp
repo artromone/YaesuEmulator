@@ -1,6 +1,6 @@
 #include "CommandParser.h"
 
-using namespace std::placeholders;
+#include "Logger.h"
 
 namespace {
 
@@ -42,6 +42,7 @@ void CommandParser::createDictOfCommands(Emulator* emulator)
 {
     emulator_ = emulator;
 
+    using namespace std::placeholders;
     dict['S'] = std::bind(&CommandParser::stop, this, _1, _2);
     dict['A'] = std::bind(&CommandParser::stopAz, this, _1, _2);
     dict['E'] = std::bind(&CommandParser::stopEl, this, _1, _2);
