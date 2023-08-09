@@ -1,11 +1,11 @@
 #include "Emulator.h"
 
-#include "Logger.h"
-
 #include <QDebug>
 #include <QThread>
 #include <QTimerEvent>
 #include <QtConcurrent/QtConcurrentRun>
+
+#include "Logger.h"
 
 namespace {
 bool canMoveLeft(int az, int targetAz, int speed)

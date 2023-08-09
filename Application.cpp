@@ -34,11 +34,8 @@ void Application::onNewClient(QTcpSocket* socket)
                              this->onPopClient(wptr.lock()->id());
                          }
                      });
-    /*or*/
-    // QObject::connect(ptr.get(), &Client::disconnectedWithId, this,
-    //                  this](int id) { this->onPopClient(id); });
 
-    qDebug() << "Clients number:" << clientMap_.size(); ///
+    qDebug() << "Clients number:" << clientMap_.size();
     qDebug() << "onNewClient finished";
 }
 

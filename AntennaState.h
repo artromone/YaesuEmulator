@@ -1,10 +1,10 @@
 #ifndef ANTENNASTATE_H
 #define ANTENNASTATE_H
 
-#include "Types.h"
-
 #include <QObject>
 #include <QQmlEngine>
+
+#include "Types.h"
 
 class AntennaState : public QObject
 {

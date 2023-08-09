@@ -87,7 +87,7 @@ AntennaStatus::Status AntennaState::status() const
     return status_;
 }
 
-void AntennaState::setStatus(const AntennaStatus::Status &status)
+void AntennaState::setStatus(const AntennaStatus::Status& status)
 {
     if (status == status_)
     {

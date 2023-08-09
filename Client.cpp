@@ -1,11 +1,11 @@
 #include "Client.h"
 
+#include <QDebug>
+#include <QDateTime>
+
 #include "CommandParser.h"
 #include "Settings.h"
 #include "Logger.h"
-
-#include <QDebug>
-#include <QDateTime>
 
 static int COUNTER = 0;
 

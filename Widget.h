@@ -1,14 +1,14 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include <QColor>
+#include <QObject>
+#include <QQmlContext>
+
 #include "Emulator.h"
 #include "Server.h"
 #include "Settings.h"
 #include "AntennaState.h"
-
-#include <QColor>
-#include <QObject>
-#include <QQmlContext>
 
 class Widget : public QObject
 {

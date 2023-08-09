@@ -1,7 +1,8 @@
 #include "Widget.h"
-#include "Logger.h"
 
 #include <QQmlEngine>
+
+#include "Logger.h"
 
 Widget::Widget(QQmlContext& context, Server* server, Emulator* emulator, QObject* parent)
     : QObject(parent), server_(server), emulator_(emulator)
@@ -119,23 +120,6 @@ void Widget::init()
         }
 
         emit this->serverStateChanged();
-    });
-
-    QObject::connect(&emulator_->anState(), &AntennaState::changed, this, [this]() {
-        if (emulator_->anState().status() == AntennaStatus::Status::S_READY)
-        {
-            //this->sendLogMessage(tr("Антенна готова."));
-        }
-        if (emulator_->anState().status() == AntennaStatus::Status::S_MOVETO)
-        {
-            //this->sendLogMessage(tr("Антенна отправляется в точку."));
-        }
-        if (emulator_->anState().status() == AntennaStatus::Status::S_MANUAL)
-        {
-            //this->sendLogMessage(tr("Ручное управление антенной."));
-        }
-
-        emit this->antennaStateChanged();
     });
 }
 

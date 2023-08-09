@@ -33,7 +33,6 @@ private:
     int az_{0};
     int el_{0};
     bool autoconncet_{false};
-    //QHostAddress address;
 };
 
 #endif

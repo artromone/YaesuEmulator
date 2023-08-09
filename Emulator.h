@@ -2,7 +2,6 @@
 #define EMULATOR_H
 
 #include <utility>
-
 #include <QTcpSocket>
 
 #include "Types.h"

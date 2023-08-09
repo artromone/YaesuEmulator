@@ -1,16 +1,15 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include <QObject>
+#include <memory>
+#include <unordered_map>
+
 #include "Client.h"
 #include "Emulator.h"
 #include "Server.h"
 #include "Widget.h"
 #include "Logger.h"
-
-#include <QObject>
-
-#include <memory>
-#include <unordered_map>
 
 class Application : public QObject
 {

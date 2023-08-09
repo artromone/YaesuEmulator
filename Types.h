@@ -11,10 +11,10 @@ class ServerStatus : public QObject
 public:
     enum Status
     {
-        S_UNDEFINED,    // дефолтное состоянии при запуске приложения
-        S_CONNECTED,    // успех при подключении
-        S_DISCONNECTED, // отключился
-        S_PORT_BUSY     // порт занят
+        S_UNDEFINED,
+        S_CONNECTED,
+        S_DISCONNECTED,
+        S_PORT_BUSY
     };
     Q_ENUMS(Status)
 
@@ -56,7 +56,6 @@ public:
     }
 };
 
-// NOTE для того, чтоб можно было пользоваться внутри метаобъектной системы
 Q_DECLARE_METATYPE(ServerStatus::Status)
 Q_DECLARE_METATYPE(AntennaStatus::Status)
 

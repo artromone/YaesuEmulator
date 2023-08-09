@@ -4,11 +4,10 @@ import QtGraphicalEffects 1.0
 
 import YaesuEmulator 1.0
 
-Item {
-
+Item
+{
     readonly property bool serverConnected: (backend.serverState === ServerState.S_CONNECTED)
 
-    // property real maxHeight: Math.max()
     implicitHeight: rowId.childrenRect.height
     implicitWidth: rowId.childrenRect.width
 
@@ -43,8 +42,8 @@ Item {
         onTextChanged: backend.port = text
     }
 
-    Button {
-
+    Button
+    {
         id: connectButton
         property color backgroundDefaultColor: "#0ACF97"
         property color backgroundPressedColor: Qt.darker(backgroundDefaultColor, 1.2)
@@ -54,7 +53,8 @@ Item {
         anchors.left: parent.left
 
         text: serverConnected ? qsTr("Остановить сервер") : qsTr("Запустить сервер")
-        contentItem: Text {
+        contentItem: Text
+        {
             text: connectButton.text
             color: connectButton.contentItemTextColor
             font.pixelSize: 19
@@ -65,7 +65,8 @@ Item {
             elide: Text.ElideRight
         }
 
-        background: Rectangle {
+        background: Rectangle
+        {
             implicitWidth: 266
             implicitHeight: 37
             color: connectButton.down ?
@@ -73,7 +74,8 @@ Item {
                        connectButton.backgroundDefaultColor
             radius: 5
             layer.enabled: true
-            layer.effect: DropShadow {
+            layer.effect: DropShadow
+            {
                 transparentBorder: true
                 color: connectButton.down ?
                            connectButton.backgroundPressedColor :
@@ -107,5 +109,4 @@ Item {
         anchors.top: autoConnect.bottom
         anchors.left: parent.left
     }
-
 }

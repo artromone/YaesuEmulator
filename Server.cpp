@@ -6,7 +6,6 @@
 
 #include <QDebug>
 #include <QTcpSocket>
-
 #include <memory>
 
 Server::Server(QObject* parent) : QObject(parent), server_(new QTcpServer())

@@ -1,8 +1,8 @@
 #include "CommandParser.h"
 
-#include "Logger.h"
-
 #include <QObject>
+
+#include "Logger.h"
 
 namespace {
 

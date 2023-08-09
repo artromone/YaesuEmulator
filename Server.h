@@ -1,10 +1,10 @@
 #ifndef YAESUEMULATOR_QTCP_SERVER_H
 #define YAESUEMULATOR_QTCP_SERVER_H
 
-#include "Types.h"
-
 #include <QObject>
 #include <QTcpServer>
+
+#include "Types.h"
 
 class Server : public QObject
 {
@@ -23,7 +23,7 @@ signals:
     void newClient(QTcpSocket* socket);
     void stateChanged(ServerStatus::Status state);
 
-private slots: // никак не связано с внешним миром
+private slots:
     void onNewConnection();
 
 private:
